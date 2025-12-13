@@ -45,7 +45,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: mysqli, mbstring, intl
-          coverage: xdebug
+          coverage: none
 
       - name: Install dependencies
         run: composer update --prefer-dist --no-progress
