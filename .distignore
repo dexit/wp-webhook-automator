@@ -1,0 +1,20 @@
+# Exclude from distribution zip
+.git
+.github
+.gitignore
+.phpcs.xml
+.distignore
+.phpunit.cache
+.claude
+tests
+bin
+phpunit.xml
+composer.json
+composer.lock
+package.json
+package-lock.json
+node_modules
+vendor
+*.md
+!readme.txt
+Makefile

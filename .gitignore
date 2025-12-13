@@ -1,0 +1,29 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build
+/build/
+*.zip
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# WordPress
+/wp-content/
+
+# Testing
+/tests/coverage/
+.phpunit.result.cache
+.phpunit.cache/
+
+# Environment
+.env
+.env.local

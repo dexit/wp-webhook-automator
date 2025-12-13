@@ -1,0 +1,391 @@
+/**
+ * WP Webhook Automator - Admin Styles
+ *
+ * @package WP_Webhook_Automator
+ */
+
+/* ==========================================================================
+   Variables
+   ========================================================================== */
+
+:root {
+    --wwa-primary: #2271b1;
+    --wwa-primary-hover: #135e96;
+    --wwa-success: #00a32a;
+    --wwa-warning: #dba617;
+    --wwa-error: #d63638;
+    --wwa-border: #c3c4c7;
+    --wwa-bg-light: #f6f7f7;
+    --wwa-text: #1d2327;
+    --wwa-text-light: #50575e;
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.wwa-wrap {
+    max-width: 1200px;
+    margin: 20px 20px 20px 0;
+}
+
+.wwa-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.wwa-header h1 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wwa-header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+
+.wwa-card {
+    background: #fff;
+    border: 1px solid var(--wwa-border);
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.wwa-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--wwa-border);
+}
+
+.wwa-card-header h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.wwa-card-body {
+    /* Card content */
+}
+
+/* ==========================================================================
+   Dashboard Stats
+   ========================================================================== */
+
+.wwa-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.wwa-stat-card {
+    background: #fff;
+    border: 1px solid var(--wwa-border);
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+}
+
+.wwa-stat-value {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--wwa-primary);
+    line-height: 1.2;
+}
+
+.wwa-stat-label {
+    color: var(--wwa-text-light);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.wwa-stat-card.success .wwa-stat-value {
+    color: var(--wwa-success);
+}
+
+.wwa-stat-card.error .wwa-stat-value {
+    color: var(--wwa-error);
+}
+
+.wwa-stat-card.warning .wwa-stat-value {
+    color: var(--wwa-warning);
+}
+
+/* ==========================================================================
+   Badges
+   ========================================================================== */
+
+.wwa-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+.wwa-badge-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.wwa-badge-error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.wwa-badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.wwa-badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+.wwa-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.wwa-table th,
+.wwa-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--wwa-border);
+}
+
+.wwa-table th {
+    background: var(--wwa-bg-light);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.wwa-table tr:hover td {
+    background: var(--wwa-bg-light);
+}
+
+.wwa-table .column-name {
+    width: 25%;
+}
+
+.wwa-table .column-trigger {
+    width: 20%;
+}
+
+.wwa-table .column-status {
+    width: 10%;
+}
+
+.wwa-table .column-date {
+    width: 15%;
+}
+
+.wwa-table .column-actions {
+    width: 15%;
+    text-align: right;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+.wwa-form-row {
+    margin-bottom: 20px;
+}
+
+.wwa-form-row label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.wwa-form-row .description {
+    color: var(--wwa-text-light);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.wwa-form-row input[type="text"],
+.wwa-form-row input[type="url"],
+.wwa-form-row input[type="number"],
+.wwa-form-row select,
+.wwa-form-row textarea {
+    width: 100%;
+    max-width: 500px;
+}
+
+.wwa-form-row textarea {
+    min-height: 150px;
+    font-family: monospace;
+}
+
+.wwa-form-section {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid var(--wwa-border);
+}
+
+.wwa-form-section h3 {
+    margin: 0 0 20px 0;
+    font-size: 14px;
+}
+
+/* Headers repeater */
+.wwa-headers-list {
+    max-width: 600px;
+}
+
+.wwa-header-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.wwa-header-row input {
+    flex: 1;
+}
+
+.wwa-header-row .button {
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Logs
+   ========================================================================== */
+
+.wwa-log-details {
+    background: var(--wwa-bg-light);
+    border: 1px solid var(--wwa-border);
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.wwa-log-details pre {
+    background: #fff;
+    border: 1px solid var(--wwa-border);
+    padding: 10px;
+    overflow-x: auto;
+    font-size: 12px;
+    max-height: 300px;
+}
+
+.wwa-log-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.wwa-log-meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.wwa-log-meta-item strong {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--wwa-text-light);
+    margin-bottom: 3px;
+}
+
+/* ==========================================================================
+   Toggle Switch
+   ========================================================================== */
+
+.wwa-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+.wwa-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.wwa-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 22px;
+}
+
+.wwa-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.wwa-toggle input:checked + .wwa-toggle-slider {
+    background-color: var(--wwa-success);
+}
+
+.wwa-toggle input:checked + .wwa-toggle-slider:before {
+    transform: translateX(18px);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media screen and (max-width: 782px) {
+    .wwa-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .wwa-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wwa-form-row input[type="text"],
+    .wwa-form-row input[type="url"],
+    .wwa-form-row select,
+    .wwa-form-row textarea {
+        max-width: 100%;
+    }
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.wwa-mt-0 { margin-top: 0; }
+.wwa-mb-0 { margin-bottom: 0; }
+.wwa-text-muted { color: var(--wwa-text-light); }
+.wwa-text-success { color: var(--wwa-success); }
+.wwa-text-error { color: var(--wwa-error); }
