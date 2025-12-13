@@ -165,13 +165,13 @@ class PayloadBuilder {
 	 */
 	public function getAvailableTags( string $triggerType ): array {
 		$global = [
-			'site.name'        => __( 'Site name', 'wp-webhook-automator' ),
-			'site.url'         => __( 'Site URL', 'wp-webhook-automator' ),
-			'site.admin_email' => __( 'Admin email', 'wp-webhook-automator' ),
-			'timestamp'        => __( 'Unix timestamp', 'wp-webhook-automator' ),
-			'timestamp_iso'    => __( 'ISO 8601 timestamp', 'wp-webhook-automator' ),
-			'webhook.name'     => __( 'Webhook name', 'wp-webhook-automator' ),
-			'webhook.id'       => __( 'Webhook ID', 'wp-webhook-automator' ),
+			'site.name'        => __( 'Site name', 'webhook-automator' ),
+			'site.url'         => __( 'Site URL', 'webhook-automator' ),
+			'site.admin_email' => __( 'Admin email', 'webhook-automator' ),
+			'timestamp'        => __( 'Unix timestamp', 'webhook-automator' ),
+			'timestamp_iso'    => __( 'ISO 8601 timestamp', 'webhook-automator' ),
+			'webhook.name'     => __( 'Webhook name', 'webhook-automator' ),
+			'webhook.id'       => __( 'Webhook ID', 'webhook-automator' ),
 		];
 
 		$triggerTags = match ( true ) {
@@ -194,22 +194,22 @@ class PayloadBuilder {
 	 */
 	private function getPostTags(): array {
 		return [
-			'post.id'             => __( 'Post ID', 'wp-webhook-automator' ),
-			'post.title'          => __( 'Post title', 'wp-webhook-automator' ),
-			'post.content'        => __( 'Post content', 'wp-webhook-automator' ),
-			'post.excerpt'        => __( 'Post excerpt', 'wp-webhook-automator' ),
-			'post.status'         => __( 'Post status', 'wp-webhook-automator' ),
-			'post.type'           => __( 'Post type', 'wp-webhook-automator' ),
-			'post.slug'           => __( 'Post slug', 'wp-webhook-automator' ),
-			'post.url'            => __( 'Post URL', 'wp-webhook-automator' ),
-			'post.author.id'      => __( 'Author ID', 'wp-webhook-automator' ),
-			'post.author.name'    => __( 'Author name', 'wp-webhook-automator' ),
-			'post.author.email'   => __( 'Author email', 'wp-webhook-automator' ),
-			'post.date'           => __( 'Publish date', 'wp-webhook-automator' ),
-			'post.modified'       => __( 'Modified date', 'wp-webhook-automator' ),
-			'post.categories'     => __( 'Categories (comma-separated)', 'wp-webhook-automator' ),
-			'post.tags'           => __( 'Tags (comma-separated)', 'wp-webhook-automator' ),
-			'post.featured_image' => __( 'Featured image URL', 'wp-webhook-automator' ),
+			'post.id'             => __( 'Post ID', 'webhook-automator' ),
+			'post.title'          => __( 'Post title', 'webhook-automator' ),
+			'post.content'        => __( 'Post content', 'webhook-automator' ),
+			'post.excerpt'        => __( 'Post excerpt', 'webhook-automator' ),
+			'post.status'         => __( 'Post status', 'webhook-automator' ),
+			'post.type'           => __( 'Post type', 'webhook-automator' ),
+			'post.slug'           => __( 'Post slug', 'webhook-automator' ),
+			'post.url'            => __( 'Post URL', 'webhook-automator' ),
+			'post.author.id'      => __( 'Author ID', 'webhook-automator' ),
+			'post.author.name'    => __( 'Author name', 'webhook-automator' ),
+			'post.author.email'   => __( 'Author email', 'webhook-automator' ),
+			'post.date'           => __( 'Publish date', 'webhook-automator' ),
+			'post.modified'       => __( 'Modified date', 'webhook-automator' ),
+			'post.categories'     => __( 'Categories (comma-separated)', 'webhook-automator' ),
+			'post.tags'           => __( 'Tags (comma-separated)', 'webhook-automator' ),
+			'post.featured_image' => __( 'Featured image URL', 'webhook-automator' ),
 		];
 	}
 
@@ -220,15 +220,15 @@ class PayloadBuilder {
 	 */
 	private function getUserTags(): array {
 		return [
-			'user.id'           => __( 'User ID', 'wp-webhook-automator' ),
-			'user.login'        => __( 'Username', 'wp-webhook-automator' ),
-			'user.email'        => __( 'Email', 'wp-webhook-automator' ),
-			'user.first_name'   => __( 'First name', 'wp-webhook-automator' ),
-			'user.last_name'    => __( 'Last name', 'wp-webhook-automator' ),
-			'user.display_name' => __( 'Display name', 'wp-webhook-automator' ),
-			'user.role'         => __( 'User role', 'wp-webhook-automator' ),
-			'user.registered'   => __( 'Registration date', 'wp-webhook-automator' ),
-			'user.url'          => __( 'User URL', 'wp-webhook-automator' ),
+			'user.id'           => __( 'User ID', 'webhook-automator' ),
+			'user.login'        => __( 'Username', 'webhook-automator' ),
+			'user.email'        => __( 'Email', 'webhook-automator' ),
+			'user.first_name'   => __( 'First name', 'webhook-automator' ),
+			'user.last_name'    => __( 'Last name', 'webhook-automator' ),
+			'user.display_name' => __( 'Display name', 'webhook-automator' ),
+			'user.role'         => __( 'User role', 'webhook-automator' ),
+			'user.registered'   => __( 'Registration date', 'webhook-automator' ),
+			'user.url'          => __( 'User URL', 'webhook-automator' ),
 		];
 	}
 
@@ -239,15 +239,15 @@ class PayloadBuilder {
 	 */
 	private function getCommentTags(): array {
 		return [
-			'comment.id'           => __( 'Comment ID', 'wp-webhook-automator' ),
-			'comment.content'      => __( 'Comment content', 'wp-webhook-automator' ),
-			'comment.author_name'  => __( 'Author name', 'wp-webhook-automator' ),
-			'comment.author_email' => __( 'Author email', 'wp-webhook-automator' ),
-			'comment.author_url'   => __( 'Author URL', 'wp-webhook-automator' ),
-			'comment.date'         => __( 'Comment date', 'wp-webhook-automator' ),
-			'comment.status'       => __( 'Comment status', 'wp-webhook-automator' ),
-			'comment.post.id'      => __( 'Related post ID', 'wp-webhook-automator' ),
-			'comment.post.title'   => __( 'Related post title', 'wp-webhook-automator' ),
+			'comment.id'           => __( 'Comment ID', 'webhook-automator' ),
+			'comment.content'      => __( 'Comment content', 'webhook-automator' ),
+			'comment.author_name'  => __( 'Author name', 'webhook-automator' ),
+			'comment.author_email' => __( 'Author email', 'webhook-automator' ),
+			'comment.author_url'   => __( 'Author URL', 'webhook-automator' ),
+			'comment.date'         => __( 'Comment date', 'webhook-automator' ),
+			'comment.status'       => __( 'Comment status', 'webhook-automator' ),
+			'comment.post.id'      => __( 'Related post ID', 'webhook-automator' ),
+			'comment.post.title'   => __( 'Related post title', 'webhook-automator' ),
 		];
 	}
 
@@ -258,27 +258,27 @@ class PayloadBuilder {
 	 */
 	private function getWooOrderTags(): array {
 		return [
-			'order.id'                  => __( 'Order ID', 'wp-webhook-automator' ),
-			'order.number'              => __( 'Order number', 'wp-webhook-automator' ),
-			'order.status'              => __( 'Order status', 'wp-webhook-automator' ),
-			'order.total'               => __( 'Order total', 'wp-webhook-automator' ),
-			'order.subtotal'            => __( 'Subtotal', 'wp-webhook-automator' ),
-			'order.tax'                 => __( 'Tax amount', 'wp-webhook-automator' ),
-			'order.shipping'            => __( 'Shipping cost', 'wp-webhook-automator' ),
-			'order.discount'            => __( 'Discount amount', 'wp-webhook-automator' ),
-			'order.currency'            => __( 'Currency', 'wp-webhook-automator' ),
-			'order.payment_method'      => __( 'Payment method', 'wp-webhook-automator' ),
-			'order.billing.first_name'  => __( 'Billing first name', 'wp-webhook-automator' ),
-			'order.billing.last_name'   => __( 'Billing last name', 'wp-webhook-automator' ),
-			'order.billing.email'       => __( 'Billing email', 'wp-webhook-automator' ),
-			'order.billing.phone'       => __( 'Billing phone', 'wp-webhook-automator' ),
-			'order.billing.address_1'   => __( 'Billing address', 'wp-webhook-automator' ),
-			'order.billing.city'        => __( 'Billing city', 'wp-webhook-automator' ),
-			'order.billing.country'     => __( 'Billing country', 'wp-webhook-automator' ),
-			'order.shipping.first_name' => __( 'Shipping first name', 'wp-webhook-automator' ),
-			'order.shipping.last_name'  => __( 'Shipping last name', 'wp-webhook-automator' ),
-			'order.items'               => __( 'Order items (JSON)', 'wp-webhook-automator' ),
-			'order.date_created'        => __( 'Order date', 'wp-webhook-automator' ),
+			'order.id'                  => __( 'Order ID', 'webhook-automator' ),
+			'order.number'              => __( 'Order number', 'webhook-automator' ),
+			'order.status'              => __( 'Order status', 'webhook-automator' ),
+			'order.total'               => __( 'Order total', 'webhook-automator' ),
+			'order.subtotal'            => __( 'Subtotal', 'webhook-automator' ),
+			'order.tax'                 => __( 'Tax amount', 'webhook-automator' ),
+			'order.shipping'            => __( 'Shipping cost', 'webhook-automator' ),
+			'order.discount'            => __( 'Discount amount', 'webhook-automator' ),
+			'order.currency'            => __( 'Currency', 'webhook-automator' ),
+			'order.payment_method'      => __( 'Payment method', 'webhook-automator' ),
+			'order.billing.first_name'  => __( 'Billing first name', 'webhook-automator' ),
+			'order.billing.last_name'   => __( 'Billing last name', 'webhook-automator' ),
+			'order.billing.email'       => __( 'Billing email', 'webhook-automator' ),
+			'order.billing.phone'       => __( 'Billing phone', 'webhook-automator' ),
+			'order.billing.address_1'   => __( 'Billing address', 'webhook-automator' ),
+			'order.billing.city'        => __( 'Billing city', 'webhook-automator' ),
+			'order.billing.country'     => __( 'Billing country', 'webhook-automator' ),
+			'order.shipping.first_name' => __( 'Shipping first name', 'webhook-automator' ),
+			'order.shipping.last_name'  => __( 'Shipping last name', 'webhook-automator' ),
+			'order.items'               => __( 'Order items (JSON)', 'webhook-automator' ),
+			'order.date_created'        => __( 'Order date', 'webhook-automator' ),
 		];
 	}
 
@@ -289,16 +289,16 @@ class PayloadBuilder {
 	 */
 	private function getWooProductTags(): array {
 		return [
-			'product.id'             => __( 'Product ID', 'wp-webhook-automator' ),
-			'product.name'           => __( 'Product name', 'wp-webhook-automator' ),
-			'product.sku'            => __( 'SKU', 'wp-webhook-automator' ),
-			'product.price'          => __( 'Price', 'wp-webhook-automator' ),
-			'product.regular_price'  => __( 'Regular price', 'wp-webhook-automator' ),
-			'product.sale_price'     => __( 'Sale price', 'wp-webhook-automator' ),
-			'product.stock_quantity' => __( 'Stock quantity', 'wp-webhook-automator' ),
-			'product.stock_status'   => __( 'Stock status', 'wp-webhook-automator' ),
-			'product.url'            => __( 'Product URL', 'wp-webhook-automator' ),
-			'product.type'           => __( 'Product type', 'wp-webhook-automator' ),
+			'product.id'             => __( 'Product ID', 'webhook-automator' ),
+			'product.name'           => __( 'Product name', 'webhook-automator' ),
+			'product.sku'            => __( 'SKU', 'webhook-automator' ),
+			'product.price'          => __( 'Price', 'webhook-automator' ),
+			'product.regular_price'  => __( 'Regular price', 'webhook-automator' ),
+			'product.sale_price'     => __( 'Sale price', 'webhook-automator' ),
+			'product.stock_quantity' => __( 'Stock quantity', 'webhook-automator' ),
+			'product.stock_status'   => __( 'Stock status', 'webhook-automator' ),
+			'product.url'            => __( 'Product URL', 'webhook-automator' ),
+			'product.type'           => __( 'Product type', 'webhook-automator' ),
 		];
 	}
 
@@ -309,10 +309,10 @@ class PayloadBuilder {
 	 */
 	private function getFormTags(): array {
 		return [
-			'form.id'           => __( 'Form ID', 'wp-webhook-automator' ),
-			'form.name'         => __( 'Form name', 'wp-webhook-automator' ),
-			'form.fields'       => __( 'All fields (JSON)', 'wp-webhook-automator' ),
-			'form.submitted_at' => __( 'Submission time', 'wp-webhook-automator' ),
+			'form.id'           => __( 'Form ID', 'webhook-automator' ),
+			'form.name'         => __( 'Form name', 'webhook-automator' ),
+			'form.fields'       => __( 'All fields (JSON)', 'webhook-automator' ),
+			'form.submitted_at' => __( 'Submission time', 'webhook-automator' ),
 		];
 	}
 

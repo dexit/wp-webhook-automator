@@ -331,7 +331,7 @@ class WebhookDispatcher {
 				'code'    => 0,
 				'headers' => [],
 				'body'    => '',
-				'error'   => __( 'Invalid or blocked URL. Internal/private IP addresses are not allowed.', 'wp-webhook-automator' ),
+				'error'   => __( 'Invalid or blocked URL. Internal/private IP addresses are not allowed.', 'webhook-automator' ),
 			];
 		}
 

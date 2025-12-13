@@ -32,7 +32,7 @@ abstract class RestController extends WP_REST_Controller {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error(
 				'rest_forbidden',
-				__( 'You do not have permission to access this resource.', 'wp-webhook-automator' ),
+				__( 'You do not have permission to access this resource.', 'webhook-automator' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -147,7 +147,7 @@ abstract class RestController extends WP_REST_Controller {
 			return $this->error(
 				'missing_required_fields',
 				/* translators: %s: comma-separated list of field names */
-				sprintf( __( 'Missing required fields: %s', 'wp-webhook-automator' ), implode( ', ', $missing ) ),
+				sprintf( __( 'Missing required fields: %s', 'webhook-automator' ), implode( ', ', $missing ) ),
 				400
 			);
 		}

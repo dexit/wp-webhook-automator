@@ -55,7 +55,7 @@ class TriggersController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'category' => array(
-						'description'       => __( 'Filter by category.', 'wp-webhook-automator' ),
+						'description'       => __( 'Filter by category.', 'webhook-automator' ),
 						'type'              => 'string',
 						'sanitize_callback' => 'sanitize_text_field',
 					),
@@ -73,7 +73,7 @@ class TriggersController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'key' => array(
-						'description'       => __( 'Trigger key identifier.', 'wp-webhook-automator' ),
+						'description'       => __( 'Trigger key identifier.', 'webhook-automator' ),
 						'type'              => 'string',
 						'required'          => true,
 						'sanitize_callback' => 'sanitize_text_field',
@@ -92,7 +92,7 @@ class TriggersController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'key' => array(
-						'description'       => __( 'Trigger key identifier.', 'wp-webhook-automator' ),
+						'description'       => __( 'Trigger key identifier.', 'webhook-automator' ),
 						'type'              => 'string',
 						'required'          => true,
 						'sanitize_callback' => 'sanitize_text_field',
@@ -111,7 +111,7 @@ class TriggersController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'key' => array(
-						'description'       => __( 'Trigger key identifier.', 'wp-webhook-automator' ),
+						'description'       => __( 'Trigger key identifier.', 'webhook-automator' ),
 						'type'              => 'string',
 						'required'          => true,
 						'sanitize_callback' => 'sanitize_text_field',
@@ -171,7 +171,7 @@ class TriggersController extends RestController {
 		$trigger = $this->registry->get( $key );
 
 		if ( ! $trigger ) {
-			return $this->error( 'trigger_not_found', __( 'Trigger not found.', 'wp-webhook-automator' ), 404 );
+			return $this->error( 'trigger_not_found', __( 'Trigger not found.', 'webhook-automator' ), 404 );
 		}
 
 		return $this->success( $this->prepare_trigger_for_response( $trigger, true ) );
@@ -188,7 +188,7 @@ class TriggersController extends RestController {
 		$trigger = $this->registry->get( $key );
 
 		if ( ! $trigger ) {
-			return $this->error( 'trigger_not_found', __( 'Trigger not found.', 'wp-webhook-automator' ), 404 );
+			return $this->error( 'trigger_not_found', __( 'Trigger not found.', 'webhook-automator' ), 404 );
 		}
 
 		$config_fields = $trigger->getConfigFields();
@@ -213,7 +213,7 @@ class TriggersController extends RestController {
 		$trigger = $this->registry->get( $key );
 
 		if ( ! $trigger ) {
-			return $this->error( 'trigger_not_found', __( 'Trigger not found.', 'wp-webhook-automator' ), 404 );
+			return $this->error( 'trigger_not_found', __( 'Trigger not found.', 'webhook-automator' ), 404 );
 		}
 
 		$payload_builder = new PayloadBuilder();

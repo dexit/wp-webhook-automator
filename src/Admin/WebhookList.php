@@ -62,10 +62,10 @@ class WebhookList {
 		?>
 		<div class="wrap wwa-wrap">
 			<div class="wwa-header">
-				<h1><?php esc_html_e( 'All Webhooks', 'wp-webhook-automator' ); ?></h1>
+				<h1><?php esc_html_e( 'All Webhooks', 'webhook-automator' ); ?></h1>
 				<div class="wwa-header-actions">
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-new' ) ); ?>" class="button button-primary">
-						<?php esc_html_e( 'Add New Webhook', 'wp-webhook-automator' ); ?>
+						<?php esc_html_e( 'Add New Webhook', 'webhook-automator' ); ?>
 					</a>
 				</div>
 			</div>
@@ -76,17 +76,17 @@ class WebhookList {
 					<input type="hidden" name="page" value="wwa-webhooks-list">
 					<div style="display: flex; gap: 15px; align-items: center;">
 						<div>
-							<label for="filter_status" class="screen-reader-text"><?php esc_html_e( 'Filter by status', 'wp-webhook-automator' ); ?></label>
+							<label for="filter_status" class="screen-reader-text"><?php esc_html_e( 'Filter by status', 'webhook-automator' ); ?></label>
 							<select name="status" id="filter_status">
-								<option value=""><?php esc_html_e( 'All Statuses', 'wp-webhook-automator' ); ?></option>
-								<option value="1" <?php selected( isset( $_GET['status'] ) && $_GET['status'] === '1' ); ?>><?php esc_html_e( 'Active', 'wp-webhook-automator' ); ?></option>
-								<option value="0" <?php selected( isset( $_GET['status'] ) && $_GET['status'] === '0' ); ?>><?php esc_html_e( 'Inactive', 'wp-webhook-automator' ); ?></option>
+								<option value=""><?php esc_html_e( 'All Statuses', 'webhook-automator' ); ?></option>
+								<option value="1" <?php selected( isset( $_GET['status'] ) && $_GET['status'] === '1' ); ?>><?php esc_html_e( 'Active', 'webhook-automator' ); ?></option>
+								<option value="0" <?php selected( isset( $_GET['status'] ) && $_GET['status'] === '0' ); ?>><?php esc_html_e( 'Inactive', 'webhook-automator' ); ?></option>
 							</select>
 						</div>
 						<div>
-							<label for="filter_trigger" class="screen-reader-text"><?php esc_html_e( 'Filter by trigger', 'wp-webhook-automator' ); ?></label>
+							<label for="filter_trigger" class="screen-reader-text"><?php esc_html_e( 'Filter by trigger', 'webhook-automator' ); ?></label>
 							<select name="trigger_type" id="filter_trigger">
-								<option value=""><?php esc_html_e( 'All Triggers', 'wp-webhook-automator' ); ?></option>
+								<option value=""><?php esc_html_e( 'All Triggers', 'webhook-automator' ); ?></option>
 								<?php foreach ( $triggerRegistry->getForSelect() as $category => $triggers ) : ?>
 									<optgroup label="<?php echo esc_attr( $category ); ?>">
 										<?php foreach ( $triggers as $key => $name ) : ?>
@@ -99,14 +99,14 @@ class WebhookList {
 							</select>
 						</div>
 						<div>
-							<label for="filter_search" class="screen-reader-text"><?php esc_html_e( 'Search', 'wp-webhook-automator' ); ?></label>
+							<label for="filter_search" class="screen-reader-text"><?php esc_html_e( 'Search', 'webhook-automator' ); ?></label>
 							<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only filter. ?>
-							<input type="text" name="search" id="filter_search" placeholder="<?php esc_attr_e( 'Search...', 'wp-webhook-automator' ); ?>" value="<?php echo isset( $_GET['search'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['search'] ) ) ) : ''; ?>">
+							<input type="text" name="search" id="filter_search" placeholder="<?php esc_attr_e( 'Search...', 'webhook-automator' ); ?>" value="<?php echo isset( $_GET['search'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['search'] ) ) ) : ''; ?>">
 						</div>
-						<button type="submit" class="button"><?php esc_html_e( 'Filter', 'wp-webhook-automator' ); ?></button>
+						<button type="submit" class="button"><?php esc_html_e( 'Filter', 'webhook-automator' ); ?></button>
 						<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only filter check. ?>
 						<?php if ( ! empty( $_GET['status'] ) || ! empty( $_GET['trigger_type'] ) || ! empty( $_GET['search'] ) ) : ?>
-							<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhooks-list' ) ); ?>" class="button"><?php esc_html_e( 'Clear', 'wp-webhook-automator' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhooks-list' ) ); ?>" class="button"><?php esc_html_e( 'Clear', 'webhook-automator' ); ?></a>
 						<?php endif; ?>
 					</div>
 				</form>
@@ -117,9 +117,9 @@ class WebhookList {
 				<?php if ( empty( $webhooks ) ) : ?>
 					<div class="wwa-card-body">
 						<p class="wwa-text-muted">
-							<?php esc_html_e( 'No webhooks found.', 'wp-webhook-automator' ); ?>
+							<?php esc_html_e( 'No webhooks found.', 'webhook-automator' ); ?>
 							<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-new' ) ); ?>">
-								<?php esc_html_e( 'Create your first webhook', 'wp-webhook-automator' ); ?>
+								<?php esc_html_e( 'Create your first webhook', 'webhook-automator' ); ?>
 							</a>
 						</p>
 					</div>
@@ -127,12 +127,12 @@ class WebhookList {
 					<table class="wwa-table">
 						<thead>
 							<tr>
-								<th class="column-name"><?php esc_html_e( 'Name', 'wp-webhook-automator' ); ?></th>
-								<th class="column-trigger"><?php esc_html_e( 'Trigger', 'wp-webhook-automator' ); ?></th>
-								<th><?php esc_html_e( 'Endpoint', 'wp-webhook-automator' ); ?></th>
-								<th class="column-status"><?php esc_html_e( 'Status', 'wp-webhook-automator' ); ?></th>
-								<th><?php esc_html_e( 'Last Run', 'wp-webhook-automator' ); ?></th>
-								<th class="column-actions"><?php esc_html_e( 'Actions', 'wp-webhook-automator' ); ?></th>
+								<th class="column-name"><?php esc_html_e( 'Name', 'webhook-automator' ); ?></th>
+								<th class="column-trigger"><?php esc_html_e( 'Trigger', 'webhook-automator' ); ?></th>
+								<th><?php esc_html_e( 'Endpoint', 'webhook-automator' ); ?></th>
+								<th class="column-status"><?php esc_html_e( 'Status', 'webhook-automator' ); ?></th>
+								<th><?php esc_html_e( 'Last Run', 'webhook-automator' ); ?></th>
+								<th class="column-actions"><?php esc_html_e( 'Actions', 'webhook-automator' ); ?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -166,9 +166,9 @@ class WebhookList {
 									</td>
 									<td>
 										<?php if ( $webhook->isActive() ) : ?>
-											<span class="wwa-badge wwa-badge-success"><?php esc_html_e( 'Active', 'wp-webhook-automator' ); ?></span>
+											<span class="wwa-badge wwa-badge-success"><?php esc_html_e( 'Active', 'webhook-automator' ); ?></span>
 										<?php else : ?>
-											<span class="wwa-badge"><?php esc_html_e( 'Inactive', 'wp-webhook-automator' ); ?></span>
+											<span class="wwa-badge"><?php esc_html_e( 'Inactive', 'webhook-automator' ); ?></span>
 										<?php endif; ?>
 									</td>
 									<td>
@@ -179,30 +179,30 @@ class WebhookList {
 												<?php
 												printf(
 													/* translators: 1: success count, 2: failed count */
-													esc_html__( '%1$d success, %2$d failed', 'wp-webhook-automator' ),
+													esc_html__( '%1$d success, %2$d failed', 'webhook-automator' ),
 													(int) $stats['success'],
 													(int) $stats['failed']
 												);
 												?>
 											</small>
 										<?php else : ?>
-											<small class="wwa-text-muted"><?php esc_html_e( 'Never', 'wp-webhook-automator' ); ?></small>
+											<small class="wwa-text-muted"><?php esc_html_e( 'Never', 'webhook-automator' ); ?></small>
 										<?php endif; ?>
 									</td>
 									<td>
 										<div style="display: flex; gap: 5px; justify-content: flex-end;">
-											<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-edit&id=' . $webhook->getId() ) ); ?>" class="button button-small" title="<?php esc_attr_e( 'Edit', 'wp-webhook-automator' ); ?>">
-												<?php esc_html_e( 'Edit', 'wp-webhook-automator' ); ?>
+											<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-edit&id=' . $webhook->getId() ) ); ?>" class="button button-small" title="<?php esc_attr_e( 'Edit', 'webhook-automator' ); ?>">
+												<?php esc_html_e( 'Edit', 'webhook-automator' ); ?>
 											</a>
-											<button type="button" class="button button-small wwa-test-webhook" data-id="<?php echo esc_attr( $webhook->getId() ); ?>" title="<?php esc_attr_e( 'Test', 'wp-webhook-automator' ); ?>">
-												<?php esc_html_e( 'Test', 'wp-webhook-automator' ); ?>
+											<button type="button" class="button button-small wwa-test-webhook" data-id="<?php echo esc_attr( $webhook->getId() ); ?>" title="<?php esc_attr_e( 'Test', 'webhook-automator' ); ?>">
+												<?php esc_html_e( 'Test', 'webhook-automator' ); ?>
 											</button>
-											<form method="post" style="display: inline;" onsubmit="return confirm('<?php esc_attr_e( 'Are you sure you want to delete this webhook?', 'wp-webhook-automator' ); ?>');">
+											<form method="post" style="display: inline;" onsubmit="return confirm('<?php esc_attr_e( 'Are you sure you want to delete this webhook?', 'webhook-automator' ); ?>');">
 												<?php wp_nonce_field( 'wwa_admin', 'wwa_nonce' ); ?>
 												<input type="hidden" name="wwa_action" value="delete_webhook">
 												<input type="hidden" name="webhook_id" value="<?php echo esc_attr( $webhook->getId() ); ?>">
 												<button type="submit" class="button button-small" style="color: #d63638;">
-													<?php esc_html_e( 'Delete', 'wp-webhook-automator' ); ?>
+													<?php esc_html_e( 'Delete', 'webhook-automator' ); ?>
 												</button>
 											</form>
 										</div>

@@ -10,8 +10,7 @@
  * Author URI:        https://developer.com
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       wp-webhook-automator
- * Domain Path:       /languages
+ * Text Domain:       webhook-automator
  */
 
 // Prevent direct access
@@ -41,22 +40,6 @@ require_once WWA_PLUGIN_DIR . 'includes/class-plugin.php';
 // Activation/Deactivation hooks
 register_activation_hook( __FILE__, [ 'WWA_Activator', 'activate' ] );
 register_deactivation_hook( __FILE__, [ 'WWA_Deactivator', 'deactivate' ] );
-
-/**
- * Load plugin textdomain.
- *
- * @return void
- */
-function wwa_load_textdomain(): void {
-	load_plugin_textdomain(
-		'wp-webhook-automator',
-		false,
-		dirname( WWA_PLUGIN_BASENAME ) . '/languages'
-	);
-}
-
-// Load textdomain at init (WordPress 6.7+ requirement)
-add_action( 'init', 'wwa_load_textdomain' );
 
 /**
  * Initialize plugin.

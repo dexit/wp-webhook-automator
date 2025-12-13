@@ -76,7 +76,7 @@ class WebhooksController extends RestController {
 					'permission_callback' => array( $this, 'admin_permissions_check' ),
 					'args'                => array(
 						'id' => array(
-							'description' => __( 'Unique identifier for the webhook.', 'wp-webhook-automator' ),
+							'description' => __( 'Unique identifier for the webhook.', 'webhook-automator' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
@@ -94,7 +94,7 @@ class WebhooksController extends RestController {
 					'permission_callback' => array( $this, 'admin_permissions_check' ),
 					'args'                => array(
 						'id' => array(
-							'description' => __( 'Unique identifier for the webhook.', 'wp-webhook-automator' ),
+							'description' => __( 'Unique identifier for the webhook.', 'webhook-automator' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
@@ -113,7 +113,7 @@ class WebhooksController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the webhook.', 'wp-webhook-automator' ),
+						'description' => __( 'Unique identifier for the webhook.', 'webhook-automator' ),
 						'type'        => 'integer',
 						'required'    => true,
 					),
@@ -131,7 +131,7 @@ class WebhooksController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the webhook.', 'wp-webhook-automator' ),
+						'description' => __( 'Unique identifier for the webhook.', 'webhook-automator' ),
 						'type'        => 'integer',
 						'required'    => true,
 					),
@@ -149,7 +149,7 @@ class WebhooksController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the webhook.', 'wp-webhook-automator' ),
+						'description' => __( 'Unique identifier for the webhook.', 'webhook-automator' ),
 						'type'        => 'integer',
 						'required'    => true,
 					),
@@ -206,7 +206,7 @@ class WebhooksController extends RestController {
 		$webhook = $this->repository->find( $id );
 
 		if ( ! $webhook ) {
-			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'wp-webhook-automator' ), 404 );
+			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'webhook-automator' ), 404 );
 		}
 
 		return $this->success( $this->prepare_webhook_for_response( $webhook ) );
@@ -232,21 +232,21 @@ class WebhooksController extends RestController {
 		// Validate endpoint URL.
 		$endpoint_url = $webhook->getEndpointUrl();
 		if ( ! filter_var( $endpoint_url, FILTER_VALIDATE_URL ) ) {
-			return $this->error( 'invalid_endpoint_url', __( 'Invalid endpoint URL.', 'wp-webhook-automator' ), 400 );
+			return $this->error( 'invalid_endpoint_url', __( 'Invalid endpoint URL.', 'webhook-automator' ), 400 );
 		}
 
 		// Save webhook.
 		$id = $this->repository->save( $webhook );
 
 		if ( ! $id ) {
-			return $this->error( 'webhook_save_failed', __( 'Failed to save webhook.', 'wp-webhook-automator' ), 500 );
+			return $this->error( 'webhook_save_failed', __( 'Failed to save webhook.', 'webhook-automator' ), 500 );
 		}
 
 		$webhook = $this->repository->find( $id );
 
 		return $this->success(
 			$this->prepare_webhook_for_response( $webhook ),
-			__( 'Webhook created successfully.', 'wp-webhook-automator' ),
+			__( 'Webhook created successfully.', 'webhook-automator' ),
 			201
 		);
 	}
@@ -262,7 +262,7 @@ class WebhooksController extends RestController {
 		$webhook = $this->repository->find( $id );
 
 		if ( ! $webhook ) {
-			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'wp-webhook-automator' ), 404 );
+			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'webhook-automator' ), 404 );
 		}
 
 		// Update webhook from request.
@@ -271,7 +271,7 @@ class WebhooksController extends RestController {
 		// Validate endpoint URL if provided.
 		$endpoint_url = $webhook->getEndpointUrl();
 		if ( $endpoint_url && ! filter_var( $endpoint_url, FILTER_VALIDATE_URL ) ) {
-			return $this->error( 'invalid_endpoint_url', __( 'Invalid endpoint URL.', 'wp-webhook-automator' ), 400 );
+			return $this->error( 'invalid_endpoint_url', __( 'Invalid endpoint URL.', 'webhook-automator' ), 400 );
 		}
 
 		// Save webhook.
@@ -282,7 +282,7 @@ class WebhooksController extends RestController {
 
 		return $this->success(
 			$this->prepare_webhook_for_response( $webhook ),
-			__( 'Webhook updated successfully.', 'wp-webhook-automator' )
+			__( 'Webhook updated successfully.', 'webhook-automator' )
 		);
 	}
 
@@ -297,16 +297,16 @@ class WebhooksController extends RestController {
 		$webhook = $this->repository->find( $id );
 
 		if ( ! $webhook ) {
-			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'wp-webhook-automator' ), 404 );
+			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'webhook-automator' ), 404 );
 		}
 
 		$deleted = $this->repository->delete( $id );
 
 		if ( ! $deleted ) {
-			return $this->error( 'webhook_delete_failed', __( 'Failed to delete webhook.', 'wp-webhook-automator' ), 500 );
+			return $this->error( 'webhook_delete_failed', __( 'Failed to delete webhook.', 'webhook-automator' ), 500 );
 		}
 
-		return $this->success( null, __( 'Webhook deleted successfully.', 'wp-webhook-automator' ) );
+		return $this->success( null, __( 'Webhook deleted successfully.', 'webhook-automator' ) );
 	}
 
 	/**
@@ -320,19 +320,19 @@ class WebhooksController extends RestController {
 		$webhook = $this->repository->find( $id );
 
 		if ( ! $webhook ) {
-			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'wp-webhook-automator' ), 404 );
+			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'webhook-automator' ), 404 );
 		}
 
 		$this->repository->toggleActive( $id );
 
 		// Reload to get updated status.
 		$webhook = $this->repository->find( $id );
-		$status  = $webhook->isActive() ? __( 'activated', 'wp-webhook-automator' ) : __( 'deactivated', 'wp-webhook-automator' );
+		$status  = $webhook->isActive() ? __( 'activated', 'webhook-automator' ) : __( 'deactivated', 'webhook-automator' );
 
 		return $this->success(
 			$this->prepare_webhook_for_response( $webhook ),
 			/* translators: %s: status (activated/deactivated) */
-			sprintf( __( 'Webhook %s successfully.', 'wp-webhook-automator' ), $status )
+			sprintf( __( 'Webhook %s successfully.', 'webhook-automator' ), $status )
 		);
 	}
 
@@ -347,19 +347,19 @@ class WebhooksController extends RestController {
 		$webhook = $this->repository->find( $id );
 
 		if ( ! $webhook ) {
-			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'wp-webhook-automator' ), 404 );
+			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'webhook-automator' ), 404 );
 		}
 
 		// Create test event data.
 		$test_data = array(
 			'test'      => true,
 			'timestamp' => time(),
-			'message'   => __( 'This is a test webhook from Webhook Automator.', 'wp-webhook-automator' ),
+			'message'   => __( 'This is a test webhook from Webhook Automator.', 'webhook-automator' ),
 			'post'      => array(
 				'id'       => 1,
-				'title'    => __( 'Test Post Title', 'wp-webhook-automator' ),
-				'content'  => __( 'Test post content.', 'wp-webhook-automator' ),
-				'excerpt'  => __( 'Test post excerpt.', 'wp-webhook-automator' ),
+				'title'    => __( 'Test Post Title', 'webhook-automator' ),
+				'content'  => __( 'Test post content.', 'webhook-automator' ),
+				'excerpt'  => __( 'Test post excerpt.', 'webhook-automator' ),
 				'status'   => 'publish',
 				'type'     => 'post',
 				'slug'     => 'test-post',
@@ -393,14 +393,14 @@ class WebhooksController extends RestController {
 					'response_body' => $result['response_body'],
 					'duration_ms'   => $result['duration_ms'],
 				),
-				__( 'Test webhook sent successfully.', 'wp-webhook-automator' )
+				__( 'Test webhook sent successfully.', 'webhook-automator' )
 			);
 		}
 
 		return $this->error(
 			'test_webhook_failed',
 			/* translators: %s: error message */
-			sprintf( __( 'Test webhook failed: %s', 'wp-webhook-automator' ), $result['error'] ),
+			sprintf( __( 'Test webhook failed: %s', 'webhook-automator' ), $result['error'] ),
 			400
 		);
 	}
@@ -416,20 +416,20 @@ class WebhooksController extends RestController {
 		$webhook = $this->repository->find( $id );
 
 		if ( ! $webhook ) {
-			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'wp-webhook-automator' ), 404 );
+			return $this->error( 'webhook_not_found', __( 'Webhook not found.', 'webhook-automator' ), 404 );
 		}
 
 		$new_id = $this->repository->duplicate( $id );
 
 		if ( ! $new_id ) {
-			return $this->error( 'webhook_duplicate_failed', __( 'Failed to duplicate webhook.', 'wp-webhook-automator' ), 500 );
+			return $this->error( 'webhook_duplicate_failed', __( 'Failed to duplicate webhook.', 'webhook-automator' ), 500 );
 		}
 
 		$new_webhook = $this->repository->find( $new_id );
 
 		return $this->success(
 			$this->prepare_webhook_for_response( $new_webhook ),
-			__( 'Webhook duplicated successfully.', 'wp-webhook-automator' ),
+			__( 'Webhook duplicated successfully.', 'webhook-automator' ),
 			201
 		);
 	}
@@ -549,14 +549,14 @@ class WebhooksController extends RestController {
 	public function get_collection_params(): array {
 		return array(
 			'page'         => array(
-				'description'       => __( 'Current page of the collection.', 'wp-webhook-automator' ),
+				'description'       => __( 'Current page of the collection.', 'webhook-automator' ),
 				'type'              => 'integer',
 				'default'           => 1,
 				'minimum'           => 1,
 				'sanitize_callback' => 'absint',
 			),
 			'per_page'     => array(
-				'description'       => __( 'Maximum number of items to return.', 'wp-webhook-automator' ),
+				'description'       => __( 'Maximum number of items to return.', 'webhook-automator' ),
 				'type'              => 'integer',
 				'default'           => 20,
 				'minimum'           => 1,
@@ -564,12 +564,12 @@ class WebhooksController extends RestController {
 				'sanitize_callback' => 'absint',
 			),
 			'trigger_type' => array(
-				'description'       => __( 'Filter by trigger type.', 'wp-webhook-automator' ),
+				'description'       => __( 'Filter by trigger type.', 'webhook-automator' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 			),
 			'is_active'    => array(
-				'description' => __( 'Filter by active status.', 'wp-webhook-automator' ),
+				'description' => __( 'Filter by active status.', 'webhook-automator' ),
 				'type'        => 'integer',
 				'enum'        => array( 0, 1 ),
 			),
@@ -585,65 +585,65 @@ class WebhooksController extends RestController {
 	private function get_webhook_params( bool $required = true ): array {
 		return array(
 			'name'             => array(
-				'description'       => __( 'Webhook name.', 'wp-webhook-automator' ),
+				'description'       => __( 'Webhook name.', 'webhook-automator' ),
 				'type'              => 'string',
 				'required'          => $required,
 				'sanitize_callback' => 'sanitize_text_field',
 			),
 			'description'      => array(
-				'description'       => __( 'Webhook description.', 'wp-webhook-automator' ),
+				'description'       => __( 'Webhook description.', 'webhook-automator' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_textarea_field',
 			),
 			'trigger_type'     => array(
-				'description'       => __( 'Trigger type identifier.', 'wp-webhook-automator' ),
+				'description'       => __( 'Trigger type identifier.', 'webhook-automator' ),
 				'type'              => 'string',
 				'required'          => $required,
 				'sanitize_callback' => 'sanitize_text_field',
 			),
 			'trigger_config'   => array(
-				'description' => __( 'Trigger configuration.', 'wp-webhook-automator' ),
+				'description' => __( 'Trigger configuration.', 'webhook-automator' ),
 				'type'        => 'object',
 			),
 			'endpoint_url'     => array(
-				'description'       => __( 'Webhook endpoint URL.', 'wp-webhook-automator' ),
+				'description'       => __( 'Webhook endpoint URL.', 'webhook-automator' ),
 				'type'              => 'string',
 				'required'          => $required,
 				'format'            => 'uri',
 				'sanitize_callback' => 'esc_url_raw',
 			),
 			'http_method'      => array(
-				'description' => __( 'HTTP method.', 'wp-webhook-automator' ),
+				'description' => __( 'HTTP method.', 'webhook-automator' ),
 				'type'        => 'string',
 				'default'     => 'POST',
 				'enum'        => array( 'GET', 'POST', 'PUT', 'PATCH', 'DELETE' ),
 			),
 			'headers'          => array(
-				'description' => __( 'Custom HTTP headers.', 'wp-webhook-automator' ),
+				'description' => __( 'Custom HTTP headers.', 'webhook-automator' ),
 				'type'        => 'object',
 			),
 			'payload_format'   => array(
-				'description' => __( 'Payload format.', 'wp-webhook-automator' ),
+				'description' => __( 'Payload format.', 'webhook-automator' ),
 				'type'        => 'string',
 				'default'     => 'json',
 				'enum'        => array( 'json', 'form' ),
 			),
 			'payload_template' => array(
-				'description' => __( 'Payload template.', 'wp-webhook-automator' ),
+				'description' => __( 'Payload template.', 'webhook-automator' ),
 				'type'        => 'object',
 			),
 			'secret_key'       => array(
-				'description'       => __( 'Secret key for signature.', 'wp-webhook-automator' ),
+				'description'       => __( 'Secret key for signature.', 'webhook-automator' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 			),
 			'is_active'        => array(
-				'description' => __( 'Whether webhook is active.', 'wp-webhook-automator' ),
+				'description' => __( 'Whether webhook is active.', 'webhook-automator' ),
 				'type'        => 'boolean',
 				'default'     => true,
 			),
 			'retry_count'      => array(
-				'description'       => __( 'Number of retry attempts.', 'wp-webhook-automator' ),
+				'description'       => __( 'Number of retry attempts.', 'webhook-automator' ),
 				'type'              => 'integer',
 				'default'           => 3,
 				'minimum'           => 0,
@@ -651,7 +651,7 @@ class WebhooksController extends RestController {
 				'sanitize_callback' => 'absint',
 			),
 			'retry_delay'      => array(
-				'description'       => __( 'Delay between retries in seconds.', 'wp-webhook-automator' ),
+				'description'       => __( 'Delay between retries in seconds.', 'webhook-automator' ),
 				'type'              => 'integer',
 				'default'           => 60,
 				'minimum'           => 10,

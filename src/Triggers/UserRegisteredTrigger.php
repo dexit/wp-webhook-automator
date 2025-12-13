@@ -59,8 +59,8 @@ class UserRegisteredTrigger extends AbstractTrigger {
 		return [
 			'roles' => [
 				'type'        => 'multiselect',
-				'label'       => __( 'User Roles', 'wp-webhook-automator' ),
-				'description' => __( 'Only trigger for users with these roles. Leave empty for all roles.', 'wp-webhook-automator' ),
+				'label'       => __( 'User Roles', 'webhook-automator' ),
+				'description' => __( 'Only trigger for users with these roles. Leave empty for all roles.', 'webhook-automator' ),
 				'options'     => $this->getUserRoles(),
 				'default'     => [],
 			],

@@ -70,33 +70,30 @@ abstract class AbstractTrigger implements TriggerInterface {
 	}
 
 	/**
-	 * Get the trigger name (translated).
+	 * Get the trigger name.
 	 *
 	 * @return string
 	 */
 	public function getName(): string {
-		// Translate at access time to respect WordPress 6.7+ timing requirements
-		return __( $this->name, 'wp-webhook-automator' );
+		return $this->name;
 	}
 
 	/**
-	 * Get the trigger description (translated).
+	 * Get the trigger description.
 	 *
 	 * @return string
 	 */
 	public function getDescription(): string {
-		// Translate at access time to respect WordPress 6.7+ timing requirements
-		return __( $this->description, 'wp-webhook-automator' );
+		return $this->description;
 	}
 
 	/**
-	 * Get the trigger category (translated).
+	 * Get the trigger category.
 	 *
 	 * @return string
 	 */
 	public function getCategory(): string {
-		// Translate at access time to respect WordPress 6.7+ timing requirements
-		return __( $this->category, 'wp-webhook-automator' );
+		return $this->category;
 	}
 
 	/**
@@ -191,10 +188,10 @@ abstract class AbstractTrigger implements TriggerInterface {
 	 */
 	protected function getCommentStatuses(): array {
 		return [
-			'approved' => __( 'Approved', 'wp-webhook-automator' ),
-			'pending'  => __( 'Pending', 'wp-webhook-automator' ),
-			'spam'     => __( 'Spam', 'wp-webhook-automator' ),
-			'trash'    => __( 'Trash', 'wp-webhook-automator' ),
+			'approved' => __( 'Approved', 'webhook-automator' ),
+			'pending'  => __( 'Pending', 'webhook-automator' ),
+			'spam'     => __( 'Spam', 'webhook-automator' ),
+			'trash'    => __( 'Trash', 'webhook-automator' ),
 		];
 	}
 

@@ -115,11 +115,11 @@ function wwa_sanitize_payload_template( array $template ): array {
  */
 function wwa_get_http_methods(): array {
 	return [
-		'POST'   => __( 'POST', 'wp-webhook-automator' ),
-		'GET'    => __( 'GET', 'wp-webhook-automator' ),
-		'PUT'    => __( 'PUT', 'wp-webhook-automator' ),
-		'PATCH'  => __( 'PATCH', 'wp-webhook-automator' ),
-		'DELETE' => __( 'DELETE', 'wp-webhook-automator' ),
+		'POST'   => __( 'POST', 'webhook-automator' ),
+		'GET'    => __( 'GET', 'webhook-automator' ),
+		'PUT'    => __( 'PUT', 'webhook-automator' ),
+		'PATCH'  => __( 'PATCH', 'webhook-automator' ),
+		'DELETE' => __( 'DELETE', 'webhook-automator' ),
 	];
 }
 
@@ -130,8 +130,8 @@ function wwa_get_http_methods(): array {
  */
 function wwa_get_payload_formats(): array {
 	return [
-		'json' => __( 'JSON', 'wp-webhook-automator' ),
-		'form' => __( 'Form Data', 'wp-webhook-automator' ),
+		'json' => __( 'JSON', 'webhook-automator' ),
+		'form' => __( 'Form Data', 'webhook-automator' ),
 	];
 }
 
@@ -175,9 +175,9 @@ function wwa_get_status_badge( string $status ): string {
 	];
 
 	$labels = [
-		'success' => __( 'Success', 'wp-webhook-automator' ),
-		'failed'  => __( 'Failed', 'wp-webhook-automator' ),
-		'pending' => __( 'Pending', 'wp-webhook-automator' ),
+		'success' => __( 'Success', 'webhook-automator' ),
+		'failed'  => __( 'Failed', 'webhook-automator' ),
+		'pending' => __( 'Pending', 'webhook-automator' ),
 	];
 
 	$class = $classes[ $status ] ?? 'wwa-badge';

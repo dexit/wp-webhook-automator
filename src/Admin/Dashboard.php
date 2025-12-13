@@ -49,10 +49,10 @@ class Dashboard {
 		?>
 		<div class="wrap wwa-wrap">
 			<div class="wwa-header">
-				<h1><?php esc_html_e( 'Webhook Automator Dashboard', 'wp-webhook-automator' ); ?></h1>
+				<h1><?php esc_html_e( 'Webhook Automator Dashboard', 'webhook-automator' ); ?></h1>
 				<div class="wwa-header-actions">
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-new' ) ); ?>" class="button button-primary">
-						<?php esc_html_e( 'Add New Webhook', 'wp-webhook-automator' ); ?>
+						<?php esc_html_e( 'Add New Webhook', 'webhook-automator' ); ?>
 					</a>
 				</div>
 			</div>
@@ -61,19 +61,19 @@ class Dashboard {
 			<div class="wwa-stats-grid">
 				<div class="wwa-stat-card">
 					<div class="wwa-stat-value"><?php echo esc_html( $stats['total_webhooks'] ); ?></div>
-					<div class="wwa-stat-label"><?php esc_html_e( 'Total Webhooks', 'wp-webhook-automator' ); ?></div>
+					<div class="wwa-stat-label"><?php esc_html_e( 'Total Webhooks', 'webhook-automator' ); ?></div>
 				</div>
 				<div class="wwa-stat-card success">
 					<div class="wwa-stat-value"><?php echo esc_html( $stats['active_webhooks'] ); ?></div>
-					<div class="wwa-stat-label"><?php esc_html_e( 'Active Webhooks', 'wp-webhook-automator' ); ?></div>
+					<div class="wwa-stat-label"><?php esc_html_e( 'Active Webhooks', 'webhook-automator' ); ?></div>
 				</div>
 				<div class="wwa-stat-card">
 					<div class="wwa-stat-value"><?php echo esc_html( $stats['deliveries_today'] ); ?></div>
-					<div class="wwa-stat-label"><?php esc_html_e( 'Deliveries Today', 'wp-webhook-automator' ); ?></div>
+					<div class="wwa-stat-label"><?php esc_html_e( 'Deliveries Today', 'webhook-automator' ); ?></div>
 				</div>
 				<div class="wwa-stat-card success">
 					<div class="wwa-stat-value"><?php echo esc_html( $stats['success_rate'] ); ?>%</div>
-					<div class="wwa-stat-label"><?php esc_html_e( 'Success Rate (Today)', 'wp-webhook-automator' ); ?></div>
+					<div class="wwa-stat-label"><?php esc_html_e( 'Success Rate (Today)', 'webhook-automator' ); ?></div>
 				</div>
 			</div>
 
@@ -81,28 +81,28 @@ class Dashboard {
 				<!-- Recent Activity -->
 				<div class="wwa-card">
 					<div class="wwa-card-header">
-						<h2><?php esc_html_e( 'Recent Activity', 'wp-webhook-automator' ); ?></h2>
+						<h2><?php esc_html_e( 'Recent Activity', 'webhook-automator' ); ?></h2>
 						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-logs' ) ); ?>">
-							<?php esc_html_e( 'View All Logs', 'wp-webhook-automator' ); ?> &rarr;
+							<?php esc_html_e( 'View All Logs', 'webhook-automator' ); ?> &rarr;
 						</a>
 					</div>
 					<div class="wwa-card-body">
 						<?php if ( empty( $recentLogs ) ) : ?>
-							<p class="wwa-text-muted"><?php esc_html_e( 'No webhook activity yet.', 'wp-webhook-automator' ); ?></p>
+							<p class="wwa-text-muted"><?php esc_html_e( 'No webhook activity yet.', 'webhook-automator' ); ?></p>
 						<?php else : ?>
 							<table class="wwa-table">
 								<thead>
 									<tr>
-										<th><?php esc_html_e( 'Webhook', 'wp-webhook-automator' ); ?></th>
-										<th><?php esc_html_e( 'Status', 'wp-webhook-automator' ); ?></th>
-										<th><?php esc_html_e( 'Time', 'wp-webhook-automator' ); ?></th>
+										<th><?php esc_html_e( 'Webhook', 'webhook-automator' ); ?></th>
+										<th><?php esc_html_e( 'Status', 'webhook-automator' ); ?></th>
+										<th><?php esc_html_e( 'Time', 'webhook-automator' ); ?></th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php foreach ( $recentLogs as $log ) : ?>
 										<tr>
 											<td>
-												<strong><?php echo esc_html( $log['webhook_name'] ?: __( 'Unknown', 'wp-webhook-automator' ) ); ?></strong>
+												<strong><?php echo esc_html( $log['webhook_name'] ?: __( 'Unknown', 'webhook-automator' ) ); ?></strong>
 												<br>
 												<small class="wwa-text-muted"><?php echo esc_html( $log['trigger_type'] ); ?></small>
 											</td>
@@ -124,20 +124,20 @@ class Dashboard {
 					<!-- Today's Stats -->
 					<div class="wwa-card">
 						<div class="wwa-card-header">
-							<h2><?php esc_html_e( "Today's Stats", 'wp-webhook-automator' ); ?></h2>
+							<h2><?php esc_html_e( "Today's Stats", 'webhook-automator' ); ?></h2>
 						</div>
 						<div class="wwa-card-body">
 							<ul style="margin: 0; padding: 0; list-style: none;">
 								<li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-									<span><?php esc_html_e( 'Successful', 'wp-webhook-automator' ); ?></span>
+									<span><?php esc_html_e( 'Successful', 'webhook-automator' ); ?></span>
 									<strong class="wwa-text-success"><?php echo esc_html( $stats['success_today'] ); ?></strong>
 								</li>
 								<li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-									<span><?php esc_html_e( 'Failed', 'wp-webhook-automator' ); ?></span>
+									<span><?php esc_html_e( 'Failed', 'webhook-automator' ); ?></span>
 									<strong class="wwa-text-error"><?php echo esc_html( $stats['failed_today'] ); ?></strong>
 								</li>
 								<li style="display: flex; justify-content: space-between; padding: 8px 0;">
-									<span><?php esc_html_e( 'Pending', 'wp-webhook-automator' ); ?></span>
+									<span><?php esc_html_e( 'Pending', 'webhook-automator' ); ?></span>
 									<strong><?php echo esc_html( $stats['pending_today'] ); ?></strong>
 								</li>
 							</ul>
@@ -147,7 +147,7 @@ class Dashboard {
 					<!-- Available Triggers -->
 					<div class="wwa-card" style="margin-top: 20px;">
 						<div class="wwa-card-header">
-							<h2><?php esc_html_e( 'Available Triggers', 'wp-webhook-automator' ); ?></h2>
+							<h2><?php esc_html_e( 'Available Triggers', 'webhook-automator' ); ?></h2>
 						</div>
 						<div class="wwa-card-body">
 							<?php

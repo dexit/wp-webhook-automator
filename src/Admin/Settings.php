@@ -33,54 +33,54 @@ class Settings {
 	private function getFields(): array {
 		return [
 			'general' => [
-				'title'  => __( 'General Settings', 'wp-webhook-automator' ),
+				'title'  => __( 'General Settings', 'webhook-automator' ),
 				'fields' => [
 					'wwa_enable_async'    => [
-						'label'       => __( 'Async Delivery', 'wp-webhook-automator' ),
+						'label'       => __( 'Async Delivery', 'webhook-automator' ),
 						'type'        => 'checkbox',
-						'description' => __( 'Send webhooks asynchronously in the background. Recommended for better performance.', 'wp-webhook-automator' ),
+						'description' => __( 'Send webhooks asynchronously in the background. Recommended for better performance.', 'webhook-automator' ),
 						'default'     => true,
 					],
 					'wwa_default_timeout' => [
-						'label'       => __( 'Request Timeout', 'wp-webhook-automator' ),
+						'label'       => __( 'Request Timeout', 'webhook-automator' ),
 						'type'        => 'number',
-						'description' => __( 'Maximum time in seconds to wait for a webhook response.', 'wp-webhook-automator' ),
+						'description' => __( 'Maximum time in seconds to wait for a webhook response.', 'webhook-automator' ),
 						'default'     => 30,
 						'min'         => 5,
 						'max'         => 120,
-						'suffix'      => __( 'seconds', 'wp-webhook-automator' ),
+						'suffix'      => __( 'seconds', 'webhook-automator' ),
 					],
 					'wwa_rate_limit'      => [
-						'label'       => __( 'Rate Limit', 'wp-webhook-automator' ),
+						'label'       => __( 'Rate Limit', 'webhook-automator' ),
 						'type'        => 'number',
-						'description' => __( 'Maximum number of webhooks to send per minute. Set to 0 for unlimited.', 'wp-webhook-automator' ),
+						'description' => __( 'Maximum number of webhooks to send per minute. Set to 0 for unlimited.', 'webhook-automator' ),
 						'default'     => 100,
 						'min'         => 0,
 						'max'         => 1000,
-						'suffix'      => __( 'per minute', 'wp-webhook-automator' ),
+						'suffix'      => __( 'per minute', 'webhook-automator' ),
 					],
 				],
 			],
 			'logging' => [
-				'title'  => __( 'Logging Settings', 'wp-webhook-automator' ),
+				'title'  => __( 'Logging Settings', 'webhook-automator' ),
 				'fields' => [
 					'wwa_log_retention_days' => [
-						'label'       => __( 'Log Retention', 'wp-webhook-automator' ),
+						'label'       => __( 'Log Retention', 'webhook-automator' ),
 						'type'        => 'number',
-						'description' => __( 'Number of days to keep webhook logs. Older logs will be automatically deleted.', 'wp-webhook-automator' ),
+						'description' => __( 'Number of days to keep webhook logs. Older logs will be automatically deleted.', 'webhook-automator' ),
 						'default'     => 30,
 						'min'         => 1,
 						'max'         => 365,
-						'suffix'      => __( 'days', 'wp-webhook-automator' ),
+						'suffix'      => __( 'days', 'webhook-automator' ),
 					],
 					'wwa_max_log_entries'    => [
-						'label'       => __( 'Maximum Log Entries', 'wp-webhook-automator' ),
+						'label'       => __( 'Maximum Log Entries', 'webhook-automator' ),
 						'type'        => 'number',
-						'description' => __( 'Maximum number of log entries to keep. Set to 0 for unlimited (uses retention days only).', 'wp-webhook-automator' ),
+						'description' => __( 'Maximum number of log entries to keep. Set to 0 for unlimited (uses retention days only).', 'webhook-automator' ),
 						'default'     => 1000,
 						'min'         => 0,
 						'max'         => 100000,
-						'suffix'      => __( 'entries', 'wp-webhook-automator' ),
+						'suffix'      => __( 'entries', 'webhook-automator' ),
 					],
 				],
 			],
@@ -96,7 +96,7 @@ class Settings {
 		?>
 		<div class="wrap wwa-wrap">
 			<div class="wwa-header">
-				<h1><?php esc_html_e( 'Settings', 'wp-webhook-automator' ); ?></h1>
+				<h1><?php esc_html_e( 'Settings', 'webhook-automator' ); ?></h1>
 			</div>
 
 			<form method="post" action="">
@@ -128,46 +128,46 @@ class Settings {
 				<!-- Info Section -->
 				<div class="wwa-card" style="margin-bottom: 20px;">
 					<div class="wwa-card-header">
-						<h2><?php esc_html_e( 'System Information', 'wp-webhook-automator' ); ?></h2>
+						<h2><?php esc_html_e( 'System Information', 'webhook-automator' ); ?></h2>
 					</div>
 					<div class="wwa-card-body">
 						<table class="form-table">
 							<tr>
-								<th scope="row"><?php esc_html_e( 'Plugin Version', 'wp-webhook-automator' ); ?></th>
+								<th scope="row"><?php esc_html_e( 'Plugin Version', 'webhook-automator' ); ?></th>
 								<td><code><?php echo esc_html( WWA_VERSION ); ?></code></td>
 							</tr>
 							<tr>
-								<th scope="row"><?php esc_html_e( 'Database Version', 'wp-webhook-automator' ); ?></th>
+								<th scope="row"><?php esc_html_e( 'Database Version', 'webhook-automator' ); ?></th>
 								<td><code><?php echo esc_html( get_option( 'wwa_db_version', '1.0.0' ) ); ?></code></td>
 							</tr>
 							<tr>
-								<th scope="row"><?php esc_html_e( 'PHP Version', 'wp-webhook-automator' ); ?></th>
+								<th scope="row"><?php esc_html_e( 'PHP Version', 'webhook-automator' ); ?></th>
 								<td><code><?php echo esc_html( PHP_VERSION ); ?></code></td>
 							</tr>
 							<tr>
-								<th scope="row"><?php esc_html_e( 'WordPress Version', 'wp-webhook-automator' ); ?></th>
+								<th scope="row"><?php esc_html_e( 'WordPress Version', 'webhook-automator' ); ?></th>
 								<td><code><?php echo esc_html( get_bloginfo( 'version' ) ); ?></code></td>
 							</tr>
 							<tr>
-								<th scope="row"><?php esc_html_e( 'WP Cron', 'wp-webhook-automator' ); ?></th>
+								<th scope="row"><?php esc_html_e( 'WP Cron', 'webhook-automator' ); ?></th>
 								<td>
 									<?php if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) : ?>
-										<span class="wwa-badge wwa-badge-warning"><?php esc_html_e( 'Disabled', 'wp-webhook-automator' ); ?></span>
-										<p class="description"><?php esc_html_e( 'WP Cron is disabled. Async delivery and retries may not work correctly.', 'wp-webhook-automator' ); ?></p>
+										<span class="wwa-badge wwa-badge-warning"><?php esc_html_e( 'Disabled', 'webhook-automator' ); ?></span>
+										<p class="description"><?php esc_html_e( 'WP Cron is disabled. Async delivery and retries may not work correctly.', 'webhook-automator' ); ?></p>
 									<?php else : ?>
-										<span class="wwa-badge wwa-badge-success"><?php esc_html_e( 'Enabled', 'wp-webhook-automator' ); ?></span>
+										<span class="wwa-badge wwa-badge-success"><?php esc_html_e( 'Enabled', 'webhook-automator' ); ?></span>
 									<?php endif; ?>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row"><?php esc_html_e( 'Next Log Cleanup', 'wp-webhook-automator' ); ?></th>
+								<th scope="row"><?php esc_html_e( 'Next Log Cleanup', 'webhook-automator' ); ?></th>
 								<td>
 									<?php
 									$nextRun = wp_next_scheduled( 'wwa_cleanup_logs' );
 									if ( $nextRun ) {
 										echo esc_html( wwa_format_datetime( gmdate( 'Y-m-d H:i:s', $nextRun ) ) );
 									} else {
-										echo '<span class="wwa-text-muted">' . esc_html__( 'Not scheduled', 'wp-webhook-automator' ) . '</span>';
+										echo '<span class="wwa-text-muted">' . esc_html__( 'Not scheduled', 'webhook-automator' ) . '</span>';
 									}
 									?>
 								</td>
@@ -177,7 +177,7 @@ class Settings {
 				</div>
 
 				<p class="submit">
-					<button type="submit" class="button button-primary"><?php esc_html_e( 'Save Settings', 'wp-webhook-automator' ); ?></button>
+					<button type="submit" class="button button-primary"><?php esc_html_e( 'Save Settings', 'webhook-automator' ); ?></button>
 				</p>
 			</form>
 		</div>
@@ -259,7 +259,7 @@ class Settings {
 
 		return [
 			'success' => true,
-			'message' => __( 'Settings saved successfully.', 'wp-webhook-automator' ),
+			'message' => __( 'Settings saved successfully.', 'webhook-automator' ),
 		];
 	}
 }
