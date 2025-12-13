@@ -5,8 +5,8 @@
  * @package WP_Webhook_Automator
  */
 
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
  * @return WWA_Plugin
  */
 function wwa(): WWA_Plugin {
-    return WWA_Plugin::get_instance();
+	return WWA_Plugin::get_instance();
 }
 
 /**
@@ -24,9 +24,9 @@ function wwa(): WWA_Plugin {
  * @param int $id The webhook ID.
  * @return WWA\Core\Webhook|null
  */
-function wwa_get_webhook(int $id): ?WWA\Core\Webhook {
-    $repository = new WWA\Core\WebhookRepository();
-    return $repository->find($id);
+function wwa_get_webhook( int $id ): ?WWA\Core\Webhook {
+	$repository = new WWA\Core\WebhookRepository();
+	return $repository->find( $id );
 }
 
 /**
@@ -35,8 +35,8 @@ function wwa_get_webhook(int $id): ?WWA\Core\Webhook {
  * @return array
  */
 function wwa_get_active_webhooks(): array {
-    $repository = new WWA\Core\WebhookRepository();
-    return $repository->findActive();
+	$repository = new WWA\Core\WebhookRepository();
+	return $repository->findActive();
 }
 
 /**
@@ -46,18 +46,19 @@ function wwa_get_active_webhooks(): array {
  * @param array  $context Additional context.
  * @return void
  */
-function wwa_log(string $message, array $context = []): void {
-    if (!defined('WP_DEBUG') || !WP_DEBUG) {
-        return;
-    }
+function wwa_log( string $message, array $context = [] ): void {
+	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+		return;
+	}
 
-    $log_message = '[WP Webhook Automator] ' . $message;
+	$log_message = '[WP Webhook Automator] ' . $message;
 
-    if (!empty($context)) {
-        $log_message .= ' | Context: ' . wp_json_encode($context);
-    }
+	if ( ! empty( $context ) ) {
+		$log_message .= ' | Context: ' . wp_json_encode( $context );
+	}
 
-    error_log($log_message);
+	// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional debug logging when WP_DEBUG is enabled.
+	error_log( $log_message );
 }
 
 /**
@@ -66,7 +67,7 @@ function wwa_log(string $message, array $context = []): void {
  * @return bool
  */
 function wwa_is_woocommerce_active(): bool {
-    return class_exists('WooCommerce');
+	return class_exists( 'WooCommerce' );
 }
 
 /**
@@ -75,11 +76,11 @@ function wwa_is_woocommerce_active(): bool {
  * @param string $plugin Plugin basename (e.g., 'contact-form-7/wp-contact-form-7.php').
  * @return bool
  */
-function wwa_is_plugin_active(string $plugin): bool {
-    if (!function_exists('is_plugin_active')) {
-        include_once ABSPATH . 'wp-admin/includes/plugin.php';
-    }
-    return is_plugin_active($plugin);
+function wwa_is_plugin_active( string $plugin ): bool {
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+	return is_plugin_active( $plugin );
 }
 
 /**
@@ -88,23 +89,23 @@ function wwa_is_plugin_active(string $plugin): bool {
  * @param array $template The template array.
  * @return array
  */
-function wwa_sanitize_payload_template(array $template): array {
-    $sanitized = [];
+function wwa_sanitize_payload_template( array $template ): array {
+	$sanitized = [];
 
-    foreach ($template as $key => $value) {
-        $key = sanitize_key($key);
+	foreach ( $template as $key => $value ) {
+		$key = sanitize_key( $key );
 
-        if (is_array($value)) {
-            $sanitized[$key] = wwa_sanitize_payload_template($value);
-        } elseif (is_string($value)) {
-            // Allow merge tags in values
-            $sanitized[$key] = wp_kses_post($value);
-        } else {
-            $sanitized[$key] = $value;
-        }
-    }
+		if ( is_array( $value ) ) {
+			$sanitized[ $key ] = wwa_sanitize_payload_template( $value );
+		} elseif ( is_string( $value ) ) {
+			// Allow merge tags in values
+			$sanitized[ $key ] = wp_kses_post( $value );
+		} else {
+			$sanitized[ $key ] = $value;
+		}
+	}
 
-    return $sanitized;
+	return $sanitized;
 }
 
 /**
@@ -113,13 +114,13 @@ function wwa_sanitize_payload_template(array $template): array {
  * @return array
  */
 function wwa_get_http_methods(): array {
-    return [
-        'POST'   => __('POST', 'wp-webhook-automator'),
-        'GET'    => __('GET', 'wp-webhook-automator'),
-        'PUT'    => __('PUT', 'wp-webhook-automator'),
-        'PATCH'  => __('PATCH', 'wp-webhook-automator'),
-        'DELETE' => __('DELETE', 'wp-webhook-automator'),
-    ];
+	return [
+		'POST'   => __( 'POST', 'wp-webhook-automator' ),
+		'GET'    => __( 'GET', 'wp-webhook-automator' ),
+		'PUT'    => __( 'PUT', 'wp-webhook-automator' ),
+		'PATCH'  => __( 'PATCH', 'wp-webhook-automator' ),
+		'DELETE' => __( 'DELETE', 'wp-webhook-automator' ),
+	];
 }
 
 /**
@@ -128,10 +129,10 @@ function wwa_get_http_methods(): array {
  * @return array
  */
 function wwa_get_payload_formats(): array {
-    return [
-        'json' => __('JSON', 'wp-webhook-automator'),
-        'form' => __('Form Data', 'wp-webhook-automator'),
-    ];
+	return [
+		'json' => __( 'JSON', 'wp-webhook-automator' ),
+		'form' => __( 'Form Data', 'wp-webhook-automator' ),
+	];
 }
 
 /**
@@ -140,9 +141,9 @@ function wwa_get_payload_formats(): array {
  * @param string $timestamp The timestamp string.
  * @return string
  */
-function wwa_format_datetime(string $timestamp): string {
-    $datetime = strtotime($timestamp);
-    return date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $datetime);
+function wwa_format_datetime( string $timestamp ): string {
+	$datetime = strtotime( $timestamp );
+	return date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $datetime );
 }
 
 /**
@@ -151,13 +152,13 @@ function wwa_format_datetime(string $timestamp): string {
  * @param int $ms Duration in milliseconds.
  * @return string
  */
-function wwa_format_duration(int $ms): string {
-    if ($ms < 1000) {
-        return $ms . 'ms';
-    }
+function wwa_format_duration( int $ms ): string {
+	if ( $ms < 1000 ) {
+		return $ms . 'ms';
+	}
 
-    $seconds = round($ms / 1000, 2);
-    return $seconds . 's';
+	$seconds = round( $ms / 1000, 2 );
+	return $seconds . 's';
 }
 
 /**
@@ -166,23 +167,23 @@ function wwa_format_duration(int $ms): string {
  * @param string $status The status string.
  * @return string
  */
-function wwa_get_status_badge(string $status): string {
-    $classes = [
-        'success' => 'wwa-badge wwa-badge-success',
-        'failed'  => 'wwa-badge wwa-badge-error',
-        'pending' => 'wwa-badge wwa-badge-warning',
-    ];
+function wwa_get_status_badge( string $status ): string {
+	$classes = [
+		'success' => 'wwa-badge wwa-badge-success',
+		'failed'  => 'wwa-badge wwa-badge-error',
+		'pending' => 'wwa-badge wwa-badge-warning',
+	];
 
-    $labels = [
-        'success' => __('Success', 'wp-webhook-automator'),
-        'failed'  => __('Failed', 'wp-webhook-automator'),
-        'pending' => __('Pending', 'wp-webhook-automator'),
-    ];
+	$labels = [
+		'success' => __( 'Success', 'wp-webhook-automator' ),
+		'failed'  => __( 'Failed', 'wp-webhook-automator' ),
+		'pending' => __( 'Pending', 'wp-webhook-automator' ),
+	];
 
-    $class = $classes[$status] ?? 'wwa-badge';
-    $label = $labels[$status] ?? ucfirst($status);
+	$class = $classes[ $status ] ?? 'wwa-badge';
+	$label = $labels[ $status ] ?? ucfirst( $status );
 
-    return sprintf('<span class="%s">%s</span>', esc_attr($class), esc_html($label));
+	return sprintf( '<span class="%s">%s</span>', esc_attr( $class ), esc_html( $label ) );
 }
 
 /**
@@ -191,8 +192,8 @@ function wwa_get_status_badge(string $status): string {
  * @param int $length The length of the key.
  * @return string
  */
-function wwa_generate_secret_key(int $length = 32): string {
-    return wp_generate_password($length, false);
+function wwa_generate_secret_key( int $length = 32 ): string {
+	return wp_generate_password( $length, false );
 }
 
 /**
@@ -201,10 +202,10 @@ function wwa_generate_secret_key(int $length = 32): string {
  * @param string $key The secret key.
  * @return string
  */
-function wwa_mask_secret_key(string $key): string {
-    if (strlen($key) <= 8) {
-        return str_repeat('*', strlen($key));
-    }
+function wwa_mask_secret_key( string $key ): string {
+	if ( strlen( $key ) <= 8 ) {
+		return str_repeat( '*', strlen( $key ) );
+	}
 
-    return substr($key, 0, 4) . str_repeat('*', strlen($key) - 8) . substr($key, -4);
+	return substr( $key, 0, 4 ) . str_repeat( '*', strlen( $key ) - 8 ) . substr( $key, -4 );
 }

@@ -29,6 +29,27 @@
         <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
         <!-- Allow short array syntax -->
         <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+        <!-- Allow camelCase (PSR-4 modern PHP style) -->
+        <exclude name="WordPress.NamingConventions.ValidVariableName"/>
+        <exclude name="WordPress.NamingConventions.ValidFunctionName"/>
+        <!-- Allow short ternary -->
+        <exclude name="Universal.Operators.DisallowShortTernary"/>
+        <!-- Allow direct database queries (needed for custom tables) -->
+        <exclude name="WordPress.DB.DirectDatabaseQuery"/>
+        <!-- Yoda conditions not required -->
+        <exclude name="WordPress.PHP.YodaConditions"/>
+        <!-- Doc comments - relaxed for PSR-4 style -->
+        <exclude name="Squiz.Commenting.ClassComment.Missing"/>
+        <exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
+        <exclude name="Generic.Commenting.DocComment.MissingShort"/>
+        <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
+        <exclude name="Squiz.Commenting.FunctionComment.Missing"/>
+        <!-- Allow empty catch statements -->
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedCatch"/>
+        <!-- Allow dynamic text in translations (handled at runtime) -->
+        <exclude name="WordPress.WP.I18n.NonSingularStringLiteralText"/>
+        <!-- Allow reserved keyword as param name -->
+        <exclude name="Universal.NamingConventions.NoReservedKeywordParameterNames"/>
     </rule>
 
     <!-- Verify text domain -->

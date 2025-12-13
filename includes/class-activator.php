@@ -5,43 +5,43 @@
  * @package WP_Webhook_Automator
  */
 
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 class WWA_Activator {
 
-    /**
-     * Activate the plugin.
-     *
-     * @return void
-     */
-    public static function activate(): void {
-        self::create_tables();
-        self::set_default_options();
-        self::schedule_events();
+	/**
+	 * Activate the plugin.
+	 *
+	 * @return void
+	 */
+	public static function activate(): void {
+		self::create_tables();
+		self::set_default_options();
+		self::schedule_events();
 
-        // Store version for upgrade routines
-        update_option('wwa_version', WWA_VERSION);
-        update_option('wwa_db_version', WWA_DB_VERSION);
+		// Store version for upgrade routines
+		update_option( 'wwa_version', WWA_VERSION );
+		update_option( 'wwa_db_version', WWA_DB_VERSION );
 
-        // Flush rewrite rules for REST API
-        flush_rewrite_rules();
-    }
+		// Flush rewrite rules for REST API
+		flush_rewrite_rules();
+	}
 
-    /**
-     * Create database tables.
-     *
-     * @return void
-     */
-    private static function create_tables(): void {
-        global $wpdb;
+	/**
+	 * Create database tables.
+	 *
+	 * @return void
+	 */
+	private static function create_tables(): void {
+		global $wpdb;
 
-        $charset_collate = $wpdb->get_charset_collate();
-        $webhooks_table = $wpdb->prefix . 'wwa_webhooks';
-        $logs_table = $wpdb->prefix . 'wwa_logs';
+		$charset_collate = $wpdb->get_charset_collate();
+		$webhooks_table  = $wpdb->prefix . 'wwa_webhooks';
+		$logs_table      = $wpdb->prefix . 'wwa_logs';
 
-        $sql_webhooks = "CREATE TABLE {$webhooks_table} (
+		$sql_webhooks = "CREATE TABLE {$webhooks_table} (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             name VARCHAR(255) NOT NULL,
             description TEXT,
@@ -64,7 +64,7 @@ class WWA_Activator {
             KEY idx_is_active (is_active)
         ) {$charset_collate};";
 
-        $sql_logs = "CREATE TABLE {$logs_table} (
+		$sql_logs = "CREATE TABLE {$logs_table} (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             webhook_id BIGINT UNSIGNED NOT NULL,
             trigger_type VARCHAR(100) NOT NULL,
@@ -86,40 +86,40 @@ class WWA_Activator {
             KEY idx_created_at (created_at)
         ) {$charset_collate};";
 
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        dbDelta($sql_webhooks);
-        dbDelta($sql_logs);
-    }
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $sql_webhooks );
+		dbDelta( $sql_logs );
+	}
 
-    /**
-     * Set default plugin options.
-     *
-     * @return void
-     */
-    private static function set_default_options(): void {
-        $defaults = [
-            'wwa_log_retention_days' => 30,
-            'wwa_max_log_entries'    => 1000,
-            'wwa_default_timeout'    => 30,
-            'wwa_enable_async'       => true,
-            'wwa_rate_limit'         => 100, // per minute
-        ];
+	/**
+	 * Set default plugin options.
+	 *
+	 * @return void
+	 */
+	private static function set_default_options(): void {
+		$defaults = [
+			'wwa_log_retention_days' => 30,
+			'wwa_max_log_entries'    => 1000,
+			'wwa_default_timeout'    => 30,
+			'wwa_enable_async'       => true,
+			'wwa_rate_limit'         => 100, // per minute
+		];
 
-        foreach ($defaults as $key => $value) {
-            if (get_option($key) === false) {
-                add_option($key, $value);
-            }
-        }
-    }
+		foreach ( $defaults as $key => $value ) {
+			if ( get_option( $key ) === false ) {
+				add_option( $key, $value );
+			}
+		}
+	}
 
-    /**
-     * Schedule cron events.
-     *
-     * @return void
-     */
-    private static function schedule_events(): void {
-        if (!wp_next_scheduled('wwa_cleanup_logs')) {
-            wp_schedule_event(time(), 'daily', 'wwa_cleanup_logs');
-        }
-    }
+	/**
+	 * Schedule cron events.
+	 *
+	 * @return void
+	 */
+	private static function schedule_events(): void {
+		if ( ! wp_next_scheduled( 'wwa_cleanup_logs' ) ) {
+			wp_schedule_event( time(), 'daily', 'wwa_cleanup_logs' );
+		}
+	}
 }

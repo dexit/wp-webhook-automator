@@ -34,11 +34,13 @@
     },
     "scripts": {
         "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
         "phpstan": "phpstan analyse src/ --level=5",
         "test": "phpunit",
         "test:unit": "phpunit --testsuite=unit",
         "test:integration": "phpunit --testsuite=integration",
-        "test:coverage": "phpunit --coverage-html coverage"
+        "test:coverage": "phpunit --coverage-html coverage",
+        "fix": "phpcbf"
     },
     "config": {
         "allow-plugins": {
