@@ -84,11 +84,11 @@ By default, webhooks will retry up to 3 times with a 60-second delay between att
 
 == Screenshots ==
 
-1. Dashboard overview showing webhook statistics
-2. Webhook list with status indicators
-3. Creating a new webhook with trigger selection
-4. Payload builder with merge tags
-5. Detailed log viewer
+1. Dashboard - Overview with webhook statistics, success rates, and available triggers
+2. Webhook List - All webhooks with status indicators, triggers, and quick actions
+3. Add New Webhook - Easy webhook configuration with trigger selection and endpoint URL
+4. Logs Viewer - Detailed delivery logs with filtering and status tracking
+5. Settings - Configure async delivery, timeouts, rate limits, and log retention
 
 == Changelog ==
 
