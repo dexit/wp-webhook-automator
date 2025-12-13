@@ -2,7 +2,7 @@
 /**
  * PHPUnit Bootstrap File
  *
- * Sets up the testing environment for WP Webhook Automator.
+ * Sets up the testing environment for Webhook Automator.
  */
 
 // Composer autoloader

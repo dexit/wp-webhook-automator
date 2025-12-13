@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       WP Webhook Automator
+ * Plugin Name:       Webhook Automator
  * Plugin URI:        https://github.com/developer/wp-webhook-automator
  * Description:       Connect WordPress events to external services via webhooks. A lightweight, developer-friendly automation tool.
  * Version:           1.0.0

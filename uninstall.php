@@ -1,6 +1,6 @@
 <?php
 /**
- * Uninstall WP Webhook Automator
+ * Uninstall Webhook Automator
  *
  * Removes all plugin data when uninstalled.
  *

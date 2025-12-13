@@ -354,7 +354,7 @@ class WebhooksController extends RestController {
 		$test_data = array(
 			'test'      => true,
 			'timestamp' => time(),
-			'message'   => __( 'This is a test webhook from WP Webhook Automator.', 'wp-webhook-automator' ),
+			'message'   => __( 'This is a test webhook from Webhook Automator.', 'wp-webhook-automator' ),
 			'post'      => array(
 				'id'       => 1,
 				'title'    => __( 'Test Post Title', 'wp-webhook-automator' ),

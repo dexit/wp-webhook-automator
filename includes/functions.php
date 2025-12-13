@@ -51,7 +51,7 @@ function wwa_log( string $message, array $context = [] ): void {
 		return;
 	}
 
-	$log_message = '[WP Webhook Automator] ' . $message;
+	$log_message = '[Webhook Automator] ' . $message;
 
 	if ( ! empty( $context ) ) {
 		$log_message .= ' | Context: ' . wp_json_encode( $context );

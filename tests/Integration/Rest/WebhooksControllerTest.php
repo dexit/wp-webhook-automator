@@ -372,7 +372,7 @@ class WebhooksControllerTest extends TestCase
         $testData = [
             'test' => true,
             'timestamp' => time(),
-            'message' => 'This is a test webhook from WP Webhook Automator.',
+            'message' => 'This is a test webhook from Webhook Automator.',
             'post' => [
                 'id' => 1,
                 'title' => 'Test Post Title',

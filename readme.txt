@@ -1,4 +1,4 @@
-=== WP Webhook Automator ===
+=== Webhook Automator ===
 Contributors: ghdj
 Tags: webhook, automation, zapier, integrations, api
 Requires at least: 6.0
@@ -12,7 +12,7 @@ Connect WordPress events to external services via webhooks. A lightweight, devel
 
 == Description ==
 
-WP Webhook Automator allows you to send data from your WordPress site to external services whenever specific events occur. Whether you want to notify Slack when a new post is published, sync user registrations with your CRM, or trigger workflows in Zapier, this plugin makes it easy.
+Webhook Automator allows you to send data from your WordPress site to external services whenever specific events occur. Whether you want to notify Slack when a new post is published, sync user registrations with your CRM, or trigger workflows in Zapier, this plugin makes it easy.
 
 = Key Features =
 
@@ -68,7 +68,7 @@ A webhook is an HTTP callback that sends data to a specified URL when an event o
 
 = Is this compatible with WooCommerce? =
 
-Yes! WP Webhook Automator includes triggers for WooCommerce orders and products. The WooCommerce triggers only appear if WooCommerce is installed and active.
+Yes! Webhook Automator includes triggers for WooCommerce orders and products. The WooCommerce triggers only appear if WooCommerce is installed and active.
 
 = Can I customize the data sent? =
 
@@ -103,4 +103,4 @@ By default, webhooks will retry up to 3 times with a 60-second delay between att
 == Upgrade Notice ==
 
 = 1.0.0 =
-Initial release of WP Webhook Automator.
+Initial release of Webhook Automator.
