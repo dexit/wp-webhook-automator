@@ -22,7 +22,7 @@ jobs:
           tools: composer, cs2pr
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer update --prefer-dist --no-progress
 
       - name: Run PHPCS
         run: composer phpcs -- --report=checkstyle | cs2pr
@@ -48,7 +48,7 @@ jobs:
           coverage: xdebug
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer update --prefer-dist --no-progress
 
       - name: Run PHPUnit
         run: composer test
@@ -67,7 +67,7 @@ jobs:
           php-version: '8.2'
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer update --prefer-dist --no-progress
 
       - name: Security audit
         run: composer audit
