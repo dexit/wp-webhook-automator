@@ -313,50 +313,39 @@ class WebhookForm {
 		$select_text = esc_js( __( 'Select a trigger to see available merge tags.', 'hookly-webhook-automator' ) );
 		$tags_json   = wp_json_encode( $merge_tags );
 
-		$inline_script = <<<JS
-(function($) {
-	$(function() {
-		var hooklyMergeTags = {$tags_json};
-		var selectText = '{$select_text}';
-
-		$('#trigger_type').on('change', function() {
-			var triggerType = $(this).val();
-			if (!triggerType) {
-				$('#hookly-merge-tags').html('<p class="hookly-text-muted">' + selectText + '</p>');
-				return;
-			}
-
-			var html = '<ul style="margin: 0; padding: 0; list-style: none; max-height: 300px; overflow-y: auto;">';
-
-			// Global tags
-			$.each(hooklyMergeTags.global, function(tag, label) {
-				html += '<li style="padding: 5px 0; border-bottom: 1px solid #eee; font-size: 12px;">';
-				html += '<code class="hookly-insert-tag" data-tag="' + tag + '" style="cursor: pointer;">{{' + tag + '}}</code>';
-				html += '<br><small class="hookly-text-muted">' + label + '</small>';
-				html += '</li>';
-			});
-
-			// Trigger-specific tags
-			if (hooklyMergeTags[triggerType]) {
-				$.each(hooklyMergeTags[triggerType], function(tag, label) {
-					html += '<li style="padding: 5px 0; border-bottom: 1px solid #eee; font-size: 12px;">';
-					html += '<code class="hookly-insert-tag" data-tag="' + tag + '" style="cursor: pointer;">{{' + tag + '}}</code>';
-					html += '<br><small class="hookly-text-muted">' + label + '</small>';
-					html += '</li>';
-				});
-			}
-
-			html += '</ul>';
-			$('#hookly-merge-tags').html(html);
-		});
-
-		// Trigger initial load
-		if ($('#trigger_type').val()) {
-			$('#trigger_type').trigger('change');
-		}
-	});
-})(jQuery);
-JS;
+		$inline_script = '(function($) {' .
+			'$(function() {' .
+				'var hooklyMergeTags = ' . $tags_json . ';' .
+				'var selectText = \'' . $select_text . '\';' .
+				'$(\'#trigger_type\').on(\'change\', function() {' .
+					'var triggerType = $(this).val();' .
+					'if (!triggerType) {' .
+						'$(\'#hookly-merge-tags\').html(\'<p class="hookly-text-muted">\' + selectText + \'</p>\');' .
+						'return;' .
+					'}' .
+					'var html = \'<ul style="margin: 0; padding: 0; list-style: none; max-height: 300px; overflow-y: auto;">\';' .
+					'$.each(hooklyMergeTags.global, function(tag, label) {' .
+						'html += \'<li style="padding: 5px 0; border-bottom: 1px solid #eee; font-size: 12px;">\';' .
+						'html += \'<code class="hookly-insert-tag" data-tag="\' + tag + \'" style="cursor: pointer;">{{\' + tag + \'}}</code>\';' .
+						'html += \'<br><small class="hookly-text-muted">\' + label + \'</small>\';' .
+						'html += \'</li>\';' .
+					'});' .
+					'if (hooklyMergeTags[triggerType]) {' .
+						'$.each(hooklyMergeTags[triggerType], function(tag, label) {' .
+							'html += \'<li style="padding: 5px 0; border-bottom: 1px solid #eee; font-size: 12px;">\';' .
+							'html += \'<code class="hookly-insert-tag" data-tag="\' + tag + \'" style="cursor: pointer;">{{\' + tag + \'}}</code>\';' .
+							'html += \'<br><small class="hookly-text-muted">\' + label + \'</small>\';' .
+							'html += \'</li>\';' .
+						'});' .
+					'}' .
+					'html += \'</ul>\';' .
+					'$(\'#hookly-merge-tags\').html(html);' .
+				'});' .
+				'if ($(\'#trigger_type\').val()) {' .
+					'$(\'#trigger_type\').trigger(\'change\');' .
+				'}' .
+			'});' .
+		'})(jQuery);';
 
 		wp_add_inline_script( 'hookly-admin', $inline_script );
 	}

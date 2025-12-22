@@ -19,7 +19,7 @@ $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}hookly_logs" );
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}hookly_webhooks" );
 
 // Delete options
-$options = [
+$hookly_options = array(
 	'hookly_version',
 	'hookly_db_version',
 	'hookly_log_retention_days',
@@ -27,10 +27,10 @@ $options = [
 	'hookly_default_timeout',
 	'hookly_enable_async',
 	'hookly_rate_limit',
-];
+);
 
-foreach ( $options as $option ) {
-	delete_option( $option );
+foreach ( $hookly_options as $hookly_option ) {
+	delete_option( $hookly_option );
 }
 
 // Clear any scheduled events
