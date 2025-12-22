@@ -45,8 +45,8 @@ class CommentSpamTrigger extends CommentCreatedTrigger {
 		return [
 			'post_types' => [
 				'type'        => 'multiselect',
-				'label'       => __( 'Post Types', 'webhook-automator' ),
-				'description' => __( 'Only trigger for comments on these post types.', 'webhook-automator' ),
+				'label'       => __( 'Post Types', 'hookly-webhook-automator' ),
+				'description' => __( 'Only trigger for comments on these post types.', 'hookly-webhook-automator' ),
 				'options'     => $this->getPostTypes(),
 				'default'     => [],
 			],

@@ -65,14 +65,14 @@ class WebhookForm {
 		if ( $webhookId ) {
 			$this->webhook = $this->repository->find( $webhookId );
 			if ( ! $this->webhook ) {
-				wp_die( esc_html__( 'Webhook not found.', 'webhook-automator' ) );
+				wp_die( esc_html__( 'Webhook not found.', 'hookly-webhook-automator' ) );
 			}
 		}
 
 		$isEdit    = $this->webhook !== null;
 		$pageTitle = $isEdit
-			? __( 'Edit Webhook', 'webhook-automator' )
-			: __( 'Add New Webhook', 'webhook-automator' );
+			? __( 'Edit Webhook', 'hookly-webhook-automator' )
+			: __( 'Add New Webhook', 'hookly-webhook-automator' );
 		?>
 		<div class="wrap wwa-wrap">
 			<div class="wwa-header">
@@ -92,24 +92,24 @@ class WebhookForm {
 						<!-- Basic Info -->
 						<div class="wwa-card">
 							<div class="wwa-card-header">
-								<h2><?php esc_html_e( 'Basic Information', 'webhook-automator' ); ?></h2>
+								<h2><?php esc_html_e( 'Basic Information', 'hookly-webhook-automator' ); ?></h2>
 							</div>
 							<div class="wwa-card-body">
 								<div class="wwa-form-row">
-									<label for="name"><?php esc_html_e( 'Name', 'webhook-automator' ); ?> <span class="required">*</span></label>
+									<label for="name"><?php esc_html_e( 'Name', 'hookly-webhook-automator' ); ?> <span class="required">*</span></label>
 									<input type="text" id="name" name="name" value="<?php echo esc_attr( $this->getValue( 'name' ) ); ?>" required>
-									<p class="description"><?php esc_html_e( 'A descriptive name for this webhook.', 'webhook-automator' ); ?></p>
+									<p class="description"><?php esc_html_e( 'A descriptive name for this webhook.', 'hookly-webhook-automator' ); ?></p>
 								</div>
 
 								<div class="wwa-form-row">
-									<label for="description"><?php esc_html_e( 'Description', 'webhook-automator' ); ?></label>
+									<label for="description"><?php esc_html_e( 'Description', 'hookly-webhook-automator' ); ?></label>
 									<textarea id="description" name="description" rows="3"><?php echo esc_textarea( $this->getValue( 'description' ) ); ?></textarea>
 								</div>
 
 								<div class="wwa-form-row">
-									<label for="trigger_type"><?php esc_html_e( 'Trigger', 'webhook-automator' ); ?> <span class="required">*</span></label>
+									<label for="trigger_type"><?php esc_html_e( 'Trigger', 'hookly-webhook-automator' ); ?> <span class="required">*</span></label>
 									<select id="trigger_type" name="trigger_type" required>
-										<option value=""><?php esc_html_e( 'Select a trigger...', 'webhook-automator' ); ?></option>
+										<option value=""><?php esc_html_e( 'Select a trigger...', 'hookly-webhook-automator' ); ?></option>
 										<?php foreach ( $this->triggerRegistry->getForSelect() as $category => $triggers ) : ?>
 											<optgroup label="<?php echo esc_attr( $category ); ?>">
 												<?php foreach ( $triggers as $key => $name ) : ?>
@@ -132,17 +132,17 @@ class WebhookForm {
 						<!-- Delivery -->
 						<div class="wwa-card" style="margin-top: 20px;">
 							<div class="wwa-card-header">
-								<h2><?php esc_html_e( 'Delivery', 'webhook-automator' ); ?></h2>
+								<h2><?php esc_html_e( 'Delivery', 'hookly-webhook-automator' ); ?></h2>
 							</div>
 							<div class="wwa-card-body">
 								<div class="wwa-form-row">
-									<label for="endpoint_url"><?php esc_html_e( 'Endpoint URL', 'webhook-automator' ); ?> <span class="required">*</span></label>
+									<label for="endpoint_url"><?php esc_html_e( 'Endpoint URL', 'hookly-webhook-automator' ); ?> <span class="required">*</span></label>
 									<input type="url" id="endpoint_url" name="endpoint_url" value="<?php echo esc_url( $this->getValue( 'endpoint_url' ) ); ?>" required placeholder="https://example.com/webhook">
-									<p class="description"><?php esc_html_e( 'The URL to send the webhook to.', 'webhook-automator' ); ?></p>
+									<p class="description"><?php esc_html_e( 'The URL to send the webhook to.', 'hookly-webhook-automator' ); ?></p>
 								</div>
 
 								<div class="wwa-form-row">
-									<label for="http_method"><?php esc_html_e( 'HTTP Method', 'webhook-automator' ); ?></label>
+									<label for="http_method"><?php esc_html_e( 'HTTP Method', 'hookly-webhook-automator' ); ?></label>
 									<select id="http_method" name="http_method">
 										<?php foreach ( wwa_get_http_methods() as $method => $label ) : ?>
 											<option value="<?php echo esc_attr( $method ); ?>" <?php selected( $this->getValue( 'http_method', 'POST' ), $method ); ?>>
@@ -153,7 +153,7 @@ class WebhookForm {
 								</div>
 
 								<div class="wwa-form-row">
-									<label><?php esc_html_e( 'Custom Headers', 'webhook-automator' ); ?></label>
+									<label><?php esc_html_e( 'Custom Headers', 'hookly-webhook-automator' ); ?></label>
 									<div class="wwa-headers-list">
 										<div class="wwa-headers-rows">
 											<?php
@@ -164,14 +164,14 @@ class WebhookForm {
 											foreach ( $headers as $key => $value ) :
 												?>
 												<div class="wwa-header-row">
-													<input type="text" name="headers[keys][]" value="<?php echo esc_attr( $key ); ?>" placeholder="<?php esc_attr_e( 'Header Name', 'webhook-automator' ); ?>">
-													<input type="text" name="headers[values][]" value="<?php echo esc_attr( $value ); ?>" placeholder="<?php esc_attr_e( 'Header Value', 'webhook-automator' ); ?>">
+													<input type="text" name="headers[keys][]" value="<?php echo esc_attr( $key ); ?>" placeholder="<?php esc_attr_e( 'Header Name', 'hookly-webhook-automator' ); ?>">
+													<input type="text" name="headers[values][]" value="<?php echo esc_attr( $value ); ?>" placeholder="<?php esc_attr_e( 'Header Value', 'hookly-webhook-automator' ); ?>">
 													<button type="button" class="button wwa-remove-header">&times;</button>
 												</div>
 											<?php endforeach; ?>
 										</div>
 										<button type="button" class="button wwa-add-header" style="margin-top: 10px;">
-											<?php esc_html_e( '+ Add Header', 'webhook-automator' ); ?>
+											<?php esc_html_e( '+ Add Header', 'hookly-webhook-automator' ); ?>
 										</button>
 									</div>
 								</div>
@@ -181,11 +181,11 @@ class WebhookForm {
 						<!-- Payload -->
 						<div class="wwa-card" style="margin-top: 20px;">
 							<div class="wwa-card-header">
-								<h2><?php esc_html_e( 'Payload', 'webhook-automator' ); ?></h2>
+								<h2><?php esc_html_e( 'Payload', 'hookly-webhook-automator' ); ?></h2>
 							</div>
 							<div class="wwa-card-body">
 								<div class="wwa-form-row">
-									<label for="payload_format"><?php esc_html_e( 'Format', 'webhook-automator' ); ?></label>
+									<label for="payload_format"><?php esc_html_e( 'Format', 'hookly-webhook-automator' ); ?></label>
 									<select id="payload_format" name="payload_format">
 										<?php foreach ( wwa_get_payload_formats() as $format => $label ) : ?>
 											<option value="<?php echo esc_attr( $format ); ?>" <?php selected( $this->getValue( 'payload_format', 'json' ), $format ); ?>>
@@ -196,7 +196,7 @@ class WebhookForm {
 								</div>
 
 								<div class="wwa-form-row">
-									<label for="payload_template"><?php esc_html_e( 'Custom Payload Template', 'webhook-automator' ); ?></label>
+									<label for="payload_template"><?php esc_html_e( 'Custom Payload Template', 'hookly-webhook-automator' ); ?></label>
 									<textarea id="payload_template" name="payload_template" rows="10" style="font-family: monospace;">
 									<?php
 										$template = $this->getValue( 'payload_template', [] );
@@ -206,7 +206,7 @@ class WebhookForm {
 									?>
 									</textarea>
 									<p class="description">
-										<?php esc_html_e( 'Leave empty to use the default payload. Use merge tags like {{post.title}} to include dynamic data.', 'webhook-automator' ); ?>
+										<?php esc_html_e( 'Leave empty to use the default payload. Use merge tags like {{post.title}} to include dynamic data.', 'hookly-webhook-automator' ); ?>
 									</p>
 								</div>
 							</div>
@@ -215,19 +215,19 @@ class WebhookForm {
 						<!-- Security -->
 						<div class="wwa-card" style="margin-top: 20px;">
 							<div class="wwa-card-header">
-								<h2><?php esc_html_e( 'Security', 'webhook-automator' ); ?></h2>
+								<h2><?php esc_html_e( 'Security', 'hookly-webhook-automator' ); ?></h2>
 							</div>
 							<div class="wwa-card-body">
 								<div class="wwa-form-row">
-									<label for="secret_key"><?php esc_html_e( 'Secret Key', 'webhook-automator' ); ?></label>
+									<label for="secret_key"><?php esc_html_e( 'Secret Key', 'hookly-webhook-automator' ); ?></label>
 									<div style="display: flex; gap: 10px;">
 										<input type="text" id="secret_key" name="secret_key" value="<?php echo esc_attr( $this->getValue( 'secret_key' ) ); ?>" style="flex: 1;">
 										<button type="button" class="button" onclick="document.getElementById('secret_key').value = '<?php echo esc_js( wwa_generate_secret_key() ); ?>';">
-											<?php esc_html_e( 'Generate', 'webhook-automator' ); ?>
+											<?php esc_html_e( 'Generate', 'hookly-webhook-automator' ); ?>
 										</button>
 									</div>
 									<p class="description">
-										<?php esc_html_e( 'Used to sign the webhook payload. The signature is sent in the X-Webhook-Signature header.', 'webhook-automator' ); ?>
+										<?php esc_html_e( 'Used to sign the webhook payload. The signature is sent in the X-Webhook-Signature header.', 'hookly-webhook-automator' ); ?>
 									</p>
 								</div>
 							</div>
@@ -236,19 +236,19 @@ class WebhookForm {
 						<!-- Retry Settings -->
 						<div class="wwa-card" style="margin-top: 20px;">
 							<div class="wwa-card-header">
-								<h2><?php esc_html_e( 'Retry Settings', 'webhook-automator' ); ?></h2>
+								<h2><?php esc_html_e( 'Retry Settings', 'hookly-webhook-automator' ); ?></h2>
 							</div>
 							<div class="wwa-card-body">
 								<div class="wwa-form-row">
-									<label for="retry_count"><?php esc_html_e( 'Retry Attempts', 'webhook-automator' ); ?></label>
+									<label for="retry_count"><?php esc_html_e( 'Retry Attempts', 'hookly-webhook-automator' ); ?></label>
 									<input type="number" id="retry_count" name="retry_count" min="0" max="10" value="<?php echo esc_attr( $this->getValue( 'retry_count', 3 ) ); ?>">
-									<p class="description"><?php esc_html_e( 'Number of retry attempts if the webhook fails.', 'webhook-automator' ); ?></p>
+									<p class="description"><?php esc_html_e( 'Number of retry attempts if the webhook fails.', 'hookly-webhook-automator' ); ?></p>
 								</div>
 
 								<div class="wwa-form-row">
-									<label for="retry_delay"><?php esc_html_e( 'Retry Delay (seconds)', 'webhook-automator' ); ?></label>
+									<label for="retry_delay"><?php esc_html_e( 'Retry Delay (seconds)', 'hookly-webhook-automator' ); ?></label>
 									<input type="number" id="retry_delay" name="retry_delay" min="10" max="3600" value="<?php echo esc_attr( $this->getValue( 'retry_delay', 60 ) ); ?>">
-									<p class="description"><?php esc_html_e( 'Seconds to wait between retry attempts.', 'webhook-automator' ); ?></p>
+									<p class="description"><?php esc_html_e( 'Seconds to wait between retry attempts.', 'hookly-webhook-automator' ); ?></p>
 								</div>
 							</div>
 						</div>
@@ -259,27 +259,27 @@ class WebhookForm {
 						<!-- Publish Box -->
 						<div class="wwa-card">
 							<div class="wwa-card-header">
-								<h2><?php esc_html_e( 'Publish', 'webhook-automator' ); ?></h2>
+								<h2><?php esc_html_e( 'Publish', 'hookly-webhook-automator' ); ?></h2>
 							</div>
 							<div class="wwa-card-body">
 								<div class="wwa-form-row">
 									<label style="display: flex; align-items: center; gap: 10px;">
 										<input type="checkbox" name="is_active" value="1" <?php checked( $this->getValue( 'is_active', true ) ); ?>>
-										<?php esc_html_e( 'Active', 'webhook-automator' ); ?>
+										<?php esc_html_e( 'Active', 'hookly-webhook-automator' ); ?>
 									</label>
-									<p class="description"><?php esc_html_e( 'Enable or disable this webhook.', 'webhook-automator' ); ?></p>
+									<p class="description"><?php esc_html_e( 'Enable or disable this webhook.', 'hookly-webhook-automator' ); ?></p>
 								</div>
 
 								<div style="margin-top: 20px;">
 									<button type="submit" class="button button-primary button-large" style="width: 100%;">
-										<?php echo $isEdit ? esc_html__( 'Update Webhook', 'webhook-automator' ) : esc_html__( 'Create Webhook', 'webhook-automator' ); ?>
+										<?php echo $isEdit ? esc_html__( 'Update Webhook', 'hookly-webhook-automator' ) : esc_html__( 'Create Webhook', 'hookly-webhook-automator' ); ?>
 									</button>
 								</div>
 
 								<?php if ( $isEdit ) : ?>
 									<div style="margin-top: 10px;">
 										<button type="button" class="button wwa-test-webhook" data-id="<?php echo esc_attr( $this->webhook->getId() ); ?>" style="width: 100%;">
-											<?php esc_html_e( 'Send Test Webhook', 'webhook-automator' ); ?>
+											<?php esc_html_e( 'Send Test Webhook', 'hookly-webhook-automator' ); ?>
 										</button>
 									</div>
 								<?php endif; ?>
@@ -289,10 +289,10 @@ class WebhookForm {
 						<!-- Available Tags -->
 						<div class="wwa-card" style="margin-top: 20px;">
 							<div class="wwa-card-header">
-								<h2><?php esc_html_e( 'Available Merge Tags', 'webhook-automator' ); ?></h2>
+								<h2><?php esc_html_e( 'Available Merge Tags', 'hookly-webhook-automator' ); ?></h2>
 							</div>
 							<div class="wwa-card-body" id="wwa-merge-tags">
-								<p class="wwa-text-muted"><?php esc_html_e( 'Select a trigger to see available merge tags.', 'webhook-automator' ); ?></p>
+								<p class="wwa-text-muted"><?php esc_html_e( 'Select a trigger to see available merge tags.', 'hookly-webhook-automator' ); ?></p>
 							</div>
 						</div>
 					</div>
@@ -306,7 +306,7 @@ class WebhookForm {
 			$('#trigger_type').on('change', function() {
 				var triggerType = $(this).val();
 				if (!triggerType) {
-					$('#wwa-merge-tags').html('<p class="wwa-text-muted"><?php echo esc_js( __( 'Select a trigger to see available merge tags.', 'webhook-automator' ) ); ?></p>');
+					$('#wwa-merge-tags').html('<p class="wwa-text-muted"><?php echo esc_js( __( 'Select a trigger to see available merge tags.', 'hookly-webhook-automator' ) ); ?></p>');
 					return;
 				}
 
@@ -446,13 +446,13 @@ class WebhookForm {
 	private function getAllMergeTags(): array {
 		$tags = [
 			'global' => [
-				'site.name'        => __( 'Site name', 'webhook-automator' ),
-				'site.url'         => __( 'Site URL', 'webhook-automator' ),
-				'site.admin_email' => __( 'Admin email', 'webhook-automator' ),
-				'timestamp'        => __( 'Unix timestamp', 'webhook-automator' ),
-				'timestamp_iso'    => __( 'ISO 8601 timestamp', 'webhook-automator' ),
-				'webhook.name'     => __( 'Webhook name', 'webhook-automator' ),
-				'webhook.id'       => __( 'Webhook ID', 'webhook-automator' ),
+				'site.name'        => __( 'Site name', 'hookly-webhook-automator' ),
+				'site.url'         => __( 'Site URL', 'hookly-webhook-automator' ),
+				'site.admin_email' => __( 'Admin email', 'hookly-webhook-automator' ),
+				'timestamp'        => __( 'Unix timestamp', 'hookly-webhook-automator' ),
+				'timestamp_iso'    => __( 'ISO 8601 timestamp', 'hookly-webhook-automator' ),
+				'webhook.name'     => __( 'Webhook name', 'hookly-webhook-automator' ),
+				'webhook.id'       => __( 'Webhook ID', 'hookly-webhook-automator' ),
 			],
 		];
 
@@ -474,7 +474,7 @@ class WebhookForm {
 		if ( empty( $data['name'] ) || empty( $data['trigger_type'] ) || empty( $data['endpoint_url'] ) ) {
 			return [
 				'success' => false,
-				'message' => __( 'Please fill in all required fields.', 'webhook-automator' ),
+				'message' => __( 'Please fill in all required fields.', 'hookly-webhook-automator' ),
 			];
 		}
 
@@ -482,7 +482,7 @@ class WebhookForm {
 		if ( ! filter_var( $data['endpoint_url'], FILTER_VALIDATE_URL ) ) {
 			return [
 				'success' => false,
-				'message' => __( 'Please enter a valid URL.', 'webhook-automator' ),
+				'message' => __( 'Please enter a valid URL.', 'hookly-webhook-automator' ),
 			];
 		}
 
@@ -536,15 +536,15 @@ class WebhookForm {
 			return [
 				'success'    => true,
 				'message'    => $webhookId
-					? __( 'Webhook updated successfully.', 'webhook-automator' )
-					: __( 'Webhook created successfully.', 'webhook-automator' ),
+					? __( 'Webhook updated successfully.', 'hookly-webhook-automator' )
+					: __( 'Webhook created successfully.', 'hookly-webhook-automator' ),
 				'webhook_id' => $savedId,
 			];
 		}
 
 		return [
 			'success' => false,
-			'message' => __( 'Failed to save webhook.', 'webhook-automator' ),
+			'message' => __( 'Failed to save webhook.', 'hookly-webhook-automator' ),
 		];
 	}
 }

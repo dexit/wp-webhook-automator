@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="WP Webhook Automator">
-    <description>Coding standards for WP Webhook Automator</description>
+<ruleset name="Hookly Webhook Automator">
+    <description>Coding standards for Hookly - Webhook Automator</description>
 
     <!-- What to scan -->
     <file>./src</file>
@@ -56,7 +56,7 @@
     <rule ref="WordPress.WP.I18n">
         <properties>
             <property name="text_domain" type="array">
-                <element value="wp-webhook-automator"/>
+                <element value="hookly-webhook-automator"/>
             </property>
         </properties>
     </rule>

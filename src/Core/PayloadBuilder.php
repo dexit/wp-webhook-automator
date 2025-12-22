@@ -165,13 +165,13 @@ class PayloadBuilder {
 	 */
 	public function getAvailableTags( string $triggerType ): array {
 		$global = [
-			'site.name'        => __( 'Site name', 'webhook-automator' ),
-			'site.url'         => __( 'Site URL', 'webhook-automator' ),
-			'site.admin_email' => __( 'Admin email', 'webhook-automator' ),
-			'timestamp'        => __( 'Unix timestamp', 'webhook-automator' ),
-			'timestamp_iso'    => __( 'ISO 8601 timestamp', 'webhook-automator' ),
-			'webhook.name'     => __( 'Webhook name', 'webhook-automator' ),
-			'webhook.id'       => __( 'Webhook ID', 'webhook-automator' ),
+			'site.name'        => __( 'Site name', 'hookly-webhook-automator' ),
+			'site.url'         => __( 'Site URL', 'hookly-webhook-automator' ),
+			'site.admin_email' => __( 'Admin email', 'hookly-webhook-automator' ),
+			'timestamp'        => __( 'Unix timestamp', 'hookly-webhook-automator' ),
+			'timestamp_iso'    => __( 'ISO 8601 timestamp', 'hookly-webhook-automator' ),
+			'webhook.name'     => __( 'Webhook name', 'hookly-webhook-automator' ),
+			'webhook.id'       => __( 'Webhook ID', 'hookly-webhook-automator' ),
 		];
 
 		$triggerTags = match ( true ) {
@@ -194,22 +194,22 @@ class PayloadBuilder {
 	 */
 	private function getPostTags(): array {
 		return [
-			'post.id'             => __( 'Post ID', 'webhook-automator' ),
-			'post.title'          => __( 'Post title', 'webhook-automator' ),
-			'post.content'        => __( 'Post content', 'webhook-automator' ),
-			'post.excerpt'        => __( 'Post excerpt', 'webhook-automator' ),
-			'post.status'         => __( 'Post status', 'webhook-automator' ),
-			'post.type'           => __( 'Post type', 'webhook-automator' ),
-			'post.slug'           => __( 'Post slug', 'webhook-automator' ),
-			'post.url'            => __( 'Post URL', 'webhook-automator' ),
-			'post.author.id'      => __( 'Author ID', 'webhook-automator' ),
-			'post.author.name'    => __( 'Author name', 'webhook-automator' ),
-			'post.author.email'   => __( 'Author email', 'webhook-automator' ),
-			'post.date'           => __( 'Publish date', 'webhook-automator' ),
-			'post.modified'       => __( 'Modified date', 'webhook-automator' ),
-			'post.categories'     => __( 'Categories (comma-separated)', 'webhook-automator' ),
-			'post.tags'           => __( 'Tags (comma-separated)', 'webhook-automator' ),
-			'post.featured_image' => __( 'Featured image URL', 'webhook-automator' ),
+			'post.id'             => __( 'Post ID', 'hookly-webhook-automator' ),
+			'post.title'          => __( 'Post title', 'hookly-webhook-automator' ),
+			'post.content'        => __( 'Post content', 'hookly-webhook-automator' ),
+			'post.excerpt'        => __( 'Post excerpt', 'hookly-webhook-automator' ),
+			'post.status'         => __( 'Post status', 'hookly-webhook-automator' ),
+			'post.type'           => __( 'Post type', 'hookly-webhook-automator' ),
+			'post.slug'           => __( 'Post slug', 'hookly-webhook-automator' ),
+			'post.url'            => __( 'Post URL', 'hookly-webhook-automator' ),
+			'post.author.id'      => __( 'Author ID', 'hookly-webhook-automator' ),
+			'post.author.name'    => __( 'Author name', 'hookly-webhook-automator' ),
+			'post.author.email'   => __( 'Author email', 'hookly-webhook-automator' ),
+			'post.date'           => __( 'Publish date', 'hookly-webhook-automator' ),
+			'post.modified'       => __( 'Modified date', 'hookly-webhook-automator' ),
+			'post.categories'     => __( 'Categories (comma-separated)', 'hookly-webhook-automator' ),
+			'post.tags'           => __( 'Tags (comma-separated)', 'hookly-webhook-automator' ),
+			'post.featured_image' => __( 'Featured image URL', 'hookly-webhook-automator' ),
 		];
 	}
 
@@ -220,15 +220,15 @@ class PayloadBuilder {
 	 */
 	private function getUserTags(): array {
 		return [
-			'user.id'           => __( 'User ID', 'webhook-automator' ),
-			'user.login'        => __( 'Username', 'webhook-automator' ),
-			'user.email'        => __( 'Email', 'webhook-automator' ),
-			'user.first_name'   => __( 'First name', 'webhook-automator' ),
-			'user.last_name'    => __( 'Last name', 'webhook-automator' ),
-			'user.display_name' => __( 'Display name', 'webhook-automator' ),
-			'user.role'         => __( 'User role', 'webhook-automator' ),
-			'user.registered'   => __( 'Registration date', 'webhook-automator' ),
-			'user.url'          => __( 'User URL', 'webhook-automator' ),
+			'user.id'           => __( 'User ID', 'hookly-webhook-automator' ),
+			'user.login'        => __( 'Username', 'hookly-webhook-automator' ),
+			'user.email'        => __( 'Email', 'hookly-webhook-automator' ),
+			'user.first_name'   => __( 'First name', 'hookly-webhook-automator' ),
+			'user.last_name'    => __( 'Last name', 'hookly-webhook-automator' ),
+			'user.display_name' => __( 'Display name', 'hookly-webhook-automator' ),
+			'user.role'         => __( 'User role', 'hookly-webhook-automator' ),
+			'user.registered'   => __( 'Registration date', 'hookly-webhook-automator' ),
+			'user.url'          => __( 'User URL', 'hookly-webhook-automator' ),
 		];
 	}
 
@@ -239,15 +239,15 @@ class PayloadBuilder {
 	 */
 	private function getCommentTags(): array {
 		return [
-			'comment.id'           => __( 'Comment ID', 'webhook-automator' ),
-			'comment.content'      => __( 'Comment content', 'webhook-automator' ),
-			'comment.author_name'  => __( 'Author name', 'webhook-automator' ),
-			'comment.author_email' => __( 'Author email', 'webhook-automator' ),
-			'comment.author_url'   => __( 'Author URL', 'webhook-automator' ),
-			'comment.date'         => __( 'Comment date', 'webhook-automator' ),
-			'comment.status'       => __( 'Comment status', 'webhook-automator' ),
-			'comment.post.id'      => __( 'Related post ID', 'webhook-automator' ),
-			'comment.post.title'   => __( 'Related post title', 'webhook-automator' ),
+			'comment.id'           => __( 'Comment ID', 'hookly-webhook-automator' ),
+			'comment.content'      => __( 'Comment content', 'hookly-webhook-automator' ),
+			'comment.author_name'  => __( 'Author name', 'hookly-webhook-automator' ),
+			'comment.author_email' => __( 'Author email', 'hookly-webhook-automator' ),
+			'comment.author_url'   => __( 'Author URL', 'hookly-webhook-automator' ),
+			'comment.date'         => __( 'Comment date', 'hookly-webhook-automator' ),
+			'comment.status'       => __( 'Comment status', 'hookly-webhook-automator' ),
+			'comment.post.id'      => __( 'Related post ID', 'hookly-webhook-automator' ),
+			'comment.post.title'   => __( 'Related post title', 'hookly-webhook-automator' ),
 		];
 	}
 
@@ -258,27 +258,27 @@ class PayloadBuilder {
 	 */
 	private function getWooOrderTags(): array {
 		return [
-			'order.id'                  => __( 'Order ID', 'webhook-automator' ),
-			'order.number'              => __( 'Order number', 'webhook-automator' ),
-			'order.status'              => __( 'Order status', 'webhook-automator' ),
-			'order.total'               => __( 'Order total', 'webhook-automator' ),
-			'order.subtotal'            => __( 'Subtotal', 'webhook-automator' ),
-			'order.tax'                 => __( 'Tax amount', 'webhook-automator' ),
-			'order.shipping'            => __( 'Shipping cost', 'webhook-automator' ),
-			'order.discount'            => __( 'Discount amount', 'webhook-automator' ),
-			'order.currency'            => __( 'Currency', 'webhook-automator' ),
-			'order.payment_method'      => __( 'Payment method', 'webhook-automator' ),
-			'order.billing.first_name'  => __( 'Billing first name', 'webhook-automator' ),
-			'order.billing.last_name'   => __( 'Billing last name', 'webhook-automator' ),
-			'order.billing.email'       => __( 'Billing email', 'webhook-automator' ),
-			'order.billing.phone'       => __( 'Billing phone', 'webhook-automator' ),
-			'order.billing.address_1'   => __( 'Billing address', 'webhook-automator' ),
-			'order.billing.city'        => __( 'Billing city', 'webhook-automator' ),
-			'order.billing.country'     => __( 'Billing country', 'webhook-automator' ),
-			'order.shipping.first_name' => __( 'Shipping first name', 'webhook-automator' ),
-			'order.shipping.last_name'  => __( 'Shipping last name', 'webhook-automator' ),
-			'order.items'               => __( 'Order items (JSON)', 'webhook-automator' ),
-			'order.date_created'        => __( 'Order date', 'webhook-automator' ),
+			'order.id'                  => __( 'Order ID', 'hookly-webhook-automator' ),
+			'order.number'              => __( 'Order number', 'hookly-webhook-automator' ),
+			'order.status'              => __( 'Order status', 'hookly-webhook-automator' ),
+			'order.total'               => __( 'Order total', 'hookly-webhook-automator' ),
+			'order.subtotal'            => __( 'Subtotal', 'hookly-webhook-automator' ),
+			'order.tax'                 => __( 'Tax amount', 'hookly-webhook-automator' ),
+			'order.shipping'            => __( 'Shipping cost', 'hookly-webhook-automator' ),
+			'order.discount'            => __( 'Discount amount', 'hookly-webhook-automator' ),
+			'order.currency'            => __( 'Currency', 'hookly-webhook-automator' ),
+			'order.payment_method'      => __( 'Payment method', 'hookly-webhook-automator' ),
+			'order.billing.first_name'  => __( 'Billing first name', 'hookly-webhook-automator' ),
+			'order.billing.last_name'   => __( 'Billing last name', 'hookly-webhook-automator' ),
+			'order.billing.email'       => __( 'Billing email', 'hookly-webhook-automator' ),
+			'order.billing.phone'       => __( 'Billing phone', 'hookly-webhook-automator' ),
+			'order.billing.address_1'   => __( 'Billing address', 'hookly-webhook-automator' ),
+			'order.billing.city'        => __( 'Billing city', 'hookly-webhook-automator' ),
+			'order.billing.country'     => __( 'Billing country', 'hookly-webhook-automator' ),
+			'order.shipping.first_name' => __( 'Shipping first name', 'hookly-webhook-automator' ),
+			'order.shipping.last_name'  => __( 'Shipping last name', 'hookly-webhook-automator' ),
+			'order.items'               => __( 'Order items (JSON)', 'hookly-webhook-automator' ),
+			'order.date_created'        => __( 'Order date', 'hookly-webhook-automator' ),
 		];
 	}
 
@@ -289,16 +289,16 @@ class PayloadBuilder {
 	 */
 	private function getWooProductTags(): array {
 		return [
-			'product.id'             => __( 'Product ID', 'webhook-automator' ),
-			'product.name'           => __( 'Product name', 'webhook-automator' ),
-			'product.sku'            => __( 'SKU', 'webhook-automator' ),
-			'product.price'          => __( 'Price', 'webhook-automator' ),
-			'product.regular_price'  => __( 'Regular price', 'webhook-automator' ),
-			'product.sale_price'     => __( 'Sale price', 'webhook-automator' ),
-			'product.stock_quantity' => __( 'Stock quantity', 'webhook-automator' ),
-			'product.stock_status'   => __( 'Stock status', 'webhook-automator' ),
-			'product.url'            => __( 'Product URL', 'webhook-automator' ),
-			'product.type'           => __( 'Product type', 'webhook-automator' ),
+			'product.id'             => __( 'Product ID', 'hookly-webhook-automator' ),
+			'product.name'           => __( 'Product name', 'hookly-webhook-automator' ),
+			'product.sku'            => __( 'SKU', 'hookly-webhook-automator' ),
+			'product.price'          => __( 'Price', 'hookly-webhook-automator' ),
+			'product.regular_price'  => __( 'Regular price', 'hookly-webhook-automator' ),
+			'product.sale_price'     => __( 'Sale price', 'hookly-webhook-automator' ),
+			'product.stock_quantity' => __( 'Stock quantity', 'hookly-webhook-automator' ),
+			'product.stock_status'   => __( 'Stock status', 'hookly-webhook-automator' ),
+			'product.url'            => __( 'Product URL', 'hookly-webhook-automator' ),
+			'product.type'           => __( 'Product type', 'hookly-webhook-automator' ),
 		];
 	}
 
@@ -309,10 +309,10 @@ class PayloadBuilder {
 	 */
 	private function getFormTags(): array {
 		return [
-			'form.id'           => __( 'Form ID', 'webhook-automator' ),
-			'form.name'         => __( 'Form name', 'webhook-automator' ),
-			'form.fields'       => __( 'All fields (JSON)', 'webhook-automator' ),
-			'form.submitted_at' => __( 'Submission time', 'webhook-automator' ),
+			'form.id'           => __( 'Form ID', 'hookly-webhook-automator' ),
+			'form.name'         => __( 'Form name', 'hookly-webhook-automator' ),
+			'form.fields'       => __( 'All fields (JSON)', 'hookly-webhook-automator' ),
+			'form.submitted_at' => __( 'Submission time', 'hookly-webhook-automator' ),
 		];
 	}
 

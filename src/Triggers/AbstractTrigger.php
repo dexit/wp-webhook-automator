@@ -188,10 +188,10 @@ abstract class AbstractTrigger implements TriggerInterface {
 	 */
 	protected function getCommentStatuses(): array {
 		return [
-			'approved' => __( 'Approved', 'webhook-automator' ),
-			'pending'  => __( 'Pending', 'webhook-automator' ),
-			'spam'     => __( 'Spam', 'webhook-automator' ),
-			'trash'    => __( 'Trash', 'webhook-automator' ),
+			'approved' => __( 'Approved', 'hookly-webhook-automator' ),
+			'pending'  => __( 'Pending', 'hookly-webhook-automator' ),
+			'spam'     => __( 'Spam', 'hookly-webhook-automator' ),
+			'trash'    => __( 'Trash', 'hookly-webhook-automator' ),
 		];
 	}
 

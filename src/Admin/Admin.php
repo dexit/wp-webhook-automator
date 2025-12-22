@@ -34,8 +34,8 @@ class Admin {
 	public function addMenuPages(): void {
 		// Main menu
 		add_menu_page(
-			__( 'Webhook Automator', 'webhook-automator' ),
-			__( 'Webhooks', 'webhook-automator' ),
+			__( 'Webhook Automator', 'hookly-webhook-automator' ),
+			__( 'Webhooks', 'hookly-webhook-automator' ),
 			'manage_options',
 			self::MENU_SLUG,
 			[ $this, 'renderDashboard' ],
@@ -46,8 +46,8 @@ class Admin {
 		// Dashboard submenu (same as main)
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Dashboard', 'webhook-automator' ),
-			__( 'Dashboard', 'webhook-automator' ),
+			__( 'Dashboard', 'hookly-webhook-automator' ),
+			__( 'Dashboard', 'hookly-webhook-automator' ),
 			'manage_options',
 			self::MENU_SLUG,
 			[ $this, 'renderDashboard' ]
@@ -56,8 +56,8 @@ class Admin {
 		// All Webhooks
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'All Webhooks', 'webhook-automator' ),
-			__( 'All Webhooks', 'webhook-automator' ),
+			__( 'All Webhooks', 'hookly-webhook-automator' ),
+			__( 'All Webhooks', 'hookly-webhook-automator' ),
 			'manage_options',
 			'wwa-webhooks-list',
 			[ $this, 'renderWebhooksList' ]
@@ -66,8 +66,8 @@ class Admin {
 		// Add New
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Add New', 'webhook-automator' ),
-			__( 'Add New', 'webhook-automator' ),
+			__( 'Add New', 'hookly-webhook-automator' ),
+			__( 'Add New', 'hookly-webhook-automator' ),
 			'manage_options',
 			'wwa-webhook-new',
 			[ $this, 'renderWebhookForm' ]
@@ -76,8 +76,8 @@ class Admin {
 		// Logs
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Logs', 'webhook-automator' ),
-			__( 'Logs', 'webhook-automator' ),
+			__( 'Logs', 'hookly-webhook-automator' ),
+			__( 'Logs', 'hookly-webhook-automator' ),
 			'manage_options',
 			'wwa-logs',
 			[ $this, 'renderLogs' ]
@@ -86,8 +86,8 @@ class Admin {
 		// Settings
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Settings', 'webhook-automator' ),
-			__( 'Settings', 'webhook-automator' ),
+			__( 'Settings', 'hookly-webhook-automator' ),
+			__( 'Settings', 'hookly-webhook-automator' ),
 			'manage_options',
 			'wwa-settings',
 			[ $this, 'renderSettings' ]
@@ -96,8 +96,8 @@ class Admin {
 		// Hidden edit page
 		add_submenu_page(
 			null,
-			__( 'Edit Webhook', 'webhook-automator' ),
-			__( 'Edit Webhook', 'webhook-automator' ),
+			__( 'Edit Webhook', 'hookly-webhook-automator' ),
+			__( 'Edit Webhook', 'hookly-webhook-automator' ),
 			'manage_options',
 			'wwa-webhook-edit',
 			[ $this, 'renderWebhookForm' ]
@@ -143,11 +143,11 @@ class Admin {
 				'nonce'     => wp_create_nonce( 'wwa_admin' ),
 				'restNonce' => wp_create_nonce( 'wp_rest' ),
 				'strings'   => [
-					'confirmDelete'    => __( 'Are you sure you want to delete this webhook? This action cannot be undone.', 'webhook-automator' ),
-					'confirmClearLogs' => __( 'Are you sure you want to clear all logs? This action cannot be undone.', 'webhook-automator' ),
-					'testSent'         => __( 'Test webhook sent! Check the logs for results.', 'webhook-automator' ),
-					'testFailed'       => __( 'Failed to send test webhook.', 'webhook-automator' ),
-					'copied'           => __( 'Copied to clipboard!', 'webhook-automator' ),
+					'confirmDelete'    => __( 'Are you sure you want to delete this webhook? This action cannot be undone.', 'hookly-webhook-automator' ),
+					'confirmClearLogs' => __( 'Are you sure you want to clear all logs? This action cannot be undone.', 'hookly-webhook-automator' ),
+					'testSent'         => __( 'Test webhook sent! Check the logs for results.', 'hookly-webhook-automator' ),
+					'testFailed'       => __( 'Failed to send test webhook.', 'hookly-webhook-automator' ),
+					'copied'           => __( 'Copied to clipboard!', 'hookly-webhook-automator' ),
 				],
 			]
 		);
@@ -244,15 +244,15 @@ class Admin {
 		$webhookId = isset( $_POST['webhook_id'] ) ? (int) $_POST['webhook_id'] : 0;
 
 		if ( ! $webhookId ) {
-			$this->addNotice( 'error', __( 'Invalid webhook ID.', 'webhook-automator' ) );
+			$this->addNotice( 'error', __( 'Invalid webhook ID.', 'hookly-webhook-automator' ) );
 			return;
 		}
 
 		$repository = new \WWA\Core\WebhookRepository();
 		if ( $repository->delete( $webhookId ) ) {
-			$this->addNotice( 'success', __( 'Webhook deleted successfully.', 'webhook-automator' ) );
+			$this->addNotice( 'success', __( 'Webhook deleted successfully.', 'hookly-webhook-automator' ) );
 		} else {
-			$this->addNotice( 'error', __( 'Failed to delete webhook.', 'webhook-automator' ) );
+			$this->addNotice( 'error', __( 'Failed to delete webhook.', 'hookly-webhook-automator' ) );
 		}
 
 		wp_safe_redirect( admin_url( 'admin.php?page=wwa-webhooks-list' ) );
@@ -288,7 +288,7 @@ class Admin {
 		$logger = new \WWA\Core\Logger();
 		$logger->clearAll();
 
-		$this->addNotice( 'success', __( 'All logs have been cleared.', 'webhook-automator' ) );
+		$this->addNotice( 'success', __( 'All logs have been cleared.', 'hookly-webhook-automator' ) );
 		wp_safe_redirect( admin_url( 'admin.php?page=wwa-logs' ) );
 		exit;
 	}
