@@ -1,4 +1,4 @@
-# Contributing to WP Webhook Automator
+# Contributing to Hookly - Webhook Automator
 
 Thank you for considering contributing!
 

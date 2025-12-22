@@ -1,16 +1,16 @@
 <?php
 /**
- * Plugin Name:       Webhook Automator
- * Plugin URI:        https://github.com/developer/wp-webhook-automator
+ * Plugin Name:       Hookly - Webhook Automator
+ * Plugin URI:        https://github.com/GhDj/wp-webhook-automator
  * Description:       Connect WordPress events to external services via webhooks. A lightweight, developer-friendly automation tool.
  * Version:           1.0.0
  * Requires at least: 6.0
  * Requires PHP:      8.0
- * Author:            Developer
- * Author URI:        https://developer.com
+ * Author:            Jalel Ghabri
+ * Author URI:        https://github.com/GhDj
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       webhook-automator
+ * Text Domain:       hookly-webhook-automator
  */
 
 // Prevent direct access

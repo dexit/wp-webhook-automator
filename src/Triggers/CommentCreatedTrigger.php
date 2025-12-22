@@ -59,15 +59,15 @@ class CommentCreatedTrigger extends AbstractTrigger {
 		return [
 			'post_types' => [
 				'type'        => 'multiselect',
-				'label'       => __( 'Post Types', 'webhook-automator' ),
-				'description' => __( 'Only trigger for comments on these post types.', 'webhook-automator' ),
+				'label'       => __( 'Post Types', 'hookly-webhook-automator' ),
+				'description' => __( 'Only trigger for comments on these post types.', 'hookly-webhook-automator' ),
 				'options'     => $this->getPostTypes(),
 				'default'     => [],
 			],
 			'statuses'   => [
 				'type'        => 'multiselect',
-				'label'       => __( 'Comment Status', 'webhook-automator' ),
-				'description' => __( 'Only trigger for comments with these statuses.', 'webhook-automator' ),
+				'label'       => __( 'Comment Status', 'hookly-webhook-automator' ),
+				'description' => __( 'Only trigger for comments with these statuses.', 'hookly-webhook-automator' ),
 				'options'     => $this->getCommentStatuses(),
 				'default'     => [],
 			],

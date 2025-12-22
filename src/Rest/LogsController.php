@@ -66,7 +66,7 @@ class LogsController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the log entry.', 'webhook-automator' ),
+						'description' => __( 'Unique identifier for the log entry.', 'hookly-webhook-automator' ),
 						'type'        => 'integer',
 						'required'    => true,
 					),
@@ -84,7 +84,7 @@ class LogsController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the log entry.', 'webhook-automator' ),
+						'description' => __( 'Unique identifier for the log entry.', 'hookly-webhook-automator' ),
 						'type'        => 'integer',
 						'required'    => true,
 					),
@@ -102,7 +102,7 @@ class LogsController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the log entry.', 'webhook-automator' ),
+						'description' => __( 'Unique identifier for the log entry.', 'hookly-webhook-automator' ),
 						'type'        => 'integer',
 						'required'    => true,
 					),
@@ -120,11 +120,11 @@ class LogsController extends RestController {
 				'permission_callback' => array( $this, 'admin_permissions_check' ),
 				'args'                => array(
 					'webhook_id' => array(
-						'description' => __( 'Filter by webhook ID.', 'webhook-automator' ),
+						'description' => __( 'Filter by webhook ID.', 'hookly-webhook-automator' ),
 						'type'        => 'integer',
 					),
 					'days'       => array(
-						'description' => __( 'Delete logs older than X days.', 'webhook-automator' ),
+						'description' => __( 'Delete logs older than X days.', 'hookly-webhook-automator' ),
 						'type'        => 'integer',
 						'minimum'     => 1,
 					),
@@ -204,7 +204,7 @@ class LogsController extends RestController {
 		$log = $this->logger->getLog( $id );
 
 		if ( ! $log ) {
-			return $this->error( 'log_not_found', __( 'Log entry not found.', 'webhook-automator' ), 404 );
+			return $this->error( 'log_not_found', __( 'Log entry not found.', 'hookly-webhook-automator' ), 404 );
 		}
 
 		return $this->success( $this->prepare_log_for_response( $log, true ) );
@@ -221,12 +221,12 @@ class LogsController extends RestController {
 		$log = $this->logger->getLog( $id );
 
 		if ( ! $log ) {
-			return $this->error( 'log_not_found', __( 'Log entry not found.', 'webhook-automator' ), 404 );
+			return $this->error( 'log_not_found', __( 'Log entry not found.', 'hookly-webhook-automator' ), 404 );
 		}
 
 		$this->logger->deleteLog( $id );
 
-		return $this->success( null, __( 'Log entry deleted successfully.', 'webhook-automator' ) );
+		return $this->success( null, __( 'Log entry deleted successfully.', 'hookly-webhook-automator' ) );
 	}
 
 	/**
@@ -240,13 +240,13 @@ class LogsController extends RestController {
 		$log = $this->logger->getLog( $id );
 
 		if ( ! $log ) {
-			return $this->error( 'log_not_found', __( 'Log entry not found.', 'webhook-automator' ), 404 );
+			return $this->error( 'log_not_found', __( 'Log entry not found.', 'hookly-webhook-automator' ), 404 );
 		}
 
 		if ( $log['status'] === 'success' ) {
 			return $this->error(
 				'already_successful',
-				__( 'Cannot retry a successful webhook delivery.', 'webhook-automator' ),
+				__( 'Cannot retry a successful webhook delivery.', 'hookly-webhook-automator' ),
 				400
 			);
 		}
@@ -260,13 +260,13 @@ class LogsController extends RestController {
 		if ( $success ) {
 			return $this->success(
 				$this->prepare_log_for_response( $log ),
-				__( 'Webhook retry successful.', 'webhook-automator' )
+				__( 'Webhook retry successful.', 'hookly-webhook-automator' )
 			);
 		}
 
 		return $this->success(
 			$this->prepare_log_for_response( $log ),
-			__( 'Webhook retry failed. See log for details.', 'webhook-automator' )
+			__( 'Webhook retry failed. See log for details.', 'hookly-webhook-automator' )
 		);
 	}
 
@@ -286,7 +286,7 @@ class LogsController extends RestController {
 			return $this->success(
 				array( 'deleted' => $deleted ),
 				/* translators: %d: number of deleted logs */
-				sprintf( __( 'Deleted %d log entries for webhook.', 'webhook-automator' ), $deleted )
+				sprintf( __( 'Deleted %d log entries for webhook.', 'hookly-webhook-automator' ), $deleted )
 			);
 		}
 
@@ -296,14 +296,14 @@ class LogsController extends RestController {
 			return $this->success(
 				array( 'deleted' => $deleted ),
 				/* translators: %d: number of deleted logs */
-				sprintf( __( 'Deleted %d old log entries.', 'webhook-automator' ), $deleted )
+				sprintf( __( 'Deleted %d old log entries.', 'hookly-webhook-automator' ), $deleted )
 			);
 		}
 
 		// Clear all logs.
 		$this->logger->clearAll();
 
-		return $this->success( null, __( 'All logs cleared successfully.', 'webhook-automator' ) );
+		return $this->success( null, __( 'All logs cleared successfully.', 'hookly-webhook-automator' ) );
 	}
 
 	/**
@@ -360,14 +360,14 @@ class LogsController extends RestController {
 	public function get_collection_params(): array {
 		return array(
 			'page'         => array(
-				'description'       => __( 'Current page of the collection.', 'webhook-automator' ),
+				'description'       => __( 'Current page of the collection.', 'hookly-webhook-automator' ),
 				'type'              => 'integer',
 				'default'           => 1,
 				'minimum'           => 1,
 				'sanitize_callback' => 'absint',
 			),
 			'per_page'     => array(
-				'description'       => __( 'Maximum number of items to return.', 'webhook-automator' ),
+				'description'       => __( 'Maximum number of items to return.', 'hookly-webhook-automator' ),
 				'type'              => 'integer',
 				'default'           => 20,
 				'minimum'           => 1,
@@ -375,27 +375,27 @@ class LogsController extends RestController {
 				'sanitize_callback' => 'absint',
 			),
 			'webhook_id'   => array(
-				'description'       => __( 'Filter by webhook ID.', 'webhook-automator' ),
+				'description'       => __( 'Filter by webhook ID.', 'hookly-webhook-automator' ),
 				'type'              => 'integer',
 				'sanitize_callback' => 'absint',
 			),
 			'status'       => array(
-				'description' => __( 'Filter by status.', 'webhook-automator' ),
+				'description' => __( 'Filter by status.', 'hookly-webhook-automator' ),
 				'type'        => 'string',
 				'enum'        => array( 'pending', 'success', 'failed' ),
 			),
 			'trigger_type' => array(
-				'description'       => __( 'Filter by trigger type.', 'webhook-automator' ),
+				'description'       => __( 'Filter by trigger type.', 'hookly-webhook-automator' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 			),
 			'date_from'    => array(
-				'description'       => __( 'Filter logs from this date (Y-m-d H:i:s format).', 'webhook-automator' ),
+				'description'       => __( 'Filter logs from this date (Y-m-d H:i:s format).', 'hookly-webhook-automator' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 			),
 			'date_to'      => array(
-				'description'       => __( 'Filter logs until this date (Y-m-d H:i:s format).', 'webhook-automator' ),
+				'description'       => __( 'Filter logs until this date (Y-m-d H:i:s format).', 'hookly-webhook-automator' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 			),

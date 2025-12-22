@@ -1,9 +1,9 @@
-# WP Webhook Automator
+# Hookly - Webhook Automator
 
 [![CI](https://github.com/GhDj/wp-webhook-automator/actions/workflows/ci.yml/badge.svg)](https://github.com/GhDj/wp-webhook-automator/actions/workflows/ci.yml)
-[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/wp-webhook-automator)](https://wordpress.org/plugins/wp-webhook-automator/)
-[![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/wp-webhook-automator)](https://wordpress.org/plugins/wp-webhook-automator/)
-[![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/stars/wp-webhook-automator)](https://wordpress.org/plugins/wp-webhook-automator/)
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/hookly-webhook-automator)](https://wordpress.org/plugins/hookly-webhook-automator/)
+[![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/hookly-webhook-automator)](https://wordpress.org/plugins/hookly-webhook-automator/)
+[![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/stars/hookly-webhook-automator)](https://wordpress.org/plugins/hookly-webhook-automator/)
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
 
 Connect WordPress events to external services via webhooks. A lightweight, developer-friendly automation tool — like Zapier, but self-hosted and free.
@@ -22,7 +22,7 @@ Connect WordPress events to external services via webhooks. A lightweight, devel
 
 ### Installation
 
-1. Download from [WordPress.org](https://wordpress.org/plugins/wp-webhook-automator/) or search "WP Webhook Automator" in your WordPress admin
+1. Download from [WordPress.org](https://wordpress.org/plugins/hookly-webhook-automator/) or search "Hookly" in your WordPress admin
 2. Activate the plugin
 3. Go to **Webhooks → Add New**
 4. Select a trigger, enter your endpoint URL, customize the payload
@@ -73,10 +73,10 @@ Connect WordPress events to external services via webhooks. A lightweight, devel
 
 ## Documentation
 
-- [Getting Started Guide](https://dev-tools.online/docs/wp-webhook-automator/getting-started)
-- [Available Triggers](https://dev-tools.online/docs/wp-webhook-automator/triggers)
-- [Merge Tags Reference](https://dev-tools.online/docs/wp-webhook-automator/merge-tags)
-- [REST API](https://dev-tools.online/docs/wp-webhook-automator/api)
+- [Getting Started Guide](https://dev-tools.online/docs/hookly/getting-started)
+- [Available Triggers](https://dev-tools.online/docs/hookly/triggers)
+- [Merge Tags Reference](https://dev-tools.online/docs/hookly/merge-tags)
+- [REST API](https://dev-tools.online/docs/hookly/api)
 
 ## Requirements
 
@@ -107,7 +107,7 @@ See [CHANGELOG.md](CHANGELOG.md) for a list of changes.
 
 ## Pro Version
 
-Need more power? [WP Webhook Automator Pro](https://dev-tools.online/wp-webhook-automator-pro) includes:
+Need more power? [Hookly Pro](https://dev-tools.online/hookly-pro) includes:
 
 - Unlimited webhooks (free: 3)
 - 90-day log retention (free: 7 days)
@@ -127,4 +127,4 @@ Built by [Ghabri Jalel](https://dev-tools.online)
 
 ---
 
-If this plugin helps you, please [leave a review](https://wordpress.org/support/plugin/wp-webhook-automator/reviews/#new-post)
+If this plugin helps you, please [leave a review](https://wordpress.org/support/plugin/hookly-webhook-automator/reviews/#new-post)

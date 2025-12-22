@@ -1,5 +1,5 @@
 {
-    "name": "ghdj/wp-webhook-automator",
+    "name": "ghabri/hookly-webhook-automator",
     "description": "WordPress Webhook Automator Plugin",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",

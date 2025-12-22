@@ -32,13 +32,13 @@ jobs:
       - name: Build plugin zip
         run: |
           mkdir -p build
-          rsync -av --exclude-from='.distignore' . build/webhook-automator/
-          cd build && zip -r webhook-automator-${{ steps.version.outputs.VERSION }}.zip webhook-automator
+          rsync -av --exclude-from='.distignore' . build/hookly-webhook-automator/
+          cd build && zip -r hookly-webhook-automator-${{ steps.version.outputs.VERSION }}.zip hookly-webhook-automator
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/webhook-automator-${{ steps.version.outputs.VERSION }}.zip
+          files: build/hookly-webhook-automator-${{ steps.version.outputs.VERSION }}.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -59,8 +59,8 @@ class PostPublishedTrigger extends AbstractTrigger {
 		return [
 			'post_types' => [
 				'type'        => 'multiselect',
-				'label'       => __( 'Post Types', 'webhook-automator' ),
-				'description' => __( 'Select which post types should trigger this webhook.', 'webhook-automator' ),
+				'label'       => __( 'Post Types', 'hookly-webhook-automator' ),
+				'description' => __( 'Select which post types should trigger this webhook.', 'hookly-webhook-automator' ),
 				'options'     => $this->getPostTypes(),
 				'default'     => [ 'post' ],
 			],
