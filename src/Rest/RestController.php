@@ -5,7 +5,7 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Rest;
+namespace Hookly\Rest;
 
 use WP_REST_Controller;
 use WP_REST_Response;
@@ -21,7 +21,7 @@ abstract class RestController extends WP_REST_Controller {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'wwa/v1';
+	protected $namespace = 'hookly/v1';
 
 	/**
 	 * Check if the current user has admin permissions.

@@ -7,7 +7,7 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Triggers;
+namespace Hookly\Triggers;
 
 abstract class AbstractTrigger implements TriggerInterface {
 

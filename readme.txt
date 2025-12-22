@@ -1,6 +1,6 @@
 === Hookly - Webhook Automator ===
 Contributors: ghabri
-Tags: webhook, automation, zapier, integrations, api, hookly
+Tags: webhook, automation, zapier, integrations, api
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.0

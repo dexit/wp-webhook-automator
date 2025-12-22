@@ -7,10 +7,10 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Tests\Integration\Rest;
+namespace Hookly\Tests\Integration\Rest;
 
-use WWA\Tests\TestCase;
-use WWA\Core\Webhook;
+use Hookly\Tests\TestCase;
+use Hookly\Core\Webhook;
 use Brain\Monkey\Functions;
 use Mockery;
 

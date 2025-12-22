@@ -7,7 +7,7 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Core;
+namespace Hookly\Core;
 
 class SignatureGenerator {
 

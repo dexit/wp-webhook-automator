@@ -7,7 +7,7 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Triggers;
+namespace Hookly\Triggers;
 
 class UserDeletedTrigger extends UserRegisteredTrigger {
 

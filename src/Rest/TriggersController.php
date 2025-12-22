@@ -5,11 +5,11 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Rest;
+namespace Hookly\Rest;
 
-use WWA\Triggers\TriggerRegistry;
-use WWA\Triggers\TriggerInterface;
-use WWA\Core\PayloadBuilder;
+use Hookly\Triggers\TriggerRegistry;
+use Hookly\Triggers\TriggerInterface;
+use Hookly\Core\PayloadBuilder;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;

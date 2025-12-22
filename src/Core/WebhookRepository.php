@@ -7,7 +7,7 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Core;
+namespace Hookly\Core;
 
 class WebhookRepository {
 
@@ -31,7 +31,7 @@ class WebhookRepository {
 	public function __construct() {
 		global $wpdb;
 		$this->db    = $wpdb;
-		$this->table = $wpdb->prefix . 'wwa_webhooks';
+		$this->table = $wpdb->prefix . 'hookly_webhooks';
 	}
 
 	/**
@@ -155,7 +155,7 @@ class WebhookRepository {
 	 */
 	public function delete( int $id ): bool {
 		// Also delete associated logs
-		$logsTable = $this->db->prefix . 'wwa_logs';
+		$logsTable = $this->db->prefix . 'hookly_logs';
 		$this->db->delete( $logsTable, [ 'webhook_id' => $id ], [ '%d' ] );
 
 		return (bool) $this->db->delete( $this->table, [ 'id' => $id ], [ '%d' ] );

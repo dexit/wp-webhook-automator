@@ -5,10 +5,10 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Tests\Unit\Core;
+namespace Hookly\Tests\Unit\Core;
 
-use WWA\Tests\TestCase;
-use WWA\Core\PayloadBuilder;
+use Hookly\Tests\TestCase;
+use Hookly\Core\PayloadBuilder;
 
 class PayloadBuilderTest extends TestCase
 {

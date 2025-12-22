@@ -7,7 +7,7 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Admin;
+namespace Hookly\Admin;
 
 class Settings {
 
@@ -35,13 +35,13 @@ class Settings {
 			'general' => [
 				'title'  => __( 'General Settings', 'hookly-webhook-automator' ),
 				'fields' => [
-					'wwa_enable_async'    => [
+					'hookly_enable_async'    => [
 						'label'       => __( 'Async Delivery', 'hookly-webhook-automator' ),
 						'type'        => 'checkbox',
 						'description' => __( 'Send webhooks asynchronously in the background. Recommended for better performance.', 'hookly-webhook-automator' ),
 						'default'     => true,
 					],
-					'wwa_default_timeout' => [
+					'hookly_default_timeout' => [
 						'label'       => __( 'Request Timeout', 'hookly-webhook-automator' ),
 						'type'        => 'number',
 						'description' => __( 'Maximum time in seconds to wait for a webhook response.', 'hookly-webhook-automator' ),
@@ -50,7 +50,7 @@ class Settings {
 						'max'         => 120,
 						'suffix'      => __( 'seconds', 'hookly-webhook-automator' ),
 					],
-					'wwa_rate_limit'      => [
+					'hookly_rate_limit'      => [
 						'label'       => __( 'Rate Limit', 'hookly-webhook-automator' ),
 						'type'        => 'number',
 						'description' => __( 'Maximum number of webhooks to send per minute. Set to 0 for unlimited.', 'hookly-webhook-automator' ),
@@ -64,7 +64,7 @@ class Settings {
 			'logging' => [
 				'title'  => __( 'Logging Settings', 'hookly-webhook-automator' ),
 				'fields' => [
-					'wwa_log_retention_days' => [
+					'hookly_log_retention_days' => [
 						'label'       => __( 'Log Retention', 'hookly-webhook-automator' ),
 						'type'        => 'number',
 						'description' => __( 'Number of days to keep webhook logs. Older logs will be automatically deleted.', 'hookly-webhook-automator' ),
@@ -73,7 +73,7 @@ class Settings {
 						'max'         => 365,
 						'suffix'      => __( 'days', 'hookly-webhook-automator' ),
 					],
-					'wwa_max_log_entries'    => [
+					'hookly_max_log_entries'    => [
 						'label'       => __( 'Maximum Log Entries', 'hookly-webhook-automator' ),
 						'type'        => 'number',
 						'description' => __( 'Maximum number of log entries to keep. Set to 0 for unlimited (uses retention days only).', 'hookly-webhook-automator' ),
@@ -94,21 +94,21 @@ class Settings {
 	 */
 	public function render(): void {
 		?>
-		<div class="wrap wwa-wrap">
-			<div class="wwa-header">
+		<div class="wrap hookly-wrap">
+			<div class="hookly-header">
 				<h1><?php esc_html_e( 'Settings', 'hookly-webhook-automator' ); ?></h1>
 			</div>
 
 			<form method="post" action="">
-				<?php wp_nonce_field( 'wwa_admin', 'wwa_nonce' ); ?>
-				<input type="hidden" name="wwa_action" value="save_settings">
+				<?php wp_nonce_field( 'hookly_admin', 'hookly_nonce' ); ?>
+				<input type="hidden" name="hookly_action" value="save_settings">
 
 				<?php foreach ( $this->fields as $sectionKey => $section ) : ?>
-					<div class="wwa-card" style="margin-bottom: 20px;">
-						<div class="wwa-card-header">
+					<div class="hookly-card" style="margin-bottom: 20px;">
+						<div class="hookly-card-header">
 							<h2><?php echo esc_html( $section['title'] ); ?></h2>
 						</div>
-						<div class="wwa-card-body">
+						<div class="hookly-card-body">
 							<table class="form-table">
 								<?php foreach ( $section['fields'] as $key => $field ) : ?>
 									<tr>
@@ -126,19 +126,19 @@ class Settings {
 				<?php endforeach; ?>
 
 				<!-- Info Section -->
-				<div class="wwa-card" style="margin-bottom: 20px;">
-					<div class="wwa-card-header">
+				<div class="hookly-card" style="margin-bottom: 20px;">
+					<div class="hookly-card-header">
 						<h2><?php esc_html_e( 'System Information', 'hookly-webhook-automator' ); ?></h2>
 					</div>
-					<div class="wwa-card-body">
+					<div class="hookly-card-body">
 						<table class="form-table">
 							<tr>
 								<th scope="row"><?php esc_html_e( 'Plugin Version', 'hookly-webhook-automator' ); ?></th>
-								<td><code><?php echo esc_html( WWA_VERSION ); ?></code></td>
+								<td><code><?php echo esc_html( HOOKLY_VERSION ); ?></code></td>
 							</tr>
 							<tr>
 								<th scope="row"><?php esc_html_e( 'Database Version', 'hookly-webhook-automator' ); ?></th>
-								<td><code><?php echo esc_html( get_option( 'wwa_db_version', '1.0.0' ) ); ?></code></td>
+								<td><code><?php echo esc_html( get_option( 'hookly_db_version', '1.0.0' ) ); ?></code></td>
 							</tr>
 							<tr>
 								<th scope="row"><?php esc_html_e( 'PHP Version', 'hookly-webhook-automator' ); ?></th>
@@ -152,10 +152,10 @@ class Settings {
 								<th scope="row"><?php esc_html_e( 'WP Cron', 'hookly-webhook-automator' ); ?></th>
 								<td>
 									<?php if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) : ?>
-										<span class="wwa-badge wwa-badge-warning"><?php esc_html_e( 'Disabled', 'hookly-webhook-automator' ); ?></span>
+										<span class="hookly-badge hookly-badge-warning"><?php esc_html_e( 'Disabled', 'hookly-webhook-automator' ); ?></span>
 										<p class="description"><?php esc_html_e( 'WP Cron is disabled. Async delivery and retries may not work correctly.', 'hookly-webhook-automator' ); ?></p>
 									<?php else : ?>
-										<span class="wwa-badge wwa-badge-success"><?php esc_html_e( 'Enabled', 'hookly-webhook-automator' ); ?></span>
+										<span class="hookly-badge hookly-badge-success"><?php esc_html_e( 'Enabled', 'hookly-webhook-automator' ); ?></span>
 									<?php endif; ?>
 								</td>
 							</tr>
@@ -163,11 +163,11 @@ class Settings {
 								<th scope="row"><?php esc_html_e( 'Next Log Cleanup', 'hookly-webhook-automator' ); ?></th>
 								<td>
 									<?php
-									$nextRun = wp_next_scheduled( 'wwa_cleanup_logs' );
+									$nextRun = wp_next_scheduled( 'hookly_cleanup_logs' );
 									if ( $nextRun ) {
-										echo esc_html( wwa_format_datetime( gmdate( 'Y-m-d H:i:s', $nextRun ) ) );
+										echo esc_html( hookly_format_datetime( gmdate( 'Y-m-d H:i:s', $nextRun ) ) );
 									} else {
-										echo '<span class="wwa-text-muted">' . esc_html__( 'Not scheduled', 'hookly-webhook-automator' ) . '</span>';
+										echo '<span class="hookly-text-muted">' . esc_html__( 'Not scheduled', 'hookly-webhook-automator' ) . '</span>';
 									}
 									?>
 								</td>

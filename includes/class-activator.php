@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WWA_Activator {
+class Hookly_Activator {
 
 	/**
 	 * Activate the plugin.
@@ -22,8 +22,8 @@ class WWA_Activator {
 		self::schedule_events();
 
 		// Store version for upgrade routines
-		update_option( 'wwa_version', WWA_VERSION );
-		update_option( 'wwa_db_version', WWA_DB_VERSION );
+		update_option( 'hookly_version', HOOKLY_VERSION );
+		update_option( 'hookly_db_version', HOOKLY_DB_VERSION );
 
 		// Flush rewrite rules for REST API
 		flush_rewrite_rules();
@@ -38,8 +38,8 @@ class WWA_Activator {
 		global $wpdb;
 
 		$charset_collate = $wpdb->get_charset_collate();
-		$webhooks_table  = $wpdb->prefix . 'wwa_webhooks';
-		$logs_table      = $wpdb->prefix . 'wwa_logs';
+		$webhooks_table  = $wpdb->prefix . 'hookly_webhooks';
+		$logs_table      = $wpdb->prefix . 'hookly_logs';
 
 		$sql_webhooks = "CREATE TABLE {$webhooks_table} (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -98,11 +98,11 @@ class WWA_Activator {
 	 */
 	private static function set_default_options(): void {
 		$defaults = [
-			'wwa_log_retention_days' => 30,
-			'wwa_max_log_entries'    => 1000,
-			'wwa_default_timeout'    => 30,
-			'wwa_enable_async'       => true,
-			'wwa_rate_limit'         => 100, // per minute
+			'hookly_log_retention_days' => 30,
+			'hookly_max_log_entries'    => 1000,
+			'hookly_default_timeout'    => 30,
+			'hookly_enable_async'       => true,
+			'hookly_rate_limit'         => 100, // per minute
 		];
 
 		foreach ( $defaults as $key => $value ) {
@@ -118,8 +118,8 @@ class WWA_Activator {
 	 * @return void
 	 */
 	private static function schedule_events(): void {
-		if ( ! wp_next_scheduled( 'wwa_cleanup_logs' ) ) {
-			wp_schedule_event( time(), 'daily', 'wwa_cleanup_logs' );
+		if ( ! wp_next_scheduled( 'hookly_cleanup_logs' ) ) {
+			wp_schedule_event( time(), 'daily', 'hookly_cleanup_logs' );
 		}
 	}
 }

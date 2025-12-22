@@ -1,5 +1,5 @@
 /**
- * WP Webhook Automator - Admin JavaScript
+ * Hookly - Webhook Automator - Admin JavaScript
  *
  * @package WP_Webhook_Automator
  */
@@ -10,7 +10,7 @@
     /**
      * Main admin object
      */
-    const WWAAdmin = {
+    const HooklyAdmin = {
 
         /**
          * Initialize
@@ -27,48 +27,48 @@
          */
         bindEvents: function() {
             // Toggle webhook active status
-            $(document).on('click', '.wwa-toggle-status', this.toggleStatus);
+            $(document).on('click', '.hookly-toggle-status', this.toggleStatus);
 
             // Delete webhook confirmation
-            $(document).on('click', '.wwa-delete-webhook', this.confirmDelete);
+            $(document).on('click', '.hookly-delete-webhook', this.confirmDelete);
 
             // Test webhook
-            $(document).on('click', '.wwa-test-webhook', this.testWebhook);
+            $(document).on('click', '.hookly-test-webhook', this.testWebhook);
 
             // View log details
-            $(document).on('click', '.wwa-view-log', this.viewLog);
+            $(document).on('click', '.hookly-view-log', this.viewLog);
 
             // Retry webhook
-            $(document).on('click', '.wwa-retry-webhook', this.retryWebhook);
+            $(document).on('click', '.hookly-retry-webhook', this.retryWebhook);
 
             // Copy to clipboard
-            $(document).on('click', '.wwa-copy', this.copyToClipboard);
+            $(document).on('click', '.hookly-copy', this.copyToClipboard);
         },
 
         /**
          * Initialize headers repeater
          */
         initHeadersRepeater: function() {
-            const $container = $('.wwa-headers-list');
+            const $container = $('.hookly-headers-list');
             if (!$container.length) return;
 
             // Add header row
-            $(document).on('click', '.wwa-add-header', function(e) {
+            $(document).on('click', '.hookly-add-header', function(e) {
                 e.preventDefault();
                 const $row = $(
-                    '<div class="wwa-header-row">' +
+                    '<div class="hookly-header-row">' +
                     '<input type="text" name="headers[keys][]" placeholder="Header Name" />' +
                     '<input type="text" name="headers[values][]" placeholder="Header Value" />' +
-                    '<button type="button" class="button wwa-remove-header">&times;</button>' +
+                    '<button type="button" class="button hookly-remove-header">&times;</button>' +
                     '</div>'
                 );
-                $container.find('.wwa-headers-rows').append($row);
+                $container.find('.hookly-headers-rows').append($row);
             });
 
             // Remove header row
-            $(document).on('click', '.wwa-remove-header', function(e) {
+            $(document).on('click', '.hookly-remove-header', function(e) {
                 e.preventDefault();
-                $(this).closest('.wwa-header-row').remove();
+                $(this).closest('.hookly-header-row').remove();
             });
         },
 
@@ -80,7 +80,7 @@
             if (!$triggerSelect.length) return;
 
             $triggerSelect.on('change', function() {
-                WWAAdmin.loadTriggerConfig($(this).val());
+                HooklyAdmin.loadTriggerConfig($(this).val());
             });
 
             // Load initial config if editing
@@ -94,44 +94,44 @@
          */
         loadTriggerConfig: function(triggerType) {
             if (!triggerType) {
-                $('#wwa-trigger-config').html('');
-                $('#wwa-merge-tags').html('');
+                $('#hookly-trigger-config').html('');
+                $('#hookly-merge-tags').html('');
                 return;
             }
 
             // Load trigger config fields
             $.ajax({
-                url: wwaAdmin.restUrl + 'triggers/' + triggerType + '/config',
+                url: hooklyAdmin.restUrl + 'triggers/' + triggerType + '/config',
                 method: 'GET',
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', wwaAdmin.restNonce);
+                    xhr.setRequestHeader('X-WP-Nonce', hooklyAdmin.restNonce);
                 },
                 success: function(response) {
                     const data = response.data || response;
                     const fields = data.fields || {};
-                    const html = WWAAdmin.buildConfigFieldsHtml(fields);
-                    $('#wwa-trigger-config').html(html);
+                    const html = HooklyAdmin.buildConfigFieldsHtml(fields);
+                    $('#hookly-trigger-config').html(html);
                 },
                 error: function() {
-                    $('#wwa-trigger-config').html('');
+                    $('#hookly-trigger-config').html('');
                 }
             });
 
             // Load merge tags
             $.ajax({
-                url: wwaAdmin.restUrl + 'triggers/' + triggerType + '/merge-tags',
+                url: hooklyAdmin.restUrl + 'triggers/' + triggerType + '/merge-tags',
                 method: 'GET',
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', wwaAdmin.restNonce);
+                    xhr.setRequestHeader('X-WP-Nonce', hooklyAdmin.restNonce);
                 },
                 success: function(response) {
                     const data = response.data || response;
                     const tags = data.merge_tags || [];
-                    const html = WWAAdmin.buildMergeTagsHtml(tags);
-                    $('#wwa-merge-tags').html(html);
+                    const html = HooklyAdmin.buildMergeTagsHtml(tags);
+                    $('#hookly-merge-tags').html(html);
                 },
                 error: function() {
-                    $('#wwa-merge-tags').html('');
+                    $('#hookly-merge-tags').html('');
                 }
             });
         },
@@ -146,7 +146,7 @@
 
             let html = '';
             for (const [key, config] of Object.entries(fields)) {
-                html += '<div class="wwa-config-field">';
+                html += '<div class="hookly-config-field">';
                 html += '<label for="trigger_config_' + key + '">' + (config.label || key) + '</label>';
 
                 switch (config.type) {
@@ -189,11 +189,11 @@
                 return '';
             }
 
-            let html = '<div class="wwa-merge-tags-list">';
+            let html = '<div class="hookly-merge-tags-list">';
             html += '<p class="description">Click a tag to insert it into the payload template:</p>';
-            html += '<div class="wwa-tags">';
+            html += '<div class="hookly-tags">';
             for (const tag of tags) {
-                html += '<button type="button" class="button wwa-insert-tag" data-tag="' + tag.path + '" title="' + tag.description + '">' + tag.tag + '</button>';
+                html += '<button type="button" class="button hookly-insert-tag" data-tag="' + tag.path + '" title="' + tag.description + '">' + tag.tag + '</button>';
             }
             html += '</div></div>';
             return html;
@@ -207,7 +207,7 @@
             if (!$payloadTemplate.length) return;
 
             // Insert merge tag
-            $(document).on('click', '.wwa-insert-tag', function(e) {
+            $(document).on('click', '.hookly-insert-tag', function(e) {
                 e.preventDefault();
                 const tag = '{{' + $(this).data('tag') + '}}';
                 const cursorPos = $payloadTemplate[0].selectionStart;
@@ -221,7 +221,7 @@
 
             // Validate JSON
             $(document).on('blur', '#payload_template', function() {
-                WWAAdmin.validatePayloadJson($(this));
+                HooklyAdmin.validatePayloadJson($(this));
             });
         },
 
@@ -234,13 +234,13 @@
 
             try {
                 JSON.parse(value);
-                $textarea.removeClass('wwa-invalid');
-                $('.wwa-json-error').remove();
+                $textarea.removeClass('hookly-invalid');
+                $('.hookly-json-error').remove();
             } catch (e) {
-                $textarea.addClass('wwa-invalid');
-                if (!$textarea.next('.wwa-json-error').length) {
+                $textarea.addClass('hookly-invalid');
+                if (!$textarea.next('.hookly-json-error').length) {
                     $textarea.after(
-                        '<p class="wwa-json-error" style="color: #d63638;">' +
+                        '<p class="hookly-json-error" style="color: #d63638;">' +
                         'Invalid JSON: ' + e.message +
                         '</p>'
                     );
@@ -259,10 +259,10 @@
             $toggle.prop('disabled', true);
 
             $.ajax({
-                url: wwaAdmin.restUrl + 'webhooks/' + webhookId + '/toggle',
+                url: hooklyAdmin.restUrl + 'webhooks/' + webhookId + '/toggle',
                 method: 'POST',
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', wwaAdmin.restNonce);
+                    xhr.setRequestHeader('X-WP-Nonce', hooklyAdmin.restNonce);
                 },
                 success: function(response) {
                     const webhook = response.data || response;
@@ -301,10 +301,10 @@
             $btn.prop('disabled', true).text('Testing...');
 
             $.ajax({
-                url: wwaAdmin.restUrl + 'webhooks/' + webhookId + '/test',
+                url: hooklyAdmin.restUrl + 'webhooks/' + webhookId + '/test',
                 method: 'POST',
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', wwaAdmin.restNonce);
+                    xhr.setRequestHeader('X-WP-Nonce', hooklyAdmin.restNonce);
                 },
                 success: function(response) {
                     const data = response.data || response;
@@ -334,7 +334,7 @@
             const $btn = $(this);
             const logId = $btn.data('id');
             const $row = $btn.closest('tr');
-            const $detailsRow = $row.next('.wwa-log-details-row');
+            const $detailsRow = $row.next('.hookly-log-details-row');
 
             if ($detailsRow.length) {
                 $detailsRow.toggle();
@@ -344,16 +344,16 @@
             $btn.prop('disabled', true);
 
             $.ajax({
-                url: wwaAdmin.restUrl + 'logs/' + logId,
+                url: hooklyAdmin.restUrl + 'logs/' + logId,
                 method: 'GET',
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', wwaAdmin.restNonce);
+                    xhr.setRequestHeader('X-WP-Nonce', hooklyAdmin.restNonce);
                 },
                 success: function(response) {
                     const log = response.data || response;
-                    const html = WWAAdmin.buildLogDetailsHtml(log);
+                    const html = HooklyAdmin.buildLogDetailsHtml(log);
                     $row.after(
-                        '<tr class="wwa-log-details-row"><td colspan="7">' +
+                        '<tr class="hookly-log-details-row"><td colspan="7">' +
                         html +
                         '</td></tr>'
                     );
@@ -371,24 +371,24 @@
          * Build log details HTML
          */
         buildLogDetailsHtml: function(log) {
-            let html = '<div class="wwa-log-details">';
+            let html = '<div class="hookly-log-details">';
 
-            html += '<div class="wwa-log-meta">';
-            html += '<div class="wwa-log-meta-item"><strong>Endpoint</strong><span>' + log.endpoint_url + '</span></div>';
-            html += '<div class="wwa-log-meta-item"><strong>Response Code</strong><span>' + (log.response_code || 'N/A') + '</span></div>';
-            html += '<div class="wwa-log-meta-item"><strong>Duration</strong><span>' + (log.duration_ms || 0) + 'ms</span></div>';
-            html += '<div class="wwa-log-meta-item"><strong>Attempt</strong><span>#' + log.attempt_number + '</span></div>';
+            html += '<div class="hookly-log-meta">';
+            html += '<div class="hookly-log-meta-item"><strong>Endpoint</strong><span>' + log.endpoint_url + '</span></div>';
+            html += '<div class="hookly-log-meta-item"><strong>Response Code</strong><span>' + (log.response_code || 'N/A') + '</span></div>';
+            html += '<div class="hookly-log-meta-item"><strong>Duration</strong><span>' + (log.duration_ms || 0) + 'ms</span></div>';
+            html += '<div class="hookly-log-meta-item"><strong>Attempt</strong><span>#' + log.attempt_number + '</span></div>';
             html += '</div>';
 
             html += '<h4>Request Headers</h4>';
-            html += '<pre>' + WWAAdmin.formatJson(log.request_headers) + '</pre>';
+            html += '<pre>' + HooklyAdmin.formatJson(log.request_headers) + '</pre>';
 
             html += '<h4>Request Payload</h4>';
-            html += '<pre>' + WWAAdmin.formatJson(log.request_payload) + '</pre>';
+            html += '<pre>' + HooklyAdmin.formatJson(log.request_payload) + '</pre>';
 
             if (log.response_body) {
                 html += '<h4>Response Body</h4>';
-                html += '<pre>' + WWAAdmin.formatJson(log.response_body) + '</pre>';
+                html += '<pre>' + HooklyAdmin.formatJson(log.response_body) + '</pre>';
             }
 
             if (log.error_message) {
@@ -426,10 +426,10 @@
             $btn.prop('disabled', true).text('Retrying...');
 
             $.ajax({
-                url: wwaAdmin.restUrl + 'logs/' + logId + '/retry',
+                url: hooklyAdmin.restUrl + 'logs/' + logId + '/retry',
                 method: 'POST',
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', wwaAdmin.restNonce);
+                    xhr.setRequestHeader('X-WP-Nonce', hooklyAdmin.restNonce);
                 },
                 success: function(response) {
                     const message = response.message || 'Webhook retry completed.';
@@ -469,7 +469,7 @@
 
     // Initialize when document is ready
     $(document).ready(function() {
-        WWAAdmin.init();
+        HooklyAdmin.init();
     });
 
 })(jQuery);

@@ -7,7 +7,7 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Core;
+namespace Hookly\Core;
 
 class Logger {
 
@@ -31,7 +31,7 @@ class Logger {
 	public function __construct() {
 		global $wpdb;
 		$this->db    = $wpdb;
-		$this->table = $wpdb->prefix . 'wwa_logs';
+		$this->table = $wpdb->prefix . 'hookly_logs';
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Logger {
 		$sql = $this->db->prepare(
 			"SELECT l.*, w.name as webhook_name
              FROM {$this->table} l
-             LEFT JOIN {$this->db->prefix}wwa_webhooks w ON l.webhook_id = w.id
+             LEFT JOIN {$this->db->prefix}hookly_webhooks w ON l.webhook_id = w.id
              {$where}
              ORDER BY l.created_at DESC
              LIMIT %d OFFSET %d",
@@ -135,7 +135,7 @@ class Logger {
 			$this->db->prepare(
 				"SELECT l.*, w.name as webhook_name
                  FROM {$this->table} l
-                 LEFT JOIN {$this->db->prefix}wwa_webhooks w ON l.webhook_id = w.id
+                 LEFT JOIN {$this->db->prefix}hookly_webhooks w ON l.webhook_id = w.id
                  WHERE l.id = %d",
 				$id
 			),

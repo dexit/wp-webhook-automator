@@ -7,11 +7,11 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Admin;
+namespace Hookly\Admin;
 
-use WWA\Core\WebhookRepository;
-use WWA\Core\Logger;
-use WWA\Triggers\TriggerRegistry;
+use Hookly\Core\WebhookRepository;
+use Hookly\Core\Logger;
+use Hookly\Triggers\TriggerRegistry;
 
 class Dashboard {
 
@@ -47,50 +47,50 @@ class Dashboard {
 		$recentLogs      = $this->logger->getRecentLogs( 10 );
 		$triggerRegistry = TriggerRegistry::getInstance();
 		?>
-		<div class="wrap wwa-wrap">
-			<div class="wwa-header">
+		<div class="wrap hookly-wrap">
+			<div class="hookly-header">
 				<h1><?php esc_html_e( 'Webhook Automator Dashboard', 'hookly-webhook-automator' ); ?></h1>
-				<div class="wwa-header-actions">
-					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-new' ) ); ?>" class="button button-primary">
+				<div class="hookly-header-actions">
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=hookly-webhook-new' ) ); ?>" class="button button-primary">
 						<?php esc_html_e( 'Add New Webhook', 'hookly-webhook-automator' ); ?>
 					</a>
 				</div>
 			</div>
 
 			<!-- Stats Grid -->
-			<div class="wwa-stats-grid">
-				<div class="wwa-stat-card">
-					<div class="wwa-stat-value"><?php echo esc_html( $stats['total_webhooks'] ); ?></div>
-					<div class="wwa-stat-label"><?php esc_html_e( 'Total Webhooks', 'hookly-webhook-automator' ); ?></div>
+			<div class="hookly-stats-grid">
+				<div class="hookly-stat-card">
+					<div class="hookly-stat-value"><?php echo esc_html( $stats['total_webhooks'] ); ?></div>
+					<div class="hookly-stat-label"><?php esc_html_e( 'Total Webhooks', 'hookly-webhook-automator' ); ?></div>
 				</div>
-				<div class="wwa-stat-card success">
-					<div class="wwa-stat-value"><?php echo esc_html( $stats['active_webhooks'] ); ?></div>
-					<div class="wwa-stat-label"><?php esc_html_e( 'Active Webhooks', 'hookly-webhook-automator' ); ?></div>
+				<div class="hookly-stat-card success">
+					<div class="hookly-stat-value"><?php echo esc_html( $stats['active_webhooks'] ); ?></div>
+					<div class="hookly-stat-label"><?php esc_html_e( 'Active Webhooks', 'hookly-webhook-automator' ); ?></div>
 				</div>
-				<div class="wwa-stat-card">
-					<div class="wwa-stat-value"><?php echo esc_html( $stats['deliveries_today'] ); ?></div>
-					<div class="wwa-stat-label"><?php esc_html_e( 'Deliveries Today', 'hookly-webhook-automator' ); ?></div>
+				<div class="hookly-stat-card">
+					<div class="hookly-stat-value"><?php echo esc_html( $stats['deliveries_today'] ); ?></div>
+					<div class="hookly-stat-label"><?php esc_html_e( 'Deliveries Today', 'hookly-webhook-automator' ); ?></div>
 				</div>
-				<div class="wwa-stat-card success">
-					<div class="wwa-stat-value"><?php echo esc_html( $stats['success_rate'] ); ?>%</div>
-					<div class="wwa-stat-label"><?php esc_html_e( 'Success Rate (Today)', 'hookly-webhook-automator' ); ?></div>
+				<div class="hookly-stat-card success">
+					<div class="hookly-stat-value"><?php echo esc_html( $stats['success_rate'] ); ?>%</div>
+					<div class="hookly-stat-label"><?php esc_html_e( 'Success Rate (Today)', 'hookly-webhook-automator' ); ?></div>
 				</div>
 			</div>
 
-			<div class="wwa-dashboard-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+			<div class="hookly-dashboard-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
 				<!-- Recent Activity -->
-				<div class="wwa-card">
-					<div class="wwa-card-header">
+				<div class="hookly-card">
+					<div class="hookly-card-header">
 						<h2><?php esc_html_e( 'Recent Activity', 'hookly-webhook-automator' ); ?></h2>
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-logs' ) ); ?>">
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=hookly-logs' ) ); ?>">
 							<?php esc_html_e( 'View All Logs', 'hookly-webhook-automator' ); ?> &rarr;
 						</a>
 					</div>
-					<div class="wwa-card-body">
+					<div class="hookly-card-body">
 						<?php if ( empty( $recentLogs ) ) : ?>
-							<p class="wwa-text-muted"><?php esc_html_e( 'No webhook activity yet.', 'hookly-webhook-automator' ); ?></p>
+							<p class="hookly-text-muted"><?php esc_html_e( 'No webhook activity yet.', 'hookly-webhook-automator' ); ?></p>
 						<?php else : ?>
-							<table class="wwa-table">
+							<table class="hookly-table">
 								<thead>
 									<tr>
 										<th><?php esc_html_e( 'Webhook', 'hookly-webhook-automator' ); ?></th>
@@ -104,12 +104,12 @@ class Dashboard {
 											<td>
 												<strong><?php echo esc_html( $log['webhook_name'] ?: __( 'Unknown', 'hookly-webhook-automator' ) ); ?></strong>
 												<br>
-												<small class="wwa-text-muted"><?php echo esc_html( $log['trigger_type'] ); ?></small>
+												<small class="hookly-text-muted"><?php echo esc_html( $log['trigger_type'] ); ?></small>
 											</td>
-											<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wwa_get_status_badge returns escaped HTML. ?>
-											<td><?php echo wwa_get_status_badge( $log['status'] ); ?></td>
+											<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- hookly_get_status_badge returns escaped HTML. ?>
+											<td><?php echo hookly_get_status_badge( $log['status'] ); ?></td>
 											<td>
-												<small><?php echo esc_html( wwa_format_datetime( $log['created_at'] ) ); ?></small>
+												<small><?php echo esc_html( hookly_format_datetime( $log['created_at'] ) ); ?></small>
 											</td>
 										</tr>
 									<?php endforeach; ?>
@@ -122,19 +122,19 @@ class Dashboard {
 				<!-- Quick Stats & Info -->
 				<div>
 					<!-- Today's Stats -->
-					<div class="wwa-card">
-						<div class="wwa-card-header">
+					<div class="hookly-card">
+						<div class="hookly-card-header">
 							<h2><?php esc_html_e( "Today's Stats", 'hookly-webhook-automator' ); ?></h2>
 						</div>
-						<div class="wwa-card-body">
+						<div class="hookly-card-body">
 							<ul style="margin: 0; padding: 0; list-style: none;">
 								<li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
 									<span><?php esc_html_e( 'Successful', 'hookly-webhook-automator' ); ?></span>
-									<strong class="wwa-text-success"><?php echo esc_html( $stats['success_today'] ); ?></strong>
+									<strong class="hookly-text-success"><?php echo esc_html( $stats['success_today'] ); ?></strong>
 								</li>
 								<li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
 									<span><?php esc_html_e( 'Failed', 'hookly-webhook-automator' ); ?></span>
-									<strong class="wwa-text-error"><?php echo esc_html( $stats['failed_today'] ); ?></strong>
+									<strong class="hookly-text-error"><?php echo esc_html( $stats['failed_today'] ); ?></strong>
 								</li>
 								<li style="display: flex; justify-content: space-between; padding: 8px 0;">
 									<span><?php esc_html_e( 'Pending', 'hookly-webhook-automator' ); ?></span>
@@ -145,11 +145,11 @@ class Dashboard {
 					</div>
 
 					<!-- Available Triggers -->
-					<div class="wwa-card" style="margin-top: 20px;">
-						<div class="wwa-card-header">
+					<div class="hookly-card" style="margin-top: 20px;">
+						<div class="hookly-card-header">
 							<h2><?php esc_html_e( 'Available Triggers', 'hookly-webhook-automator' ); ?></h2>
 						</div>
-						<div class="wwa-card-body">
+						<div class="hookly-card-body">
 							<?php
 							$categories = $triggerRegistry->getCategories();
 							foreach ( $categories as $category => $triggers ) :

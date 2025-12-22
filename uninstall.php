@@ -1,10 +1,10 @@
 <?php
 /**
- * Uninstall Webhook Automator
+ * Uninstall Hookly - Webhook Automator
  *
  * Removes all plugin data when uninstalled.
  *
- * @package WP_Webhook_Automator
+ * @package Hookly_Webhook_Automator
  */
 
 // Exit if not called by WordPress
@@ -15,18 +15,18 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 global $wpdb;
 
 // Delete database tables
-$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wwa_logs" );
-$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wwa_webhooks" );
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}hookly_logs" );
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}hookly_webhooks" );
 
 // Delete options
 $options = [
-	'wwa_version',
-	'wwa_db_version',
-	'wwa_log_retention_days',
-	'wwa_max_log_entries',
-	'wwa_default_timeout',
-	'wwa_enable_async',
-	'wwa_rate_limit',
+	'hookly_version',
+	'hookly_db_version',
+	'hookly_log_retention_days',
+	'hookly_max_log_entries',
+	'hookly_default_timeout',
+	'hookly_enable_async',
+	'hookly_rate_limit',
 ];
 
 foreach ( $options as $option ) {
@@ -34,6 +34,6 @@ foreach ( $options as $option ) {
 }
 
 // Clear any scheduled events
-wp_clear_scheduled_hook( 'wwa_cleanup_logs' );
-wp_clear_scheduled_hook( 'wwa_dispatch_webhook' );
-wp_clear_scheduled_hook( 'wwa_retry_webhook' );
+wp_clear_scheduled_hook( 'hookly_cleanup_logs' );
+wp_clear_scheduled_hook( 'hookly_dispatch_webhook' );
+wp_clear_scheduled_hook( 'hookly_retry_webhook' );

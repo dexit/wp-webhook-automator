@@ -13,26 +13,26 @@ if (!defined('ABSPATH')) {
     define('ABSPATH', '/tmp/wordpress/');
 }
 
-if (!defined('WWA_VERSION')) {
-    define('WWA_VERSION', '1.0.0');
+if (!defined('HOOKLY_VERSION')) {
+    define('HOOKLY_VERSION', '1.0.0');
 }
 
-if (!defined('WWA_PLUGIN_DIR')) {
-    define('WWA_PLUGIN_DIR', dirname(__DIR__) . '/');
+if (!defined('HOOKLY_PLUGIN_DIR')) {
+    define('HOOKLY_PLUGIN_DIR', dirname(__DIR__) . '/');
 }
 
-if (!defined('WWA_PLUGIN_URL')) {
-    define('WWA_PLUGIN_URL', 'https://example.com/wp-content/plugins/wp-webhook-automator/');
+if (!defined('HOOKLY_PLUGIN_URL')) {
+    define('HOOKLY_PLUGIN_URL', 'https://example.com/wp-content/plugins/wp-webhook-automator/');
 }
 
-if (!defined('WWA_PLUGIN_BASENAME')) {
-    define('WWA_PLUGIN_BASENAME', 'wp-webhook-automator/wp-webhook-automator.php');
+if (!defined('HOOKLY_PLUGIN_BASENAME')) {
+    define('HOOKLY_PLUGIN_BASENAME', 'wp-webhook-automator/wp-webhook-automator.php');
 }
 
-if (!defined('WWA_DB_VERSION')) {
-    define('WWA_DB_VERSION', '1.0.0');
+if (!defined('HOOKLY_DB_VERSION')) {
+    define('HOOKLY_DB_VERSION', '1.0.0');
 }
 
-if (!defined('WWA_TESTING')) {
-    define('WWA_TESTING', true);
+if (!defined('HOOKLY_TESTING')) {
+    define('HOOKLY_TESTING', true);
 }

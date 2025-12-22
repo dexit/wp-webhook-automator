@@ -7,7 +7,7 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Core;
+namespace Hookly\Core;
 
 class WebhookDispatcher {
 
@@ -76,7 +76,7 @@ class WebhookDispatcher {
 		$headers = array_merge(
 			[
 				'Content-Type' => $contentType,
-				'User-Agent'   => 'WP-Webhook-Automator/' . WWA_VERSION,
+				'User-Agent'   => 'WP-Webhook-Automator/' . HOOKLY_VERSION,
 			],
 			$webhook->getHeaders()
 		);
@@ -140,7 +140,7 @@ class WebhookDispatcher {
 		 * @param array   $response The response data.
 		 * @param string  $status   The dispatch status.
 		 */
-		do_action( 'wwa_webhook_dispatched', $webhook, $response, $status );
+		do_action( 'hookly_webhook_dispatched', $webhook, $response, $status );
 	}
 
 	/**
@@ -153,7 +153,7 @@ class WebhookDispatcher {
 	public function dispatchAsync( Webhook $webhook, array $eventData ): void {
 		wp_schedule_single_event(
 			time(),
-			'wwa_dispatch_webhook',
+			'hookly_dispatch_webhook',
 			[ $webhook->getId(), $eventData ]
 		);
 	}
@@ -259,7 +259,7 @@ class WebhookDispatcher {
 		$headers = array_merge(
 			[
 				'Content-Type' => $contentType,
-				'User-Agent'   => 'WP-Webhook-Automator/' . WWA_VERSION,
+				'User-Agent'   => 'WP-Webhook-Automator/' . HOOKLY_VERSION,
 			],
 			$webhook->getHeaders()
 		);
@@ -339,7 +339,7 @@ class WebhookDispatcher {
 			'method'      => strtoupper( $method ),
 			'headers'     => $headers,
 			'body'        => in_array( strtoupper( $method ), [ 'POST', 'PUT', 'PATCH' ], true ) ? $body : null,
-			'timeout'     => (int) get_option( 'wwa_default_timeout', 30 ),
+			'timeout'     => (int) get_option( 'hookly_default_timeout', 30 ),
 			'redirection' => 5,
 			'sslverify'   => true,
 		];
@@ -350,7 +350,7 @@ class WebhookDispatcher {
 		 * @param array  $args The request arguments.
 		 * @param string $url  The URL being requested.
 		 */
-		$args = apply_filters( 'wwa_request_args', $args, $url );
+		$args = apply_filters( 'hookly_request_args', $args, $url );
 
 		$response = wp_remote_request( $url, $args );
 
@@ -417,7 +417,7 @@ class WebhookDispatcher {
 		 * @param bool   $valid Whether the URL is valid.
 		 * @param string $url   The URL being validated.
 		 */
-		return apply_filters( 'wwa_is_valid_url', true, $url );
+		return apply_filters( 'hookly_is_valid_url', true, $url );
 	}
 
 	/**
@@ -467,7 +467,7 @@ class WebhookDispatcher {
 
 		wp_schedule_single_event(
 			time() + $delay,
-			'wwa_retry_webhook',
+			'hookly_retry_webhook',
 			[ $logId ]
 		);
 	}
@@ -525,7 +525,7 @@ class WebhookDispatcher {
 		$headers = array_merge(
 			[
 				'Content-Type' => $contentType,
-				'User-Agent'   => 'WP-Webhook-Automator/' . WWA_VERSION,
+				'User-Agent'   => 'WP-Webhook-Automator/' . HOOKLY_VERSION,
 			],
 			$webhook->getHeaders()
 		);

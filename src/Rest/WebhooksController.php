@@ -5,11 +5,11 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Rest;
+namespace Hookly\Rest;
 
-use WWA\Core\Webhook;
-use WWA\Core\WebhookRepository;
-use WWA\Core\WebhookDispatcher;
+use Hookly\Core\Webhook;
+use Hookly\Core\WebhookRepository;
+use Hookly\Core\WebhookDispatcher;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;

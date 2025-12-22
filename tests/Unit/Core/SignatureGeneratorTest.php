@@ -5,10 +5,10 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Tests\Unit\Core;
+namespace Hookly\Tests\Unit\Core;
 
-use WWA\Tests\TestCase;
-use WWA\Core\SignatureGenerator;
+use Hookly\Tests\TestCase;
+use Hookly\Core\SignatureGenerator;
 use Brain\Monkey\Functions;
 
 class SignatureGeneratorTest extends TestCase

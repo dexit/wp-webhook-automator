@@ -5,10 +5,10 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Tests\Unit\Core;
+namespace Hookly\Tests\Unit\Core;
 
 use PHPUnit\Framework\TestCase;
-use WWA\Core\Webhook;
+use Hookly\Core\Webhook;
 
 class WebhookTest extends TestCase
 {
