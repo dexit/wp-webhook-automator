@@ -8,9 +8,12 @@
 .claude
 .wordpress-org
 .idea
+.DS_Store
+**/.DS_Store
 tests
 bin
 phpunit.xml
+phpunit.xml.dist
 composer.json
 composer.lock
 package.json
@@ -20,3 +23,5 @@ vendor
 *.md
 !readme.txt
 Makefile
+*.log
+*.cache

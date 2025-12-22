@@ -5,7 +5,7 @@
     <!-- What to scan -->
     <file>./src</file>
     <file>./includes</file>
-    <file>./wp-webhook-automator.php</file>
+    <file>./hookly-webhook-automator.php</file>
     <file>./uninstall.php</file>
 
     <!-- Exclude patterns -->
