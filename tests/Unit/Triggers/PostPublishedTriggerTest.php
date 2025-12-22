@@ -5,10 +5,10 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Tests\Unit\Triggers;
+namespace Hookly\Tests\Unit\Triggers;
 
-use WWA\Tests\TestCase;
-use WWA\Triggers\PostPublishedTrigger;
+use Hookly\Tests\TestCase;
+use Hookly\Triggers\PostPublishedTrigger;
 use Brain\Monkey\Functions;
 use Mockery;
 

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WWA_Loader {
+class Hookly_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

@@ -12,20 +12,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Get the plugin instance.
  *
- * @return WWA_Plugin
+ * @return Hookly_Plugin
  */
-function wwa(): WWA_Plugin {
-	return WWA_Plugin::get_instance();
+function hookly(): Hookly_Plugin {
+	return Hookly_Plugin::get_instance();
 }
 
 /**
  * Get a webhook by ID.
  *
  * @param int $id The webhook ID.
- * @return WWA\Core\Webhook|null
+ * @return Hookly\Core\Webhook|null
  */
-function wwa_get_webhook( int $id ): ?WWA\Core\Webhook {
-	$repository = new WWA\Core\WebhookRepository();
+function hookly_get_webhook( int $id ): ?Hookly\Core\Webhook {
+	$repository = new Hookly\Core\WebhookRepository();
 	return $repository->find( $id );
 }
 
@@ -34,8 +34,8 @@ function wwa_get_webhook( int $id ): ?WWA\Core\Webhook {
  *
  * @return array
  */
-function wwa_get_active_webhooks(): array {
-	$repository = new WWA\Core\WebhookRepository();
+function hookly_get_active_webhooks(): array {
+	$repository = new Hookly\Core\WebhookRepository();
 	return $repository->findActive();
 }
 
@@ -46,7 +46,7 @@ function wwa_get_active_webhooks(): array {
  * @param array  $context Additional context.
  * @return void
  */
-function wwa_log( string $message, array $context = [] ): void {
+function hookly_log( string $message, array $context = [] ): void {
 	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
 		return;
 	}
@@ -66,7 +66,7 @@ function wwa_log( string $message, array $context = [] ): void {
  *
  * @return bool
  */
-function wwa_is_woocommerce_active(): bool {
+function hookly_is_woocommerce_active(): bool {
 	return class_exists( 'WooCommerce' );
 }
 
@@ -76,7 +76,7 @@ function wwa_is_woocommerce_active(): bool {
  * @param string $plugin Plugin basename (e.g., 'contact-form-7/wp-contact-form-7.php').
  * @return bool
  */
-function wwa_is_plugin_active( string $plugin ): bool {
+function hookly_is_plugin_active( string $plugin ): bool {
 	if ( ! function_exists( 'is_plugin_active' ) ) {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
@@ -89,14 +89,14 @@ function wwa_is_plugin_active( string $plugin ): bool {
  * @param array $template The template array.
  * @return array
  */
-function wwa_sanitize_payload_template( array $template ): array {
+function hookly_sanitize_payload_template( array $template ): array {
 	$sanitized = [];
 
 	foreach ( $template as $key => $value ) {
 		$key = sanitize_key( $key );
 
 		if ( is_array( $value ) ) {
-			$sanitized[ $key ] = wwa_sanitize_payload_template( $value );
+			$sanitized[ $key ] = hookly_sanitize_payload_template( $value );
 		} elseif ( is_string( $value ) ) {
 			// Allow merge tags in values
 			$sanitized[ $key ] = wp_kses_post( $value );
@@ -113,7 +113,7 @@ function wwa_sanitize_payload_template( array $template ): array {
  *
  * @return array
  */
-function wwa_get_http_methods(): array {
+function hookly_get_http_methods(): array {
 	return [
 		'POST'   => __( 'POST', 'hookly-webhook-automator' ),
 		'GET'    => __( 'GET', 'hookly-webhook-automator' ),
@@ -128,7 +128,7 @@ function wwa_get_http_methods(): array {
  *
  * @return array
  */
-function wwa_get_payload_formats(): array {
+function hookly_get_payload_formats(): array {
 	return [
 		'json' => __( 'JSON', 'hookly-webhook-automator' ),
 		'form' => __( 'Form Data', 'hookly-webhook-automator' ),
@@ -141,7 +141,7 @@ function wwa_get_payload_formats(): array {
  * @param string $timestamp The timestamp string.
  * @return string
  */
-function wwa_format_datetime( string $timestamp ): string {
+function hookly_format_datetime( string $timestamp ): string {
 	$datetime = strtotime( $timestamp );
 	return date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $datetime );
 }
@@ -152,7 +152,7 @@ function wwa_format_datetime( string $timestamp ): string {
  * @param int $ms Duration in milliseconds.
  * @return string
  */
-function wwa_format_duration( int $ms ): string {
+function hookly_format_duration( int $ms ): string {
 	if ( $ms < 1000 ) {
 		return $ms . 'ms';
 	}
@@ -167,11 +167,11 @@ function wwa_format_duration( int $ms ): string {
  * @param string $status The status string.
  * @return string
  */
-function wwa_get_status_badge( string $status ): string {
+function hookly_get_status_badge( string $status ): string {
 	$classes = [
-		'success' => 'wwa-badge wwa-badge-success',
-		'failed'  => 'wwa-badge wwa-badge-error',
-		'pending' => 'wwa-badge wwa-badge-warning',
+		'success' => 'hookly-badge hookly-badge-success',
+		'failed'  => 'hookly-badge hookly-badge-error',
+		'pending' => 'hookly-badge hookly-badge-warning',
 	];
 
 	$labels = [
@@ -180,7 +180,7 @@ function wwa_get_status_badge( string $status ): string {
 		'pending' => __( 'Pending', 'hookly-webhook-automator' ),
 	];
 
-	$class = $classes[ $status ] ?? 'wwa-badge';
+	$class = $classes[ $status ] ?? 'hookly-badge';
 	$label = $labels[ $status ] ?? ucfirst( $status );
 
 	return sprintf( '<span class="%s">%s</span>', esc_attr( $class ), esc_html( $label ) );
@@ -192,7 +192,7 @@ function wwa_get_status_badge( string $status ): string {
  * @param int $length The length of the key.
  * @return string
  */
-function wwa_generate_secret_key( int $length = 32 ): string {
+function hookly_generate_secret_key( int $length = 32 ): string {
 	return wp_generate_password( $length, false );
 }
 
@@ -202,7 +202,7 @@ function wwa_generate_secret_key( int $length = 32 ): string {
  * @param string $key The secret key.
  * @return string
  */
-function wwa_mask_secret_key( string $key ): string {
+function hookly_mask_secret_key( string $key ): string {
 	if ( strlen( $key ) <= 8 ) {
 		return str_repeat( '*', strlen( $key ) );
 	}

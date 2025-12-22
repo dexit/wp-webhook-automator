@@ -5,7 +5,7 @@
  * Sets up Brain Monkey for mocking WordPress functions.
  */
 
-namespace WWA\Tests;
+namespace Hookly\Tests;
 
 use Brain\Monkey;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;

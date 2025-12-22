@@ -9,16 +9,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use WWA\Admin\Admin;
-use WWA\Core\WebhookRepository;
-use WWA\Core\WebhookDispatcher;
-use WWA\Core\Logger;
-use WWA\Triggers\TriggerRegistry;
-use WWA\Rest\WebhooksController;
-use WWA\Rest\LogsController;
-use WWA\Rest\TriggersController;
+use Hookly\Admin\Admin;
+use Hookly\Core\WebhookRepository;
+use Hookly\Core\WebhookDispatcher;
+use Hookly\Core\Logger;
+use Hookly\Triggers\TriggerRegistry;
+use Hookly\Rest\WebhooksController;
+use Hookly\Rest\LogsController;
+use Hookly\Rest\TriggersController;
 
-class WWA_Plugin {
+class Hookly_Plugin {
 
 	/**
 	 * Plugin instance.
@@ -123,7 +123,7 @@ class WWA_Plugin {
 	 */
 	private function registerTriggers(): void {
 		// Check if trigger classes exist (via Composer autoload)
-		if ( ! class_exists( 'WWA\Triggers\TriggerRegistry' ) ) {
+		if ( ! class_exists( 'Hookly\Triggers\TriggerRegistry' ) ) {
 			return;
 		}
 
@@ -131,10 +131,10 @@ class WWA_Plugin {
 
 		// Post triggers
 		$postTriggers = [
-			'WWA\Triggers\PostPublishedTrigger',
-			'WWA\Triggers\PostUpdatedTrigger',
-			'WWA\Triggers\PostDeletedTrigger',
-			'WWA\Triggers\PostTrashedTrigger',
+			'Hookly\Triggers\PostPublishedTrigger',
+			'Hookly\Triggers\PostUpdatedTrigger',
+			'Hookly\Triggers\PostDeletedTrigger',
+			'Hookly\Triggers\PostTrashedTrigger',
 		];
 
 		foreach ( $postTriggers as $triggerClass ) {
@@ -145,11 +145,11 @@ class WWA_Plugin {
 
 		// User triggers
 		$userTriggers = [
-			'WWA\Triggers\UserRegisteredTrigger',
-			'WWA\Triggers\UserUpdatedTrigger',
-			'WWA\Triggers\UserDeletedTrigger',
-			'WWA\Triggers\UserLoginTrigger',
-			'WWA\Triggers\UserLogoutTrigger',
+			'Hookly\Triggers\UserRegisteredTrigger',
+			'Hookly\Triggers\UserUpdatedTrigger',
+			'Hookly\Triggers\UserDeletedTrigger',
+			'Hookly\Triggers\UserLoginTrigger',
+			'Hookly\Triggers\UserLogoutTrigger',
 		];
 
 		foreach ( $userTriggers as $triggerClass ) {
@@ -160,10 +160,10 @@ class WWA_Plugin {
 
 		// Comment triggers
 		$commentTriggers = [
-			'WWA\Triggers\CommentCreatedTrigger',
-			'WWA\Triggers\CommentApprovedTrigger',
-			'WWA\Triggers\CommentSpamTrigger',
-			'WWA\Triggers\CommentReplyTrigger',
+			'Hookly\Triggers\CommentCreatedTrigger',
+			'Hookly\Triggers\CommentApprovedTrigger',
+			'Hookly\Triggers\CommentSpamTrigger',
+			'Hookly\Triggers\CommentReplyTrigger',
 		];
 
 		foreach ( $commentTriggers as $triggerClass ) {
@@ -173,7 +173,7 @@ class WWA_Plugin {
 		}
 
 		// Allow third-party triggers
-		do_action( 'wwa_register_triggers', $registry );
+		do_action( 'hookly_register_triggers', $registry );
 	}
 
 	/**
@@ -183,16 +183,16 @@ class WWA_Plugin {
 	 */
 	private function registerHooks(): void {
 		// Register all active triggers
-		if ( class_exists( 'WWA\Triggers\TriggerRegistry' ) ) {
+		if ( class_exists( 'Hookly\Triggers\TriggerRegistry' ) ) {
 			foreach ( $this->getTriggerRegistry()->getAll() as $trigger ) {
 				$trigger->register( [ $this, 'handleTrigger' ] );
 			}
 		}
 
 		// Cron events
-		add_action( 'wwa_dispatch_webhook', [ $this, 'handleAsyncDispatch' ], 10, 2 );
-		add_action( 'wwa_retry_webhook', [ $this, 'handleRetry' ] );
-		add_action( 'wwa_cleanup_logs', [ $this, 'cleanupLogs' ] );
+		add_action( 'hookly_dispatch_webhook', [ $this, 'handleAsyncDispatch' ], 10, 2 );
+		add_action( 'hookly_retry_webhook', [ $this, 'handleRetry' ] );
+		add_action( 'hookly_cleanup_logs', [ $this, 'cleanupLogs' ] );
 
 		// REST API
 		add_action( 'rest_api_init', [ $this, 'registerRestRoutes' ] );
@@ -205,19 +205,19 @@ class WWA_Plugin {
 	 */
 	public function registerRestRoutes(): void {
 		// Webhooks endpoints
-		if ( class_exists( 'WWA\Rest\WebhooksController' ) ) {
+		if ( class_exists( 'Hookly\Rest\WebhooksController' ) ) {
 			$webhooks_controller = new WebhooksController();
 			$webhooks_controller->register_routes();
 		}
 
 		// Logs endpoints
-		if ( class_exists( 'WWA\Rest\LogsController' ) ) {
+		if ( class_exists( 'Hookly\Rest\LogsController' ) ) {
 			$logs_controller = new LogsController();
 			$logs_controller->register_routes();
 		}
 
 		// Triggers endpoints
-		if ( class_exists( 'WWA\Rest\TriggersController' ) ) {
+		if ( class_exists( 'Hookly\Rest\TriggersController' ) ) {
 			$triggers_controller = new TriggersController();
 			$triggers_controller->register_routes();
 		}
@@ -229,7 +229,7 @@ class WWA_Plugin {
 	 * @return void
 	 */
 	private function initAdmin(): void {
-		if ( is_admin() && class_exists( 'WWA\Admin\Admin' ) ) {
+		if ( is_admin() && class_exists( 'Hookly\Admin\Admin' ) ) {
 			new Admin();
 		}
 	}
@@ -252,7 +252,7 @@ class WWA_Plugin {
 			}
 
 			// Dispatch (async if enabled)
-			if ( get_option( 'wwa_enable_async', true ) ) {
+			if ( get_option( 'hookly_enable_async', true ) ) {
 				$this->getDispatcher()->dispatchAsync( $webhook, $eventData );
 			} else {
 				$this->getDispatcher()->dispatch( $webhook, $eventData );
@@ -290,7 +290,7 @@ class WWA_Plugin {
 	 * @return void
 	 */
 	public function cleanupLogs(): void {
-		$days   = (int) get_option( 'wwa_log_retention_days', 30 );
+		$days   = (int) get_option( 'hookly_log_retention_days', 30 );
 		$logger = new Logger();
 		$logger->cleanup( $days );
 	}

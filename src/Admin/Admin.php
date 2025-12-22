@@ -7,14 +7,14 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Admin;
+namespace Hookly\Admin;
 
 class Admin {
 
 	/**
 	 * Menu slug.
 	 */
-	private const MENU_SLUG = 'wwa-webhooks';
+	private const MENU_SLUG = 'hookly-webhooks';
 
 	/**
 	 * Constructor.
@@ -59,7 +59,7 @@ class Admin {
 			__( 'All Webhooks', 'hookly-webhook-automator' ),
 			__( 'All Webhooks', 'hookly-webhook-automator' ),
 			'manage_options',
-			'wwa-webhooks-list',
+			'hookly-webhooks-list',
 			[ $this, 'renderWebhooksList' ]
 		);
 
@@ -69,7 +69,7 @@ class Admin {
 			__( 'Add New', 'hookly-webhook-automator' ),
 			__( 'Add New', 'hookly-webhook-automator' ),
 			'manage_options',
-			'wwa-webhook-new',
+			'hookly-webhook-new',
 			[ $this, 'renderWebhookForm' ]
 		);
 
@@ -79,7 +79,7 @@ class Admin {
 			__( 'Logs', 'hookly-webhook-automator' ),
 			__( 'Logs', 'hookly-webhook-automator' ),
 			'manage_options',
-			'wwa-logs',
+			'hookly-logs',
 			[ $this, 'renderLogs' ]
 		);
 
@@ -89,7 +89,7 @@ class Admin {
 			__( 'Settings', 'hookly-webhook-automator' ),
 			__( 'Settings', 'hookly-webhook-automator' ),
 			'manage_options',
-			'wwa-settings',
+			'hookly-settings',
 			[ $this, 'renderSettings' ]
 		);
 
@@ -99,7 +99,7 @@ class Admin {
 			__( 'Edit Webhook', 'hookly-webhook-automator' ),
 			__( 'Edit Webhook', 'hookly-webhook-automator' ),
 			'manage_options',
-			'wwa-webhook-edit',
+			'hookly-webhook-edit',
 			[ $this, 'renderWebhookForm' ]
 		);
 	}
@@ -118,29 +118,29 @@ class Admin {
 
 		// CSS
 		wp_enqueue_style(
-			'wwa-admin',
-			WWA_PLUGIN_URL . 'assets/css/admin.css',
+			'hookly-admin',
+			HOOKLY_PLUGIN_URL . 'assets/css/admin.css',
 			[],
-			WWA_VERSION
+			HOOKLY_VERSION
 		);
 
 		// JavaScript
 		wp_enqueue_script(
-			'wwa-admin',
-			WWA_PLUGIN_URL . 'assets/js/admin.js',
+			'hookly-admin',
+			HOOKLY_PLUGIN_URL . 'assets/js/admin.js',
 			[ 'jquery' ],
-			WWA_VERSION,
+			HOOKLY_VERSION,
 			true
 		);
 
 		// Localize script
 		wp_localize_script(
-			'wwa-admin',
-			'wwaAdmin',
+			'hookly-admin',
+			'hooklyAdmin',
 			[
 				'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
-				'restUrl'   => rest_url( 'wwa/v1/' ),
-				'nonce'     => wp_create_nonce( 'wwa_admin' ),
+				'restUrl'   => rest_url( 'hookly/v1/' ),
+				'nonce'     => wp_create_nonce( 'hookly_admin' ),
 				'restNonce' => wp_create_nonce( 'wp_rest' ),
 				'strings'   => [
 					'confirmDelete'    => __( 'Are you sure you want to delete this webhook? This action cannot be undone.', 'hookly-webhook-automator' ),
@@ -165,15 +165,15 @@ class Admin {
 		}
 
 		$pluginPages = [
-			'toplevel_page_wwa-webhooks',
-			'webhooks_page_wwa-webhooks-list',
-			'webhooks_page_wwa-webhook-new',
-			'webhooks_page_wwa-webhook-edit',
-			'webhooks_page_wwa-logs',
-			'webhooks_page_wwa-settings',
+			'toplevel_page_hookly-webhooks',
+			'webhooks_page_hookly-webhooks-list',
+			'webhooks_page_hookly-webhook-new',
+			'webhooks_page_hookly-webhook-edit',
+			'webhooks_page_hookly-logs',
+			'webhooks_page_hookly-settings',
 		];
 
-		return in_array( $hook, $pluginPages, true ) || str_contains( $hook, 'wwa-' );
+		return in_array( $hook, $pluginPages, true ) || str_contains( $hook, 'hookly-' );
 	}
 
 	/**
@@ -183,12 +183,12 @@ class Admin {
 	 */
 	public function handleActions(): void {
 		// Handle form submissions
-		if ( ! isset( $_POST['wwa_action'] ) ) {
+		if ( ! isset( $_POST['hookly_action'] ) ) {
 			return;
 		}
 
 		// Verify nonce
-		if ( ! isset( $_POST['wwa_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wwa_nonce'] ) ), 'wwa_admin' ) ) {
+		if ( ! isset( $_POST['hookly_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['hookly_nonce'] ) ), 'hookly_admin' ) ) {
 			return;
 		}
 
@@ -197,7 +197,7 @@ class Admin {
 			return;
 		}
 
-		$action = sanitize_text_field( wp_unslash( $_POST['wwa_action'] ) );
+		$action = sanitize_text_field( wp_unslash( $_POST['hookly_action'] ) );
 
 		switch ( $action ) {
 			case 'save_webhook':
@@ -227,7 +227,7 @@ class Admin {
 
 		if ( $result['success'] ) {
 			$this->addNotice( 'success', $result['message'] );
-			wp_safe_redirect( admin_url( 'admin.php?page=wwa-webhooks-list' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=hookly-webhooks-list' ) );
 			exit;
 		} else {
 			$this->addNotice( 'error', $result['message'] );
@@ -248,14 +248,14 @@ class Admin {
 			return;
 		}
 
-		$repository = new \WWA\Core\WebhookRepository();
+		$repository = new \Hookly\Core\WebhookRepository();
 		if ( $repository->delete( $webhookId ) ) {
 			$this->addNotice( 'success', __( 'Webhook deleted successfully.', 'hookly-webhook-automator' ) );
 		} else {
 			$this->addNotice( 'error', __( 'Failed to delete webhook.', 'hookly-webhook-automator' ) );
 		}
 
-		wp_safe_redirect( admin_url( 'admin.php?page=wwa-webhooks-list' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=hookly-webhooks-list' ) );
 		exit;
 	}
 
@@ -275,7 +275,7 @@ class Admin {
 			$this->addNotice( 'error', $result['message'] );
 		}
 
-		wp_safe_redirect( admin_url( 'admin.php?page=wwa-settings' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=hookly-settings' ) );
 		exit;
 	}
 
@@ -285,11 +285,11 @@ class Admin {
 	 * @return void
 	 */
 	private function handleClearLogs(): void {
-		$logger = new \WWA\Core\Logger();
+		$logger = new \Hookly\Core\Logger();
 		$logger->clearAll();
 
 		$this->addNotice( 'success', __( 'All logs have been cleared.', 'hookly-webhook-automator' ) );
-		wp_safe_redirect( admin_url( 'admin.php?page=wwa-logs' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=hookly-logs' ) );
 		exit;
 	}
 
@@ -301,12 +301,12 @@ class Admin {
 	 * @return void
 	 */
 	private function addNotice( string $type, string $message ): void {
-		$notices   = get_transient( 'wwa_admin_notices' ) ?: [];
+		$notices   = get_transient( 'hookly_admin_notices' ) ?: [];
 		$notices[] = [
 			'type'    => $type,
 			'message' => $message,
 		];
-		set_transient( 'wwa_admin_notices', $notices, 60 );
+		set_transient( 'hookly_admin_notices', $notices, 60 );
 	}
 
 	/**
@@ -315,13 +315,13 @@ class Admin {
 	 * @return void
 	 */
 	public function displayNotices(): void {
-		$notices = get_transient( 'wwa_admin_notices' );
+		$notices = get_transient( 'hookly_admin_notices' );
 
 		if ( ! $notices ) {
 			return;
 		}
 
-		delete_transient( 'wwa_admin_notices' );
+		delete_transient( 'hookly_admin_notices' );
 
 		foreach ( $notices as $notice ) {
 			$class = 'notice notice-' . esc_attr( $notice['type'] ) . ' is-dismissible';

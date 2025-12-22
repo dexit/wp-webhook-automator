@@ -5,11 +5,11 @@
  * @package WP_Webhook_Automator
  */
 
-namespace WWA\Tests\Unit\Triggers;
+namespace Hookly\Tests\Unit\Triggers;
 
-use WWA\Tests\TestCase;
-use WWA\Triggers\TriggerRegistry;
-use WWA\Triggers\TriggerInterface;
+use Hookly\Tests\TestCase;
+use Hookly\Triggers\TriggerRegistry;
+use Hookly\Triggers\TriggerInterface;
 use Mockery;
 
 class TriggerRegistryTest extends TestCase

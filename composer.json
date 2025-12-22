@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "WWA\\": "src/"
+            "Hookly\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "WWA\\Tests\\": "tests/"
+            "Hookly\\Tests\\": "tests/"
         }
     },
     "scripts": {

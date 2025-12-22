@@ -9,11 +9,11 @@
 
 // phpcs:disable WordPress.Security.NonceVerification.Recommended -- GET parameters used for read-only filtering.
 
-namespace WWA\Admin;
+namespace Hookly\Admin;
 
-use WWA\Core\WebhookRepository;
-use WWA\Core\Logger;
-use WWA\Triggers\TriggerRegistry;
+use Hookly\Core\WebhookRepository;
+use Hookly\Core\Logger;
+use Hookly\Triggers\TriggerRegistry;
 
 class WebhookList {
 
@@ -60,20 +60,20 @@ class WebhookList {
 
 		$triggerRegistry = TriggerRegistry::getInstance();
 		?>
-		<div class="wrap wwa-wrap">
-			<div class="wwa-header">
+		<div class="wrap hookly-wrap">
+			<div class="hookly-header">
 				<h1><?php esc_html_e( 'All Webhooks', 'hookly-webhook-automator' ); ?></h1>
-				<div class="wwa-header-actions">
-					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-new' ) ); ?>" class="button button-primary">
+				<div class="hookly-header-actions">
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=hookly-webhook-new' ) ); ?>" class="button button-primary">
 						<?php esc_html_e( 'Add New Webhook', 'hookly-webhook-automator' ); ?>
 					</a>
 				</div>
 			</div>
 
 			<!-- Filters -->
-			<div class="wwa-card" style="margin-bottom: 20px;">
+			<div class="hookly-card" style="margin-bottom: 20px;">
 				<form method="get" action="">
-					<input type="hidden" name="page" value="wwa-webhooks-list">
+					<input type="hidden" name="page" value="hookly-webhooks-list">
 					<div style="display: flex; gap: 15px; align-items: center;">
 						<div>
 							<label for="filter_status" class="screen-reader-text"><?php esc_html_e( 'Filter by status', 'hookly-webhook-automator' ); ?></label>
@@ -106,25 +106,25 @@ class WebhookList {
 						<button type="submit" class="button"><?php esc_html_e( 'Filter', 'hookly-webhook-automator' ); ?></button>
 						<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only filter check. ?>
 						<?php if ( ! empty( $_GET['status'] ) || ! empty( $_GET['trigger_type'] ) || ! empty( $_GET['search'] ) ) : ?>
-							<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhooks-list' ) ); ?>" class="button"><?php esc_html_e( 'Clear', 'hookly-webhook-automator' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'admin.php?page=hookly-webhooks-list' ) ); ?>" class="button"><?php esc_html_e( 'Clear', 'hookly-webhook-automator' ); ?></a>
 						<?php endif; ?>
 					</div>
 				</form>
 			</div>
 
 			<!-- Webhooks Table -->
-			<div class="wwa-card">
+			<div class="hookly-card">
 				<?php if ( empty( $webhooks ) ) : ?>
-					<div class="wwa-card-body">
-						<p class="wwa-text-muted">
+					<div class="hookly-card-body">
+						<p class="hookly-text-muted">
 							<?php esc_html_e( 'No webhooks found.', 'hookly-webhook-automator' ); ?>
-							<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-new' ) ); ?>">
+							<a href="<?php echo esc_url( admin_url( 'admin.php?page=hookly-webhook-new' ) ); ?>">
 								<?php esc_html_e( 'Create your first webhook', 'hookly-webhook-automator' ); ?>
 							</a>
 						</p>
 					</div>
 				<?php else : ?>
-					<table class="wwa-table">
+					<table class="hookly-table">
 						<thead>
 							<tr>
 								<th class="column-name"><?php esc_html_e( 'Name', 'hookly-webhook-automator' ); ?></th>
@@ -144,19 +144,19 @@ class WebhookList {
 								<tr>
 									<td>
 										<strong>
-											<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-edit&id=' . $webhook->getId() ) ); ?>">
+											<a href="<?php echo esc_url( admin_url( 'admin.php?page=hookly-webhook-edit&id=' . $webhook->getId() ) ); ?>">
 												<?php echo esc_html( $webhook->getName() ); ?>
 											</a>
 										</strong>
 										<?php if ( $webhook->getDescription() ) : ?>
-											<br><small class="wwa-text-muted"><?php echo esc_html( wp_trim_words( $webhook->getDescription(), 10 ) ); ?></small>
+											<br><small class="hookly-text-muted"><?php echo esc_html( wp_trim_words( $webhook->getDescription(), 10 ) ); ?></small>
 										<?php endif; ?>
 									</td>
 									<td>
 										<?php if ( $trigger ) : ?>
-											<span class="wwa-badge wwa-badge-info"><?php echo esc_html( $trigger->getName() ); ?></span>
+											<span class="hookly-badge hookly-badge-info"><?php echo esc_html( $trigger->getName() ); ?></span>
 										<?php else : ?>
-											<span class="wwa-text-muted"><?php echo esc_html( $webhook->getTriggerType() ); ?></span>
+											<span class="hookly-text-muted"><?php echo esc_html( $webhook->getTriggerType() ); ?></span>
 										<?php endif; ?>
 									</td>
 									<td>
@@ -166,16 +166,16 @@ class WebhookList {
 									</td>
 									<td>
 										<?php if ( $webhook->isActive() ) : ?>
-											<span class="wwa-badge wwa-badge-success"><?php esc_html_e( 'Active', 'hookly-webhook-automator' ); ?></span>
+											<span class="hookly-badge hookly-badge-success"><?php esc_html_e( 'Active', 'hookly-webhook-automator' ); ?></span>
 										<?php else : ?>
-											<span class="wwa-badge"><?php esc_html_e( 'Inactive', 'hookly-webhook-automator' ); ?></span>
+											<span class="hookly-badge"><?php esc_html_e( 'Inactive', 'hookly-webhook-automator' ); ?></span>
 										<?php endif; ?>
 									</td>
 									<td>
 										<?php if ( $stats['last_run'] ) : ?>
-											<small><?php echo esc_html( wwa_format_datetime( $stats['last_run'] ) ); ?></small>
+											<small><?php echo esc_html( hookly_format_datetime( $stats['last_run'] ) ); ?></small>
 											<br>
-											<small class="wwa-text-muted">
+											<small class="hookly-text-muted">
 												<?php
 												printf(
 													/* translators: 1: success count, 2: failed count */
@@ -186,20 +186,20 @@ class WebhookList {
 												?>
 											</small>
 										<?php else : ?>
-											<small class="wwa-text-muted"><?php esc_html_e( 'Never', 'hookly-webhook-automator' ); ?></small>
+											<small class="hookly-text-muted"><?php esc_html_e( 'Never', 'hookly-webhook-automator' ); ?></small>
 										<?php endif; ?>
 									</td>
 									<td>
 										<div style="display: flex; gap: 5px; justify-content: flex-end;">
-											<a href="<?php echo esc_url( admin_url( 'admin.php?page=wwa-webhook-edit&id=' . $webhook->getId() ) ); ?>" class="button button-small" title="<?php esc_attr_e( 'Edit', 'hookly-webhook-automator' ); ?>">
+											<a href="<?php echo esc_url( admin_url( 'admin.php?page=hookly-webhook-edit&id=' . $webhook->getId() ) ); ?>" class="button button-small" title="<?php esc_attr_e( 'Edit', 'hookly-webhook-automator' ); ?>">
 												<?php esc_html_e( 'Edit', 'hookly-webhook-automator' ); ?>
 											</a>
-											<button type="button" class="button button-small wwa-test-webhook" data-id="<?php echo esc_attr( $webhook->getId() ); ?>" title="<?php esc_attr_e( 'Test', 'hookly-webhook-automator' ); ?>">
+											<button type="button" class="button button-small hookly-test-webhook" data-id="<?php echo esc_attr( $webhook->getId() ); ?>" title="<?php esc_attr_e( 'Test', 'hookly-webhook-automator' ); ?>">
 												<?php esc_html_e( 'Test', 'hookly-webhook-automator' ); ?>
 											</button>
 											<form method="post" style="display: inline;" onsubmit="return confirm('<?php esc_attr_e( 'Are you sure you want to delete this webhook?', 'hookly-webhook-automator' ); ?>');">
-												<?php wp_nonce_field( 'wwa_admin', 'wwa_nonce' ); ?>
-												<input type="hidden" name="wwa_action" value="delete_webhook">
+												<?php wp_nonce_field( 'hookly_admin', 'hookly_nonce' ); ?>
+												<input type="hidden" name="hookly_action" value="delete_webhook">
 												<input type="hidden" name="webhook_id" value="<?php echo esc_attr( $webhook->getId() ); ?>">
 												<button type="submit" class="button button-small" style="color: #d63638;">
 													<?php esc_html_e( 'Delete', 'hookly-webhook-automator' ); ?>

@@ -6,6 +6,8 @@
 .distignore
 .phpunit.cache
 .claude
+.wordpress-org
+.idea
 tests
 bin
 phpunit.xml
