@@ -4,7 +4,7 @@ Tags: webhook, automation, zapier, integrations, api
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,10 @@ By default, webhooks will retry up to 3 times with a 60-second delay between att
 
 == Changelog ==
 
+= 1.0.1 =
+* Fixed: Added custom autoloader for WordPress.org distribution
+* Fixed: Plugin now works correctly when installed from WordPress.org
+
 = 1.0.0 =
 * Initial release
 * Core webhook functionality
@@ -101,6 +105,9 @@ By default, webhooks will retry up to 3 times with a 60-second delay between att
 * REST API endpoints
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Critical fix: Plugin now works correctly when installed from WordPress.org.
 
 = 1.0.0 =
 Initial release of Hookly - Webhook Automator.
