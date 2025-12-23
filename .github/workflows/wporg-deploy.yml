@@ -3,6 +3,13 @@ name: Deploy to WordPress.org
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (no actual deploy)'
+        required: false
+        default: 'false'
+        type: boolean
 
 jobs:
   deploy:
@@ -13,10 +20,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Get version from plugin file
+        id: get_version
+        run: |
+          VERSION=$(grep -oP "Version:\s*\K[0-9.]+" hookly-webhook-automator.php)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Plugin version: $VERSION"
+
       - name: WordPress.org Plugin Deploy
+        if: ${{ github.event.inputs.dry_run != 'true' }}
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
           SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
           SLUG: hookly-webhook-automator
+          VERSION: ${{ steps.get_version.outputs.version }}
           ASSETS_DIR: .wordpress-org
+
+      - name: Dry Run Summary
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        run: |
+          echo "🔍 DRY RUN - No deploy performed"
+          echo "Version: ${{ steps.get_version.outputs.version }}"
+          echo "Slug: hookly-webhook-automator"
+          echo "Files that would be deployed:"
+          find . -type f -name "*.php" | head -20
