@@ -3,7 +3,7 @@
  * Plugin Name:       Hookly - Webhook Automator
  * Plugin URI:        https://github.com/GhDj/wp-webhook-automator
  * Description:       Connect WordPress events to external services via webhooks. A lightweight, developer-friendly automation tool.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Jalel Ghabri
@@ -19,15 +19,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants
-define( 'HOOKLY_VERSION', '1.0.0' );
+define( 'HOOKLY_VERSION', '1.0.1' );
 define( 'HOOKLY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'HOOKLY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'HOOKLY_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'HOOKLY_DB_VERSION', '1.0.0' );
 
-// Composer autoloader for src/ directory
+// Autoloader for src/ directory
+// Use Composer autoloader if available (development), otherwise use custom autoloader (production)
 if ( file_exists( HOOKLY_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
 	require_once HOOKLY_PLUGIN_DIR . 'vendor/autoload.php';
+} else {
+	require_once HOOKLY_PLUGIN_DIR . 'includes/autoload.php';
 }
 
 // Include core files
@@ -50,5 +53,24 @@ function hookly_init(): Hookly_Plugin {
 	return Hookly_Plugin::get_instance();
 }
 
+/**
+ * Add plugin action links.
+ *
+ * @param array $links Existing plugin action links.
+ * @return array Modified plugin action links.
+ */
+function hookly_plugin_action_links( array $links ): array {
+	$settings_link = sprintf(
+		'<a href="%s">%s</a>',
+		admin_url( 'admin.php?page=hookly-webhooks' ),
+		__( 'Settings', 'hookly-webhook-automator' )
+	);
+	array_unshift( $links, $settings_link );
+	return $links;
+}
+
 // Start the plugin
 add_action( 'plugins_loaded', 'hookly_init' );
+
+// Add settings link on plugins page
+add_filter( 'plugin_action_links_' . HOOKLY_PLUGIN_BASENAME, 'hookly_plugin_action_links' );
