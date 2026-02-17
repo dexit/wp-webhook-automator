@@ -20,6 +20,7 @@ class Hookly_Activator {
 		self::create_tables();
 		self::set_default_options();
 		self::schedule_events();
+		self::add_example_rest_route();
 
 		// Store version for upgrade routines
 		update_option( 'hookly_version', HOOKLY_VERSION );
@@ -38,8 +39,9 @@ class Hookly_Activator {
 		global $wpdb;
 
 		$charset_collate = $wpdb->get_charset_collate();
-		$webhooks_table  = $wpdb->prefix . 'hookly_webhooks';
-		$logs_table      = $wpdb->prefix . 'hookly_logs';
+		$webhooks_table    = $wpdb->prefix . 'hookly_webhooks';
+		$logs_table        = $wpdb->prefix . 'hookly_logs';
+		$rest_routes_table = $wpdb->prefix . 'hookly_rest_routes';
 
 		$sql_webhooks = "CREATE TABLE {$webhooks_table} (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -86,9 +88,26 @@ class Hookly_Activator {
             KEY idx_created_at (created_at)
         ) {$charset_collate};";
 
+		$sql_rest_routes = "CREATE TABLE {$rest_routes_table} (
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            name VARCHAR(255) NOT NULL,
+            route_path VARCHAR(255) NOT NULL,
+            methods VARCHAR(100) DEFAULT '[\"POST\"]',
+            action_type VARCHAR(50) NOT NULL,
+            action_config LONGTEXT,
+            is_active TINYINT(1) DEFAULT 1,
+            is_async TINYINT(1) DEFAULT 0,
+            secret_key VARCHAR(255),
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            UNIQUE KEY idx_route_path (route_path)
+        ) {$charset_collate};";
+
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql_webhooks );
 		dbDelta( $sql_logs );
+		dbDelta( $sql_rest_routes );
 	}
 
 	/**
@@ -110,6 +129,40 @@ class Hookly_Activator {
 				add_option( $key, $value );
 			}
 		}
+	}
+
+	/**
+	 * Add an example REST route.
+	 *
+	 * @return void
+	 */
+	private static function add_example_rest_route(): void {
+		global $wpdb;
+		$table = $wpdb->prefix . 'hookly_rest_routes';
+
+		// Check if table exists
+		if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table ) ) !== $table ) {
+			return;
+		}
+
+		// Check if any routes exist
+		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" ) > 0 ) {
+			return;
+		}
+
+		$wpdb->insert(
+			$table,
+			[
+				'name'          => 'Example: Log Request',
+				'route_path'    => 'example-log',
+				'methods'       => '["POST"]',
+				'action_type'   => 'php_code',
+				'action_config' => wp_json_encode( [
+					'code' => '<?php error_log("Hookly REST Route received: " . print_r($data, true)); ?>'
+				] ),
+				'is_active'     => 1,
+			]
+		);
 	}
 
 	/**

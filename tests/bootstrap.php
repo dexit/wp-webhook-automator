@@ -36,3 +36,78 @@ if (!defined('HOOKLY_DB_VERSION')) {
 if (!defined('HOOKLY_TESTING')) {
     define('HOOKLY_TESTING', true);
 }
+
+/**
+ * Mock WordPress classes for unit testing
+ */
+if (!class_exists('WP_REST_Controller')) {
+    class WP_REST_Controller {
+        public function get_endpoint_args_for_item_schema( $method = 'GET' ) { return []; }
+        public function add_additional_fields_schema( $schema ) { return $schema; }
+    }
+}
+
+if (!class_exists('WP_REST_Response')) {
+    class WP_REST_Response {
+        private $data;
+        private $status;
+        private $headers = [];
+        public function __construct($data = null, $status = 200) {
+            $this->data = $data;
+            $this->status = $status;
+        }
+        public function get_data() { return $this->data; }
+        public function get_status() { return $this->status; }
+        public function header($key, $value) { $this->headers[$key] = $value; }
+    }
+}
+
+if (!class_exists('WP_REST_Server')) {
+    class WP_REST_Server {
+        const READABLE = 'GET';
+        const CREATABLE = 'POST';
+        const EDITABLE = 'POST, PUT, PATCH';
+        const DELETABLE = 'DELETE';
+        const ALLMETHODS = 'GET, POST, PUT, PATCH, DELETE';
+    }
+}
+
+/**
+ * Mock WP_Error class for testing.
+ */
+if (!class_exists('WP_Error')) {
+    class WP_Error
+    {
+        private array $errors = [];
+        private array $error_data = [];
+
+        public function __construct(string $code = '', string $message = '', $data = '')
+        {
+            if (!empty($code)) {
+                $this->errors[$code][] = $message;
+                if (!empty($data)) {
+                    $this->error_data[$code] = $data;
+                }
+            }
+        }
+
+        public function get_error_code(): string
+        {
+            $codes = array_keys($this->errors);
+            return $codes[0] ?? '';
+        }
+
+        public function get_error_message(string $code = ''): string
+        {
+            if (empty($code)) {
+                $code = $this->get_error_code();
+            }
+            return $this->errors[$code][0] ?? '';
+        }
+
+        public function get_error_codes(): array
+        {
+            return array_keys($this->errors);
+        }
+    }
+}

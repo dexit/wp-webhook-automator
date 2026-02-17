@@ -17,6 +17,8 @@ use Hookly\Triggers\TriggerRegistry;
 use Hookly\Rest\WebhooksController;
 use Hookly\Rest\LogsController;
 use Hookly\Rest\TriggersController;
+use Hookly\Extensions\RestRoutes\RestRouteManager;
+use Hookly\Extensions\RestRoutes\RestRoutesController;
 
 class Hookly_Plugin {
 
@@ -67,7 +69,17 @@ class Hookly_Plugin {
 		$this->loadDependencies();
 		$this->registerTriggers();
 		$this->registerHooks();
+		$this->initExtensions();
 		$this->initAdmin();
+	}
+
+	/**
+	 * Initialize extensions.
+	 */
+	private function initExtensions(): void {
+		if ( class_exists( 'Hookly\Extensions\RestRoutes\RestRouteManager' ) ) {
+			( new RestRouteManager() )->init();
+		}
 	}
 
 	/**
@@ -172,6 +184,11 @@ class Hookly_Plugin {
 			}
 		}
 
+		// REST Route trigger
+		if ( class_exists( 'Hookly\Triggers\RestRouteTrigger' ) ) {
+			$registry->register( new \Hookly\Triggers\RestRouteTrigger() );
+		}
+
 		// Allow third-party triggers
 		do_action( 'hookly_register_triggers', $registry );
 	}
@@ -220,6 +237,12 @@ class Hookly_Plugin {
 		if ( class_exists( 'Hookly\Rest\TriggersController' ) ) {
 			$triggers_controller = new TriggersController();
 			$triggers_controller->register_routes();
+		}
+
+		// Rest Routes extension endpoints
+		if ( class_exists( 'Hookly\Extensions\RestRoutes\RestRoutesController' ) ) {
+			$rest_routes_controller = new RestRoutesController();
+			$rest_routes_controller->register_routes();
 		}
 	}
 
