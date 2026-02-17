@@ -30,13 +30,12 @@ class ConsumerManager {
 		$consumers = $this->repository->findAll();
 		foreach ( $consumers as $consumer ) {
 			if ( ! $consumer->isActive() ) {
+				wp_clear_scheduled_hook( 'hookly_run_consumer', [ $consumer->getId() ] );
 				continue;
 			}
 
-			$hook = 'hookly_run_consumer_' . $consumer->getId();
-			if ( ! wp_next_scheduled( $hook ) ) {
-				wp_schedule_event( time(), $consumer->getSchedule(), $hook, [ $consumer->getId() ] );
-				add_action( $hook, [ $this, 'run_consumer' ] );
+			if ( ! wp_next_scheduled( 'hookly_run_consumer', [ $consumer->getId() ] ) ) {
+				wp_schedule_event( time(), $consumer->getSchedule(), 'hookly_run_consumer', [ $consumer->getId() ] );
 			}
 		}
 	}
