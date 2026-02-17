@@ -63,11 +63,31 @@ class Admin {
 			[ $this, 'renderWebhooksList' ]
 		);
 
+		// REST Routes (Listener)
+		add_submenu_page(
+			self::MENU_SLUG,
+			__( 'REST Routes', 'hookly-webhook-automator' ),
+			__( 'REST Routes', 'hookly-webhook-automator' ),
+			'manage_options',
+			'hookly-rest-routes',
+			[ $this, 'renderRestRoutesList' ]
+		);
+
+		// Consumers (Scheduled)
+		add_submenu_page(
+			self::MENU_SLUG,
+			__( 'Consumers', 'hookly-webhook-automator' ),
+			__( 'Consumers', 'hookly-webhook-automator' ),
+			'manage_options',
+			'hookly-consumers',
+			[ $this, 'renderConsumersList' ]
+		);
+
 		// Add New
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Add New', 'hookly-webhook-automator' ),
-			__( 'Add New', 'hookly-webhook-automator' ),
+			__( 'Add New Webhook', 'hookly-webhook-automator' ),
+			__( 'Add New Webhook', 'hookly-webhook-automator' ),
 			'manage_options',
 			'hookly-webhook-new',
 			[ $this, 'renderWebhookForm' ]
@@ -93,7 +113,7 @@ class Admin {
 			[ $this, 'renderSettings' ]
 		);
 
-		// Hidden edit page
+		// Hidden edit pages
 		add_submenu_page(
 			null,
 			__( 'Edit Webhook', 'hookly-webhook-automator' ),
@@ -101,6 +121,24 @@ class Admin {
 			'manage_options',
 			'hookly-webhook-edit',
 			[ $this, 'renderWebhookForm' ]
+		);
+
+		add_submenu_page(
+			null,
+			__( 'Edit REST Route', 'hookly-webhook-automator' ),
+			__( 'Edit REST Route', 'hookly-webhook-automator' ),
+			'manage_options',
+			'hookly-rest-route-edit',
+			[ $this, 'renderRestRouteForm' ]
+		);
+
+		add_submenu_page(
+			null,
+			__( 'Edit Consumer', 'hookly-webhook-automator' ),
+			__( 'Edit Consumer', 'hookly-webhook-automator' ),
+			'manage_options',
+			'hookly-consumer-edit',
+			[ $this, 'renderConsumerForm' ]
 		);
 	}
 
@@ -182,13 +220,15 @@ class Admin {
 	 * @return void
 	 */
 	public function handleActions(): void {
-		// Handle form submissions
-		if ( ! isset( $_POST['hookly_action'] ) ) {
+		$action = $_POST['hookly_action'] ?? $_GET['hookly_action'] ?? null;
+		$nonce  = $_POST['hookly_nonce'] ?? $_GET['hookly_nonce'] ?? null;
+
+		if ( ! $action ) {
 			return;
 		}
 
 		// Verify nonce
-		if ( ! isset( $_POST['hookly_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['hookly_nonce'] ) ), 'hookly_admin' ) ) {
+		if ( ! $nonce || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $nonce ) ), 'hookly_admin' ) ) {
 			return;
 		}
 
@@ -197,7 +237,7 @@ class Admin {
 			return;
 		}
 
-		$action = sanitize_text_field( wp_unslash( $_POST['hookly_action'] ) );
+		$action = sanitize_text_field( wp_unslash( $action ) );
 
 		switch ( $action ) {
 			case 'save_webhook':
@@ -205,6 +245,18 @@ class Admin {
 				break;
 			case 'delete_webhook':
 				$this->handleDeleteWebhook();
+				break;
+			case 'save_rest_route':
+				$this->handleSaveRestRoute();
+				break;
+			case 'delete_rest_route':
+				$this->handleDeleteRestRoute();
+				break;
+			case 'save_consumer':
+				$this->handleSaveConsumer();
+				break;
+			case 'delete_consumer':
+				$this->handleDeleteConsumer();
 				break;
 			case 'save_settings':
 				$this->handleSaveSettings();
@@ -334,6 +386,79 @@ class Admin {
 	}
 
 	/**
+	 * Handle saving a REST route.
+	 */
+	private function handleSaveRestRoute(): void {
+		$data = [
+			'id'         => isset( $_POST['id'] ) ? (int) $_POST['id'] : 0,
+			'name'       => sanitize_text_field( $_POST['name'] ?? '' ),
+			'route_path' => sanitize_title( $_POST['route_path'] ?? '' ),
+			'is_active'  => isset( $_POST['is_active'] ),
+			'is_async'   => isset( $_POST['is_async'] ),
+			'actions'    => json_decode( wp_unslash( $_POST['actions'] ?? '[]' ), true ),
+		];
+		$route   = new \Hookly\Extensions\RestRoutes\RestRoute( $data );
+		$repo    = new \Hookly\Extensions\RestRoutes\RestRouteRepository();
+		$saved_id = $repo->save( $route );
+
+		if ( $saved_id ) {
+			$this->addNotice( 'success', __( 'REST Route saved successfully.', 'hookly-webhook-automator' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=hookly-rest-routes' ) );
+			exit;
+		}
+	}
+
+	/**
+	 * Handle deleting a REST route.
+	 */
+	private function handleDeleteRestRoute(): void {
+		$id   = isset( $_POST['route_id'] ) ? (int) $_POST['route_id'] : 0;
+		$repo = new \Hookly\Extensions\RestRoutes\RestRouteRepository();
+		if ( $repo->delete( $id ) ) {
+			$this->addNotice( 'success', __( 'REST Route deleted successfully.', 'hookly-webhook-automator' ) );
+		}
+		wp_safe_redirect( admin_url( 'admin.php?page=hookly-rest-routes' ) );
+		exit;
+	}
+
+	/**
+	 * Handle saving a consumer.
+	 */
+	private function handleSaveConsumer(): void {
+		$data = [
+			'id'          => isset( $_POST['id'] ) ? (int) $_POST['id'] : 0,
+			'name'        => sanitize_text_field( $_POST['name'] ?? '' ),
+			'source_url'  => esc_url_raw( $_POST['source_url'] ?? '' ),
+			'http_method' => sanitize_text_field( $_POST['http_method'] ?? 'GET' ),
+			'schedule'    => sanitize_text_field( $_POST['schedule'] ?? 'hourly' ),
+			'actions'     => json_decode( wp_unslash( $_POST['actions'] ?? '[]' ), true ),
+			'is_active'   => isset( $_POST['is_active'] ),
+		];
+		$consumer = new \Hookly\Extensions\Consumers\Consumer( $data );
+		$repo     = new \Hookly\Extensions\Consumers\ConsumerRepository();
+		$saved_id = $repo->save( $consumer );
+
+		if ( $saved_id ) {
+			$this->addNotice( 'success', __( 'Consumer saved successfully.', 'hookly-webhook-automator' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=hookly-consumers' ) );
+			exit;
+		}
+	}
+
+	/**
+	 * Handle deleting a consumer.
+	 */
+	private function handleDeleteConsumer(): void {
+		$id   = isset( $_POST['consumer_id'] ) ? (int) $_POST['consumer_id'] : 0;
+		$repo = new \Hookly\Extensions\Consumers\ConsumerRepository();
+		if ( $repo->delete( $id ) ) {
+			$this->addNotice( 'success', __( 'Consumer deleted successfully.', 'hookly-webhook-automator' ) );
+		}
+		wp_safe_redirect( admin_url( 'admin.php?page=hookly-consumers' ) );
+		exit;
+	}
+
+	/**
 	 * Render the dashboard page.
 	 *
 	 * @return void
@@ -371,6 +496,109 @@ class Admin {
 	public function renderLogs(): void {
 		$logs = new LogsViewer();
 		$logs->render();
+	}
+
+	/**
+	 * Render the REST routes list.
+	 */
+	public function renderRestRoutesList(): void {
+		echo '<div class="wrap"><h1>' . __( 'REST Routes (Listeners)', 'hookly-webhook-automator' ) . ' <a href="' . admin_url( 'admin.php?page=hookly-rest-route-edit' ) . '" class="page-title-action">' . __( 'Add New', 'hookly-webhook-automator' ) . '</a></h1>';
+		echo '<p>' . __( 'Define custom endpoints to receive data from external services.', 'hookly-webhook-automator' ) . '</p>';
+		$repo   = new \Hookly\Extensions\RestRoutes\RestRouteRepository();
+		$routes = $repo->findAll();
+		echo '<table class="wp-list-table widefat fixed striped"><thead><tr><th>Name</th><th>Path</th><th>Actions Count</th><th>Active</th><th>Manage</th></tr></thead><tbody>';
+		foreach ( $routes as $route ) {
+			$edit_url   = admin_url( 'admin.php?page=hookly-rest-route-edit&id=' . $route->getId() );
+			$delete_url = wp_nonce_url( admin_url( 'admin.php?page=hookly-rest-routes&hookly_action=delete_rest_route&route_id=' . $route->getId() ), 'hookly_admin', 'hookly_nonce' );
+			echo '<tr>';
+			echo '<td><strong><a href="' . $edit_url . '">' . esc_html( $route->getName() ) . '</a></strong>';
+			echo '<div class="row-actions"><span class="edit"><a href="' . $edit_url . '">Edit</a> | </span><span class="trash"><a href="' . $delete_url . '" class="submitdelete" onclick="return confirm(\'Delete this route?\')">Delete</a></span></div>';
+			echo '</td>';
+			echo '<td><code>hookly/v1/incoming/' . esc_html( $route->getRoutePath() ) . '</code></td>';
+			echo '<td>' . count( $route->getActions() ) . '</td>';
+			echo '<td>' . ( $route->isActive() ? 'Yes' : 'No' ) . '</td>';
+			echo '<td><a href="' . $edit_url . '">Edit</a></td>';
+			echo '</tr>';
+		}
+		echo '</tbody></table></div>';
+	}
+
+	/**
+	 * Render the REST route form.
+	 */
+	public function renderRestRouteForm(): void {
+		$id    = isset( $_GET['id'] ) ? (int) $_GET['id'] : 0;
+		$repo  = new \Hookly\Extensions\RestRoutes\RestRouteRepository();
+		$route = $id ? $repo->find( $id ) : new \Hookly\Extensions\RestRoutes\RestRoute();
+		?>
+		<div class="wrap">
+			<h1><?php echo $id ? 'Edit REST Route' : 'Add New REST Route'; ?></h1>
+			<form method="post" action="<?php echo admin_url( 'admin.php?page=hookly-rest-routes' ); ?>">
+				<?php wp_nonce_field( 'hookly_admin', 'hookly_nonce' ); ?>
+				<input type="hidden" name="hookly_action" value="save_rest_route">
+				<input type="hidden" name="id" value="<?php echo $id; ?>">
+				<table class="form-table">
+					<tr><th>Name</th><td><input type="text" name="name" value="<?php echo esc_attr( $route->getName() ); ?>" class="regular-text"></td></tr>
+					<tr><th>Route Path</th><td><code>hookly/v1/incoming/</code> <input type="text" name="route_path" value="<?php echo esc_attr( $route->getRoutePath() ); ?>" class="regular-text"></td></tr>
+					<tr><th>Active</th><td><input type="checkbox" name="is_active" value="1" <?php checked( $route->isActive() ); ?>></td></tr>
+					<tr><th>Async</th><td><input type="checkbox" name="is_async" value="1" <?php checked( $route->isAsync() ); ?>></td></tr>
+					<tr><th>Actions (JSON)</th><td><textarea name="actions" class="large-text" rows="10"><?php echo esc_textarea( wp_json_encode( $route->getActions(), JSON_PRETTY_PRINT ) ); ?></textarea><p class="description">Define your action chain here.</p></td></tr>
+				</table>
+				<?php submit_button(); ?>
+			</form>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the consumers list.
+	 */
+	public function renderConsumersList(): void {
+		echo '<div class="wrap"><h1>' . __( 'Consumers (Scheduled Requests)', 'hookly-webhook-automator' ) . ' <a href="' . admin_url( 'admin.php?page=hookly-consumer-edit' ) . '" class="page-title-action">' . __( 'Add New', 'hookly-webhook-automator' ) . '</a></h1>';
+		$repo      = new \Hookly\Extensions\Consumers\ConsumerRepository();
+		$consumers = $repo->findAll();
+		echo '<table class="wp-list-table widefat fixed striped"><thead><tr><th>Name</th><th>Source URL</th><th>Schedule</th><th>Active</th><th>Manage</th></tr></thead><tbody>';
+		foreach ( $consumers as $c ) {
+			$edit_url   = admin_url( 'admin.php?page=hookly-consumer-edit&id=' . $c->getId() );
+			$delete_url = wp_nonce_url( admin_url( 'admin.php?page=hookly-consumers&hookly_action=delete_consumer&consumer_id=' . $c->getId() ), 'hookly_admin', 'hookly_nonce' );
+			echo '<tr>';
+			echo '<td><strong><a href="' . $edit_url . '">' . esc_html( $c->getName() ) . '</a></strong>';
+			echo '<div class="row-actions"><span class="edit"><a href="' . $edit_url . '">Edit</a> | </span><span class="trash"><a href="' . $delete_url . '" class="submitdelete" onclick="return confirm(\'Delete this consumer?\')">Delete</a></span></div>';
+			echo '</td>';
+			echo '<td>' . esc_html( $c->getSourceUrl() ) . '</td>';
+			echo '<td>' . esc_html( $c->getSchedule() ) . '</td>';
+			echo '<td>' . ( $c->isActive() ? 'Yes' : 'No' ) . '</td>';
+			echo '<td><a href="' . $edit_url . '">Edit</a></td>';
+			echo '</tr>';
+		}
+		echo '</tbody></table></div>';
+	}
+
+	/**
+	 * Render the consumer form.
+	 */
+	public function renderConsumerForm(): void {
+		$id       = isset( $_GET['id'] ) ? (int) $_GET['id'] : 0;
+		$repo     = new \Hookly\Extensions\Consumers\ConsumerRepository();
+		$consumer = $id ? $repo->find( $id ) : new \Hookly\Extensions\Consumers\Consumer();
+		?>
+		<div class="wrap">
+			<h1><?php echo $id ? 'Edit Consumer' : 'Add New Consumer'; ?></h1>
+			<form method="post" action="<?php echo admin_url( 'admin.php?page=hookly-consumers' ); ?>">
+				<?php wp_nonce_field( 'hookly_admin', 'hookly_nonce' ); ?>
+				<input type="hidden" name="hookly_action" value="save_consumer">
+				<input type="hidden" name="id" value="<?php echo $id; ?>">
+				<table class="form-table">
+					<tr><th>Name</th><td><input type="text" name="name" value="<?php echo esc_attr( $consumer->getName() ); ?>" class="regular-text"></td></tr>
+					<tr><th>Source URL</th><td><input type="text" name="source_url" value="<?php echo esc_url( $consumer->getSourceUrl() ); ?>" class="large-text"></td></tr>
+					<tr><th>Schedule</th><td><input type="text" name="schedule" value="<?php echo esc_attr( $consumer->getSchedule() ); ?>"> (hourly, daily, etc)</td></tr>
+					<tr><th>Active</th><td><input type="checkbox" name="is_active" value="1" <?php checked( $consumer->isActive() ); ?>></td></tr>
+					<tr><th>Actions (JSON)</th><td><textarea name="actions" class="large-text" rows="10"><?php echo esc_textarea( wp_json_encode( $consumer->getActions(), JSON_PRETTY_PRINT ) ); ?></textarea></td></tr>
+				</table>
+				<?php submit_button(); ?>
+			</form>
+		</div>
+		<?php
 	}
 
 	/**
