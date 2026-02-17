@@ -42,6 +42,7 @@ class Hookly_Activator {
 		$webhooks_table    = $wpdb->prefix . 'hookly_webhooks';
 		$logs_table        = $wpdb->prefix . 'hookly_logs';
 		$rest_routes_table = $wpdb->prefix . 'hookly_rest_routes';
+		$consumers_table   = $wpdb->prefix . 'hookly_consumers';
 
 		$sql_webhooks = "CREATE TABLE {$webhooks_table} (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -93,8 +94,7 @@ class Hookly_Activator {
             name VARCHAR(255) NOT NULL,
             route_path VARCHAR(255) NOT NULL,
             methods VARCHAR(100) DEFAULT '[\"POST\"]',
-            action_type VARCHAR(50) NOT NULL,
-            action_config LONGTEXT,
+            actions LONGTEXT,
             is_active TINYINT(1) DEFAULT 1,
             is_async TINYINT(1) DEFAULT 0,
             secret_key VARCHAR(255),
@@ -104,10 +104,26 @@ class Hookly_Activator {
             UNIQUE KEY idx_route_path (route_path)
         ) {$charset_collate};";
 
+		$sql_consumers = "CREATE TABLE {$consumers_table} (
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            name VARCHAR(255) NOT NULL,
+            source_url VARCHAR(2048) NOT NULL,
+            http_method VARCHAR(10) DEFAULT 'GET',
+            headers LONGTEXT,
+            schedule VARCHAR(50) DEFAULT 'hourly',
+            actions LONGTEXT,
+            is_active TINYINT(1) DEFAULT 1,
+            last_run DATETIME,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) {$charset_collate};";
+
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql_webhooks );
 		dbDelta( $sql_logs );
 		dbDelta( $sql_rest_routes );
+		dbDelta( $sql_consumers );
 	}
 
 	/**
@@ -153,14 +169,16 @@ class Hookly_Activator {
 		$wpdb->insert(
 			$table,
 			[
-				'name'          => 'Example: Log Request',
-				'route_path'    => 'example-log',
-				'methods'       => '["POST"]',
-				'action_type'   => 'php_code',
-				'action_config' => wp_json_encode( [
-					'code' => '<?php error_log("Hookly REST Route received: " . print_r($data, true)); ?>'
+				'name'       => 'Example: Log Request',
+				'route_path' => 'example-log',
+				'methods'    => '["POST"]',
+				'actions'    => wp_json_encode( [
+					[
+						'type'   => 'php_code',
+						'config' => [ 'code' => '<?php error_log("Hookly REST Route received: " . print_r($data, true)); ?>' ],
+					]
 				] ),
-				'is_active'     => 1,
+				'is_active'  => 1,
 			]
 		);
 	}

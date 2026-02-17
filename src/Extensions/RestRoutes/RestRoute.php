@@ -38,18 +38,11 @@ class RestRoute {
 	private array $methods = [ 'POST' ];
 
 	/**
-	 * Action type (php_code, wp_action, create_cpt, update_cpt).
-	 *
-	 * @var string
-	 */
-	private string $actionType = 'wp_action';
-
-	/**
-	 * Action configuration.
+	 * Sequence of actions to perform.
 	 *
 	 * @var array
 	 */
-	private array $actionConfig = [];
+	private array $actions = [];
 
 	/**
 	 * Whether route is active.
@@ -126,17 +119,10 @@ class RestRoute {
 	}
 
 	/**
-	 * Get action type.
+	 * Get actions.
 	 */
-	public function getActionType(): string {
-		return $this->actionType;
-	}
-
-	/**
-	 * Get action config.
-	 */
-	public function getActionConfig(): array {
-		return $this->actionConfig;
+	public function getActions(): array {
+		return $this->actions;
 	}
 
 	/**
@@ -193,18 +179,10 @@ class RestRoute {
 	}
 
 	/**
-	 * Set action type.
+	 * Set actions.
 	 */
-	public function setActionType( string $actionType ): self {
-		$this->actionType = $actionType;
-		return $this;
-	}
-
-	/**
-	 * Set action config.
-	 */
-	public function setActionConfig( array $actionConfig ): self {
-		$this->actionConfig = $actionConfig;
+	public function setActions( array $actions ): self {
+		$this->actions = $actions;
 		return $this;
 	}
 
@@ -239,11 +217,10 @@ class RestRoute {
 		return [
 			'id'            => $this->id,
 			'name'          => $this->name,
-			'route_path'    => $this->routePath,
-			'methods'       => $this->methods,
-			'action_type'   => $this->actionType,
-			'action_config' => $this->actionConfig,
-			'is_active'     => $this->isActive,
+			'route_path' => $this->routePath,
+			'methods'    => $this->methods,
+			'actions'    => $this->actions,
+			'is_active'  => $this->isActive,
 			'is_async'      => $this->isAsync,
 			'secret_key'    => $this->secretKey,
 			'created_at'    => $this->createdAt,
@@ -255,13 +232,12 @@ class RestRoute {
 	 * Populate entity from array.
 	 */
 	public function fromArray( array $data ): self {
-		$this->id           = (int) ( $data['id'] ?? 0 );
-		$this->name         = $data['name'] ?? '';
-		$this->routePath    = $data['route_path'] ?? '';
-		$this->methods      = $this->decodeJson( $data['methods'] ?? [ 'POST' ] );
-		$this->actionType   = $data['action_type'] ?? 'wp_action';
-		$this->actionConfig = $this->decodeJson( $data['action_config'] ?? [] );
-		$this->isActive     = (bool) ( $data['is_active'] ?? true );
+		$this->id        = (int) ( $data['id'] ?? 0 );
+		$this->name      = $data['name'] ?? '';
+		$this->routePath = $data['route_path'] ?? '';
+		$this->methods   = $this->decodeJson( $data['methods'] ?? [ 'POST' ] );
+		$this->actions   = $this->decodeJson( $data['actions'] ?? [] );
+		$this->isActive  = (bool) ( $data['is_active'] ?? true );
 		$this->isAsync      = (bool) ( $data['is_async'] ?? false );
 		$this->secretKey    = $data['secret_key'] ?? null;
 		$this->createdAt    = $data['created_at'] ?? null;

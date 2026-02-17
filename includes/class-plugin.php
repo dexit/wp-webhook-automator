@@ -19,6 +19,8 @@ use Hookly\Rest\LogsController;
 use Hookly\Rest\TriggersController;
 use Hookly\Extensions\RestRoutes\RestRouteManager;
 use Hookly\Extensions\RestRoutes\RestRoutesController;
+use Hookly\Extensions\Consumers\ConsumerManager;
+use Hookly\Extensions\Consumers\ConsumersController;
 
 class Hookly_Plugin {
 
@@ -79,6 +81,9 @@ class Hookly_Plugin {
 	private function initExtensions(): void {
 		if ( class_exists( 'Hookly\Extensions\RestRoutes\RestRouteManager' ) ) {
 			( new RestRouteManager() )->init();
+		}
+		if ( class_exists( 'Hookly\Extensions\Consumers\ConsumerManager' ) ) {
+			( new ConsumerManager() )->init();
 		}
 	}
 
@@ -243,6 +248,12 @@ class Hookly_Plugin {
 		if ( class_exists( 'Hookly\Extensions\RestRoutes\RestRoutesController' ) ) {
 			$rest_routes_controller = new RestRoutesController();
 			$rest_routes_controller->register_routes();
+		}
+
+		// Consumers extension endpoints
+		if ( class_exists( 'Hookly\Extensions\Consumers\ConsumersController' ) ) {
+			$consumers_controller = new ConsumersController();
+			$consumers_controller->register_routes();
 		}
 	}
 

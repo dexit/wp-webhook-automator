@@ -20,8 +20,9 @@ class IncomingControllerTest extends TestCase {
 			'id' => 1,
 			'name' => 'Test Route',
 			'route_path' => 'test-path',
-			'action_type' => 'wp_action',
-			'action_config' => [ 'action' => 'my_custom_action' ],
+			'actions' => [
+				[ 'type' => 'wp_action', 'config' => [ 'action' => 'my_custom_action' ] ]
+			],
 		]);
 
 		$request = Mockery::mock( 'WP_REST_Request' );

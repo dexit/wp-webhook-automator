@@ -16,25 +16,25 @@ class ActionProcessor {
 	/**
 	 * Process a route action with data.
 	 *
-	 * @param RestRoute $route The route entity.
-	 * @param array     $data  The request data.
+	 * @param RestRoute|object $route_or_consumer The entity containing actions.
+	 * @param array            $data              The request data.
 	 * @return array Results of execution.
 	 */
-	public function process( RestRoute $route, array $data ): array {
+	public function process( $route_or_consumer, array $data ): array {
 		$body = $data['body'] ?? [];
 
-		// Handle batch processing (Data Importer feel)
+		// Handle batch processing
 		if ( $this->is_batch( $body ) ) {
 			$results = [];
 			foreach ( $body as $item ) {
 				$item_data         = $data;
 				$item_data['body'] = $item;
-				$results[]         = $this->execute_single( $route, $item_data );
+				$results[]         = $this->execute_chain( $route_or_consumer->getActions(), $item_data );
 			}
 			return $results;
 		}
 
-		return [ $this->execute_single( $route, $data ) ];
+		return [ $this->execute_chain( $route_or_consumer->getActions(), $data ) ];
 	}
 
 	/**
@@ -44,28 +44,64 @@ class ActionProcessor {
 		if ( ! is_array( $body ) || empty( $body ) ) {
 			return false;
 		}
+		// Check if it's a numeric array (list)
 		return array_keys( $body ) === range( 0, count( $body ) - 1 );
 	}
 
 	/**
-	 * Execute action for a single item.
+	 * Execute a sequence of actions.
 	 */
-	private function execute_single( RestRoute $route, array $data ) {
-		$action_type   = $route->getActionType();
-		$action_config = $route->getActionConfig();
+	private function execute_chain( array $actions, array $data ): array {
+		$current_data = $data;
+		$results      = [];
 
-		switch ( $action_type ) {
+		foreach ( $actions as $action ) {
+			$type   = $action['type'] ?? '';
+			$config = $action['config'] ?? [];
+
+			$result = $this->execute_single_action( $type, $config, $current_data );
+
+			if ( is_wp_error( $result ) ) {
+				$results[] = [
+					'type'    => $type,
+					'status'  => 'error',
+					'message' => $result->get_error_message(),
+				];
+				// Optionally break on error? For now, we continue.
+				continue;
+			}
+
+			// If action is a transform, update current_data
+			if ( isset( $result['transform'] ) && is_array( $result['transform'] ) ) {
+				$current_data = $result['transform'];
+			}
+
+			$results[] = array_merge( [ 'type' => $type, 'status' => 'success' ], $result );
+		}
+
+		return [
+			'final_data' => $current_data,
+			'actions'    => $results,
+		];
+	}
+
+	/**
+	 * Execute a single action.
+	 */
+	private function execute_single_action( string $type, array $config, array $data ) {
+		switch ( $type ) {
 			case 'php_code':
-				return $this->execute_php_code( $action_config['code'] ?? '', $data );
+				return $this->execute_php_code( $config['code'] ?? '', $data );
 
 			case 'wp_action':
-				return $this->execute_wp_action( $action_config['action'] ?? '', $data );
+				return $this->execute_wp_action( $config['action'] ?? '', $data );
 
 			case 'create_cpt':
-				return $this->execute_create_cpt( $action_config, $data );
-
 			case 'update_cpt':
-				return $this->execute_update_cpt( $action_config, $data );
+				return $this->execute_cpt_action( $type, $config, $data );
+
+			case 'http_request':
+				return $this->execute_http_request( $config, $data );
 
 			default:
 				return new WP_Error( 'invalid_action_type', __( 'Invalid action type.', 'hookly-webhook-automator' ) );
@@ -74,6 +110,7 @@ class ActionProcessor {
 
 	/**
 	 * Execute custom PHP code.
+	 * PHP code can modify $data by returning a new array.
 	 */
 	private function execute_php_code( string $code, array $data ) {
 		if ( empty( $code ) ) {
@@ -82,14 +119,21 @@ class ActionProcessor {
 
 		try {
 			ob_start();
-			$result = eval( '?>' . $code );
-			$output = ob_get_clean();
+			// Make $data available in scope.
+			// The code should return an array if it wants to transform data.
+			$transform = eval( '?>' . $code );
+			$output    = ob_get_clean();
 
-			return [
-				'success' => true,
-				'result'  => $result,
-				'output'  => $output,
+			$res = [
+				'result' => $transform,
+				'output' => $output,
 			];
+
+			if ( is_array( $transform ) ) {
+				$res['transform'] = $transform;
+			}
+
+			return $res;
 		} catch ( \Throwable $e ) {
 			if ( ob_get_length() ) {
 				ob_end_clean();
@@ -112,17 +156,24 @@ class ActionProcessor {
 	}
 
 	/**
-	 * Create a Custom Post Type entry.
+	 * Handle CPT operations.
 	 */
-	private function execute_create_cpt( array $config, array $data ) {
-		$post_type = $config['post_type'] ?? 'post';
-		$mapping   = $config['mapping'] ?? [];
+	private function execute_cpt_action( string $type, array $config, array $data ) {
+		$post_data = [];
 
-		$post_data = [
-			'post_type'   => $post_type,
-			'post_status' => $config['post_status'] ?? 'publish',
-		];
+		if ( $type === 'update_cpt' ) {
+			$post_id_template = $config['post_id_template'] ?? '';
+			$post_id          = (int) $this->parse_template( $post_id_template, $data );
+			if ( ! $post_id ) {
+				return new WP_Error( 'missing_post_id', __( 'Post ID not found from template.', 'hookly-webhook-automator' ) );
+			}
+			$post_data['ID'] = $post_id;
+		} else {
+			$post_data['post_type']   = $config['post_type'] ?? 'post';
+			$post_data['post_status'] = $config['post_status'] ?? 'publish';
+		}
 
+		$mapping = $config['mapping'] ?? [];
 		foreach ( $mapping as $post_field => $template ) {
 			if ( $post_field === 'meta_input' && is_array( $template ) ) {
 				$post_data['meta_input'] = [];
@@ -134,60 +185,61 @@ class ActionProcessor {
 			}
 		}
 
-		$post_id = wp_insert_post( $post_data, true );
+		$post_id = $type === 'update_cpt' ? wp_update_post( $post_data, true ) : wp_insert_post( $post_data, true );
 
 		if ( is_wp_error( $post_id ) ) {
 			return $post_id;
 		}
 
 		return [
-			'success' => true,
 			'post_id' => $post_id,
 		];
 	}
 
 	/**
-	 * Update an existing entry.
+	 * Execute an arbitrary HTTP request (dispatch a webhook).
 	 */
-	private function execute_update_cpt( array $config, array $data ) {
-		$post_id_template = $config['post_id_template'] ?? '';
-		$post_id          = (int) $this->parse_template( $post_id_template, $data );
+	private function execute_http_request( array $config, array $data ) {
+		$url    = $this->parse_template( $config['url'] ?? '', $data );
+		$method = strtoupper( $config['method'] ?? 'POST' );
 
-		if ( ! $post_id ) {
-			return new WP_Error( 'missing_post_id', __( 'Post ID not found from template.', 'hookly-webhook-automator' ) );
+		if ( ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
+			return new WP_Error( 'invalid_url', __( 'Invalid URL for HTTP request action.', 'hookly-webhook-automator' ) );
 		}
 
-		$mapping   = $config['mapping'] ?? [];
-		$post_data = [
-			'ID' => $post_id,
+		$args = [
+			'method'  => $method,
+			'headers' => $this->parse_template( $config['headers'] ?? [], $data ),
+			'timeout' => 30,
 		];
 
-		foreach ( $mapping as $post_field => $template ) {
-			if ( $post_field === 'meta_input' && is_array( $template ) ) {
-				$post_data['meta_input'] = [];
-				foreach ( $template as $meta_key => $meta_template ) {
-					$post_data['meta_input'][ $meta_key ] = $this->parse_template( $meta_template, $data );
+		if ( in_array( $method, [ 'POST', 'PUT', 'PATCH' ], true ) ) {
+			$body = $config['body'] ?? [];
+			if ( is_array( $body ) ) {
+				$args['body'] = $this->parse_template( $body, $data );
+				if ( ( $config['format'] ?? 'json' ) === 'json' ) {
+					$args['body']                    = wp_json_encode( $args['body'] );
+					$args['headers']['Content-Type'] = 'application/json';
 				}
 			} else {
-				$post_data[ $post_field ] = $this->parse_template( $template, $data );
+				$args['body'] = $this->parse_template( $body, $data );
 			}
 		}
 
-		$result = wp_update_post( $post_data, true );
+		$response = wp_remote_request( $url, $args );
 
-		if ( is_wp_error( $result ) ) {
-			return $result;
+		if ( is_wp_error( $response ) ) {
+			return $response;
 		}
 
 		return [
-			'success' => true,
-			'post_id' => $post_id,
+			'response_code' => wp_remote_retrieve_response_code( $response ),
+			'response_body' => wp_remote_retrieve_body( $response ),
 		];
 	}
 
 	/**
 	 * Parse template with data.
-	 * Supports dot notation and nested structures.
 	 */
 	private function parse_template( mixed $template, array $data ): mixed {
 		if ( is_array( $template ) ) {
