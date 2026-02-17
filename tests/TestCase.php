@@ -128,6 +128,9 @@ abstract class TestCase extends PHPUnitTestCase
             'is_wp_error' => function ($thing) {
                 return $thing instanceof \WP_Error;
             },
+            'rest_sanitize_value_from_schema' => function ($value, $schema) {
+                return $value;
+            },
         ]);
     }
 

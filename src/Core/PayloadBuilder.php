@@ -181,6 +181,7 @@ class PayloadBuilder {
 			str_starts_with( $triggerType, 'wc_order_' ) => $this->getWooOrderTags(),
 			str_starts_with( $triggerType, 'wc_product_' ) => $this->getWooProductTags(),
 			str_starts_with( $triggerType, 'form_' ) => $this->getFormTags(),
+			$triggerType === 'rest_route_received' => $this->getRestRouteTags(),
 			default => [],
 		};
 
@@ -313,6 +314,25 @@ class PayloadBuilder {
 			'form.name'         => __( 'Form name', 'hookly-webhook-automator' ),
 			'form.fields'       => __( 'All fields (JSON)', 'hookly-webhook-automator' ),
 			'form.submitted_at' => __( 'Submission time', 'hookly-webhook-automator' ),
+		];
+	}
+
+	/**
+	 * Get REST Route-related merge tags.
+	 *
+	 * @return array
+	 */
+	private function getRestRouteTags(): array {
+		return [
+			'route.id'          => __( 'Route ID', 'hookly-webhook-automator' ),
+			'route.name'        => __( 'Route name', 'hookly-webhook-automator' ),
+			'route.path'        => __( 'Route path', 'hookly-webhook-automator' ),
+			'request.body'      => __( 'Request body (JSON)', 'hookly-webhook-automator' ),
+			'request.query'     => __( 'Query parameters (JSON)', 'hookly-webhook-automator' ),
+			'request.headers'   => __( 'Request headers (JSON)', 'hookly-webhook-automator' ),
+			'request.params'    => __( 'All request parameters (JSON)', 'hookly-webhook-automator' ),
+			'request.body.FIELD'  => __( 'Specific field from body', 'hookly-webhook-automator' ),
+			'request.query.FIELD' => __( 'Specific field from query', 'hookly-webhook-automator' ),
 		];
 	}
 
