@@ -20,8 +20,9 @@ class IntegrationTest extends TestCase {
 			'id' => 123,
 			'name' => 'My Custom API',
 			'route_path' => 'my-api',
-			'action_type' => 'wp_action',
-			'action_config' => [ 'action' => 'custom_hook' ],
+			'actions' => [
+				[ 'type' => 'wp_action', 'config' => [ 'action' => 'custom_hook' ] ]
+			],
 		]);
 
 		$request = Mockery::mock( 'WP_REST_Request' );

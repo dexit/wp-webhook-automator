@@ -193,16 +193,16 @@ class RestRoutesController extends RestController {
 					'default'     => [ 'POST' ],
 					'context'     => [ 'view', 'edit' ],
 				],
-				'action_type'   => [
-					'description' => __( 'The type of action to perform.', 'hookly-webhook-automator' ),
-					'type'        => 'string',
-					'enum'        => [ 'php_code', 'wp_action', 'create_cpt', 'update_cpt' ],
-					'required'    => true,
-					'context'     => [ 'view', 'edit' ],
-				],
-				'action_config' => [
-					'description' => __( 'Configuration for the action.', 'hookly-webhook-automator' ),
-					'type'        => 'object',
+				'actions'       => [
+					'description' => __( 'Sequence of actions to perform.', 'hookly-webhook-automator' ),
+					'type'        => 'array',
+					'items'       => [
+						'type'       => 'object',
+						'properties' => [
+							'type'   => [ 'type' => 'string' ],
+							'config' => [ 'type' => 'object' ],
+						],
+					],
 					'context'     => [ 'view', 'edit' ],
 				],
 				'is_active'     => [
@@ -247,11 +247,8 @@ class RestRoutesController extends RestController {
 		if ( isset( $params['methods'] ) ) {
 			$route->setMethods( rest_sanitize_value_from_schema( $params['methods'], $properties['methods'] ) );
 		}
-		if ( isset( $params['action_type'] ) ) {
-			$route->setActionType( rest_sanitize_value_from_schema( $params['action_type'], $properties['action_type'] ) );
-		}
-		if ( isset( $params['action_config'] ) ) {
-			$route->setActionConfig( (array) $params['action_config'] );
+		if ( isset( $params['actions'] ) ) {
+			$route->setActions( (array) $params['actions'] );
 		}
 		if ( isset( $params['is_active'] ) ) {
 			$route->setIsActive( rest_sanitize_value_from_schema( $params['is_active'], $properties['is_active'] ) );

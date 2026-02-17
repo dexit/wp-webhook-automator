@@ -71,14 +71,13 @@ class RestRouteRepository {
 	 */
 	public function save( RestRoute $route ): int {
 		$data = [
-			'name'          => $route->getName(),
-			'route_path'    => $route->getRoutePath(),
-			'methods'       => wp_json_encode( $route->getMethods() ),
-			'action_type'   => $route->getActionType(),
-			'action_config' => wp_json_encode( $route->getActionConfig() ),
-			'is_active'     => $route->isActive() ? 1 : 0,
-			'is_async'      => $route->isAsync() ? 1 : 0,
-			'secret_key'    => $route->getSecretKey(),
+			'name'       => $route->getName(),
+			'route_path' => $route->getRoutePath(),
+			'methods'    => wp_json_encode( $route->getMethods() ),
+			'actions'    => wp_json_encode( $route->getActions() ),
+			'is_active'  => $route->isActive() ? 1 : 0,
+			'is_async'   => $route->isAsync() ? 1 : 0,
+			'secret_key' => $route->getSecretKey(),
 		];
 
 		if ( $route->getId() > 0 ) {
